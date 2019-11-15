@@ -11,17 +11,20 @@ import xin.lz1998.cq.robot.CoolQ;
  */
 public class ForwardPlugin extends CQPlugin {
 	
+	// 测试来源群
+	private long testSourceGroupId = 963550879;
+	
 	// 来源群
-	private long sourceGroupId = 963550879;
+	private long sourceGroupId = 914494716;
 	
 	// 待转发的群
-	private long forwardGroupId = 425239590;
+	private long forwardGroupId = 910092655;
     
     @Override
     public int onGroupMessage(CoolQ cq, CQGroupMessageEvent event) {
     	long group_id = event.getGroupId();
     	String msg = event.getMessage();
-    	if(group_id != sourceGroupId || !msg.contains("￥")) {
+    	if((group_id != sourceGroupId && group_id != testSourceGroupId) || !msg.contains("￥")) {
     		return MESSAGE_IGNORE;
     	}
     	cq.sendGroupMsg(forwardGroupId, msg, false);
