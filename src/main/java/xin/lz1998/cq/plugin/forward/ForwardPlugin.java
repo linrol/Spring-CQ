@@ -24,7 +24,7 @@ public class ForwardPlugin extends CQPlugin {
     	if(group_id != sourceGroupId || !msg.contains("￥")) {
     		return MESSAGE_IGNORE;
     	}
-    	cq.sendGroupMsg(forwardGroupId, msg, true);
+    	cq.sendGroupMsg(forwardGroupId, msg, false);
         return MESSAGE_IGNORE; // 继续执行下一个插件
         // return MESSAGE_BLOCK; // 不执行下一个插件
     }
