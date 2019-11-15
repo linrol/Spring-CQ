@@ -48,7 +48,7 @@ public class CoolQ {
         String echo = apiJSON.getString("echo");
         ApiSender apiSender = new ApiSender(botSession);
         apiCallbackMap.put(echo, apiSender);
-        logger.debug("{} SEND API   {} {}", selfId, action.getDesc(), params);
+        logger.info("{} SEND API   {} {}", selfId, action.getDesc(), params);
         JSONObject retJson;
         try {
             retJson = apiSender.sendApiJson(apiJSON);
@@ -58,6 +58,7 @@ public class CoolQ {
             retJson.put("status", "failed");
             retJson.put("retcode", -1);
         }
+        logger.info("{} SEND API   {} {} Result:{}", selfId, action.getDesc(), params,retJson.toString());
         return retJson;
     }
 
