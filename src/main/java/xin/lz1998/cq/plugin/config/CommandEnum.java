@@ -19,7 +19,7 @@ public enum CommandEnum {
     OPEN_PLUGIN("open_plugin", "启用插件"),
     SHUTDOWN_PLUGIN("shutdown_plugin", "停用插件"),
     MONITOR_GROUP_ID_LIST("monitor_group_id_list", "监听群QQ号列表"),
-    MONITOR_GROUP_ID_ADD("monitor_group_id_add", "监听群QQ号增加"),
+    MONITOR_GROUP_ID_ADD("monitor_group_id_add", "监听群QQ号添加"),
     MONITOR_GROUP_ID_REMOVE("monitor_group_id_remove", "监听群QQ号移除"),
     FORWARD_GROUP_ID_LIST("forward_group_id_list", "转发群QQ号列表"),
     FORWARD_GROUP_ID_ADD("forward_group_id_add", "转发QQ群号添加"),
