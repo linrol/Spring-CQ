@@ -50,26 +50,26 @@ public class CommandPlugin extends CQPlugin {
         if(commandEnum == CommandEnum.CONTROLLER_QQ_ADD) {
         	controllerQQlist.add(Long.parseLong(msgs[2]));
         	config.put(CommandEnum.CONTROLLER_QQ_LIST.getCommand(), controllerQQlist);
-        	cq.sendPrivateMsg(userId, "主人QQ[" + msgs[2] + "]已添加,即刻开始enjoy吧!", false);
+        	cq.sendPrivateMsg(userId, "主人[" + msgs[2] + "]已添加,即刻开始enjoy吧!", false);
         	logger.info("主人QQ[{}]已添加,即刻开始enjoy吧!",msgs[2]);
 			return MESSAGE_BLOCK;
         }else if(commandEnum == CommandEnum.MONITOR_GROUP_ID_ADD) {
         	List<Long> monitorGrouplist = (List<Long>) config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand());
         	monitorGrouplist.add(Long.parseLong(msgs[2]));
         	config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), monitorGrouplist);
-        	cq.sendPrivateMsg(userId, "监听群QQ号[" + msgs[2] + "]已添加", false);
         	logger.info("监听群QQ号[{}]已添加",msgs[2]);
+        	cq.sendPrivateMsg(userId, "监听G[" + msgs[2] + "]已添加", false);
 			return MESSAGE_BLOCK;
         }else if(commandEnum == CommandEnum.FORWARD_GROUP_ID_ADD) {
         	List<Long> forwardGrouplist = (List<Long>) config.get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
         	forwardGrouplist.add(Long.parseLong(msgs[2]));
         	config.put(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand(), forwardGrouplist);
         	logger.info("转发群QQ号[{}]已添加",msgs[2]);
-        	cq.sendPrivateMsg(userId, "转发群QQ号[" + msgs[2] + "]已添加", false);
+        	cq.sendPrivateMsg(userId, "转发G[" + msgs[2] + "]已添加", false);
 			return MESSAGE_BLOCK;
         }else {
         	logger.error("指令正在{}开发中...",commandEnum.getDesc());
-        	cq.sendPrivateMsg(userId, "指令正在{" + commandEnum.getDesc() + "}开发中...", false);
+        	// cq.sendPrivateMsg(userId, "指令正在{" + commandEnum.getDesc() + "}开发中...", false);
         }
         return MESSAGE_BLOCK; // 继续执行下一个插件
         // return MESSAGE_BLOCK; // 不执行下一个插件
