@@ -1,5 +1,6 @@
 package xin.lz1998.cq.plugin.forward;
 
+import java.util.List;
 import java.util.TreeMap;
 
 import org.slf4j.Logger;
@@ -9,6 +10,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import xin.lz1998.cq.event.message.CQGroupMessageEvent;
+import xin.lz1998.cq.plugin.config.CommandEnum;
+import xin.lz1998.cq.plugin.config.CommandPlugin;
 import xin.lz1998.cq.plugin.forward.enums.DsErrorEnum;
 import xin.lz1998.cq.robot.CQPlugin;
 import xin.lz1998.cq.robot.CoolQ;
@@ -18,31 +21,27 @@ import xin.lz1998.cq.robot.CoolQ;
  * @author linrol
  *
  */
+@SuppressWarnings("unchecked")
 public class ForwardPlugin extends CQPlugin {
-	
-	// 测试来源群
-	private long testSourceGroupId = 963550879;
-	
-	// 来源群
-	private long sourceGroupId = 914494716;
-	
-	// 待转发的群
-	private long forwardGroupId = 910092655;
 	
 	private Logger logger = LoggerFactory.getLogger(ForwardPlugin.class);
     
     @Override
     public int onGroupMessage(CoolQ cq, CQGroupMessageEvent event) {
+    	List<Long> monitorGrouplist = (List<Long>) CommandPlugin.config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand());
     	long group_id = event.getGroupId();
     	String msg = event.getMessage().replaceAll("元", "");
-    	if((group_id != sourceGroupId && group_id != testSourceGroupId)) {
+    	if(!monitorGrouplist.contains(group_id)) {
     		return MESSAGE_IGNORE;
     	}
     	if(msg.contains("￥")) {
     		String sourceTkl = msg.substring(msg.indexOf("￥"),msg.lastIndexOf("￥") + 1);
     		msg = msg.substring(0,msg.indexOf("￥")) + getNewTklBy21ds(sourceTkl) + msg.substring(msg.lastIndexOf("￥") + 1);
     	}
-    	cq.sendGroupMsg(forwardGroupId, msg, false);
+    	List<Long> forwardGrouplist = (List<Long>) CommandPlugin.config.get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
+    	for(Long groupId:forwardGrouplist) {
+    		cq.sendGroupMsg(groupId, msg, false);
+    	}
         return MESSAGE_IGNORE; // 继续执行下一个插件
         // return MESSAGE_BLOCK; // 不执行下一个插件
     }
