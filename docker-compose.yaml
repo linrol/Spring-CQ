@@ -1,0 +1,18 @@
+#
+# Author:linrol
+#
+
+version: '2'
+
+services:
+  foryou-platform:
+    image: spring-coolq
+    restart: always
+    container_name: spring-coolq
+    ports:
+      - 8081:8081
+    volumes:
+      - /root/web/app/spring-coolq/:/usr/local/tomcat/webapps/foryou-platform/
+      - /root/web/log/:/usr/local/tomcat/log4j/
+      - /usr/local/java/jdk1.8.0_201/:/usr/local/java/jdk1.8.0_201/
+      
