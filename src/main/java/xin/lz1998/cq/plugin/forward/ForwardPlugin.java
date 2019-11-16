@@ -29,7 +29,7 @@ public class ForwardPlugin extends CQPlugin {
 	// 待转发的群
 	private long forwardGroupId = 910092655;
 	
-	private static Logger logger = LoggerFactory.getLogger(ForwardPlugin.class);
+	private Logger logger = LoggerFactory.getLogger(ForwardPlugin.class);
     
     @Override
     public int onGroupMessage(CoolQ cq, CQGroupMessageEvent event) {
