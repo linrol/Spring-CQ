@@ -34,7 +34,7 @@ pipeline {
 		stage('docker deploy run'){
 			steps {
             	script {
-            		sh "docker-compose up -f docker-compose.yaml -d $JOB_NAME"
+            		sh "docker-compose -f ./docker-compose.yaml up -d $JOB_NAME"
               	}
           	}
 		}		
