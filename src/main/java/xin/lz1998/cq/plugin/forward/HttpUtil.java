@@ -21,8 +21,12 @@ import javax.net.ssl.SSLContext;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.entity.StringEntity;
@@ -34,6 +38,7 @@ import org.apache.http.util.CharArrayBuffer;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -45,6 +50,8 @@ import com.alibaba.fastjson.JSONObject;
  *
  */
 public class HttpUtil {
+	
+	private final static String CONTENT_CHARSET = "UTF-8";
 
 	private static final int TIMEOUT_IN_MILLIONS = 5000;
 	
@@ -435,5 +442,72 @@ public class HttpUtil {
 					.append(e.getValue());
 		}
 		return param.toString().substring(1);
+	}
+	
+	/**
+	 * GET方式调用HTTP
+	 * @param url
+	 * @throws Exception
+	 */
+	public static String sendGet(String url,Map<String, String> data) throws Exception{
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		try{
+			url = url.replaceFirst("^http://","");
+			URIBuilder uriBuilder = new URIBuilder().setScheme("http").setHost(url);
+			if(!CollectionUtils.isEmpty(data)){
+				for (String key : data.keySet()) {
+					uriBuilder.setParameter(key, data.get(key));
+				}
+			}
+			HttpGet httpGet = new HttpGet(uriBuilder.build());
+			HttpResponse response = httpClient.execute(httpGet);
+			if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
+				return EntityUtils.toString(response.getEntity(),CONTENT_CHARSET);
+			}else{
+				logger.error("调用URL地址通讯失败,失败状态：{}" , response.getStatusLine().getStatusCode());
+				throw new Exception("调用URL地址通讯失败,失败状态：" + response.getStatusLine().getStatusCode());
+			}
+		}finally{
+			if(null != httpClient){
+				httpClient.close();
+			}
+		}
+	}
+	
+	/**
+	 * Get请求，返回JSONObject类型数据
+	 * @param urlStr
+	 * @return
+	 * @throws Exception
+	 */
+	public static JSONObject sendGet(String url) throws Exception{
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		try{
+			url = url.replaceFirst("^http://", "");
+			URIBuilder uriBuilder = new URIBuilder().setScheme("http").setHost(url);
+			HttpGet httpGet = new HttpGet(uriBuilder.build());
+			HttpResponse response = httpClient.execute(httpGet);
+			if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
+				String result = EntityUtils.toString(response.getEntity(),CONTENT_CHARSET);
+				if (StringUtils.isEmpty(result)) {
+					throw new NullPointerException("requset is null url:" + url);
+				}
+				JSONObject jsonObj = JSON.parseObject(result);
+				if (jsonObj == null) {
+					throw new NullPointerException("jsonobject is null:" + result);
+				}
+				return jsonObj;
+			}else{
+				logger.error("调用URL地址通讯失败,失败状态：{}" , response.getStatusLine().getStatusCode());
+				throw new Exception("调用URL地址通讯失败,失败状态：" + response.getStatusLine().getStatusCode());
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			return null;
+		}finally{
+			if(null != httpClient){
+				httpClient.close();
+			}
+		}
 	}
 }
