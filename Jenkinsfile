@@ -2,6 +2,13 @@ pipeline {
 
 	agent any
 	
+	parameters {
+		string(name: 'COOL_TYPE', choices: ['a', 'p'], description: '酷Q类型[air或pro]')
+		string(name: 'COOL_QQ', defaultValue: '779721310', description: '酷QQ号')
+		string(name: 'WS_PORT', defaultValue: '8082', description: 'websocket反向监听端口号')
+		string(name: 'VNC_PORT', defaultValue: '9002', description: 'VNC端口号')
+	}
+	
 	stages {
 	
 		stage('git clone'){
@@ -34,7 +41,7 @@ pipeline {
 		stage('docker deploy run'){
 			steps {
             	script {
-            		sh "docker-compose -f ./docker-compose.yaml up -d $JOB_NAME"
+            		sh "docker-compose -f ./docker-compose.yaml up -d"
               	}
           	}
 		}		
