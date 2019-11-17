@@ -22,10 +22,15 @@ public class CommandPlugin extends CQPlugin {
 	public static Map<String,Object> config = new HashMap<String,Object>();
 	
 	static {
-		List<Long> list = new ArrayList<Long>();
-		list.add(1071893649l);
-		config.put(CommandEnum.CONTROLLER_QQ_LIST.getCommand(), list);
-		config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), new ArrayList<Long>());
+		List<Long> lcontrollerList = new ArrayList<Long>();
+		lcontrollerList.add(1071893649l);
+		config.put(CommandEnum.CONTROLLER_QQ_LIST.getCommand(), lcontrollerList);
+		List<Long> monitorGroupList = new ArrayList<Long>();
+		monitorGroupList.add(914494716l);
+		config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), monitorGroupList);
+		List<Long> forwardGroupList = new ArrayList<Long>();
+		forwardGroupList.add(910092655l);
+		forwardGroupList.add(198896490l);
 		config.put(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand(), new ArrayList<Long>());
     }
 	
@@ -47,7 +52,7 @@ public class CommandPlugin extends CQPlugin {
 			// cq.sendPrivateMsg(userId, "未知指令或指令格式不对", false);
 			return MESSAGE_BLOCK;
 		}
-        if(commandEnum == CommandEnum.CONTROLLER_QQ_ADD) {
+        if(commandEnum == CommandEnum.CONTROLLER_QQ_ADD && !controllerQQlist.contains(Long.parseLong(msgs[2]))) {
         	controllerQQlist.add(Long.parseLong(msgs[2]));
         	config.put(CommandEnum.CONTROLLER_QQ_LIST.getCommand(), controllerQQlist);
         	// cq.sendPrivateMsg(userId, "主人[" + msgs[2] + "]已添加,即刻开始enjoy吧!", false);
@@ -55,16 +60,24 @@ public class CommandPlugin extends CQPlugin {
 			return MESSAGE_BLOCK;
         }else if(commandEnum == CommandEnum.MONITOR_GROUP_ID_ADD) {
         	List<Long> monitorGrouplist = (List<Long>) config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand());
+        	if(monitorGrouplist.contains(Long.parseLong(msgs[2]))){
+        		logger.error("监听QQ群号[{}]已在列表中，请不要重复添加",msgs[2]);
+        		return MESSAGE_BLOCK;
+        	}
         	monitorGrouplist.add(Long.parseLong(msgs[2]));
         	config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), monitorGrouplist);
-        	logger.info("监听群QQ号[{}]已添加",msgs[2]);
+        	logger.info("监听QQ群号[{}]已添加",msgs[2]);
         	// cq.sendPrivateMsg(userId, "监听G[" + msgs[2] + "]已添加", false);
 			return MESSAGE_BLOCK;
         }else if(commandEnum == CommandEnum.FORWARD_GROUP_ID_ADD) {
         	List<Long> forwardGrouplist = (List<Long>) config.get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
+        	if(forwardGrouplist.contains(Long.parseLong(msgs[2]))){
+        		logger.error("转发QQ群号[{}]已在列表中，请不要重复添加",msgs[2]);
+        		return MESSAGE_BLOCK;
+        	}
         	forwardGrouplist.add(Long.parseLong(msgs[2]));
         	config.put(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand(), forwardGrouplist);
-        	logger.info("转发群QQ号[{}]已添加",msgs[2]);
+        	logger.info("转发QQ群号[{}]已添加",msgs[2]);
         	// cq.sendPrivateMsg(userId, "转发G[" + msgs[2] + "]已添加", false);
 			return MESSAGE_BLOCK;
         }else {
