@@ -36,7 +36,7 @@ public class ForwardPlugin extends CQPlugin {
 	
 	public void downloadImage(String content) {
 		try {
-			String path = "/home/user/coolq/data/image/";
+			String path = "/root/web/app/coolq/coolqpro/data/image/";
 	    	List<String> list = extractMessageByRegular(content);
 	    	list.forEach(cqContent -> {
 	    		if(cqContent.startsWith("CQ:image")) {
