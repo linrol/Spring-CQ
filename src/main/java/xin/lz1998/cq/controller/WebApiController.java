@@ -7,7 +7,8 @@ import xin.lz1998.cq.Global;
 import java.io.IOException;
 
 @RestController
-public class TestController {
+@RequestMapping("/web_api")
+public class WebApiController {
 
 
     @RequestMapping("/send_private_msg")
