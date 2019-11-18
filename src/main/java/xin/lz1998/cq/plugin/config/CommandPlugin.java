@@ -69,6 +69,17 @@ public class CommandPlugin extends CQPlugin {
         	logger.info("监听QQ群号[{}]已添加",msgs[2]);
         	// cq.sendPrivateMsg(userId, "监听G[" + msgs[2] + "]已添加", false);
 			return MESSAGE_BLOCK;
+        }else if(commandEnum == CommandEnum.MONITOR_GROUP_ID_REMOVE) {
+        	List<Long> monitorGrouplist = (List<Long>) config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand());
+        	if(!monitorGrouplist.contains(Long.parseLong(msgs[2]))){
+        		logger.error("监听QQ群号[{}]已不在列表中，无需移除",msgs[2]);
+        		return MESSAGE_BLOCK;
+        	}
+        	monitorGrouplist.remove(Long.parseLong(msgs[2]));
+        	config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), monitorGrouplist);
+        	logger.info("监听QQ群号[{}]已移除",msgs[2]);
+        	// cq.sendPrivateMsg(userId, "监听G[" + msgs[2] + "]已添加", false);
+			return MESSAGE_BLOCK;
         }else if(commandEnum == CommandEnum.FORWARD_GROUP_ID_ADD) {
         	List<Long> forwardGrouplist = (List<Long>) config.get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
         	if(forwardGrouplist.contains(Long.parseLong(msgs[2]))){
@@ -78,6 +89,17 @@ public class CommandPlugin extends CQPlugin {
         	forwardGrouplist.add(Long.parseLong(msgs[2]));
         	config.put(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand(), forwardGrouplist);
         	logger.info("转发QQ群号[{}]已添加",msgs[2]);
+        	// cq.sendPrivateMsg(userId, "转发G[" + msgs[2] + "]已添加", false);
+			return MESSAGE_BLOCK;
+        }else if(commandEnum == CommandEnum.FORWARD_GROUP_ID_REMOVE) {
+        	List<Long> forwardGrouplist = (List<Long>) config.get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
+        	if(!forwardGrouplist.contains(Long.parseLong(msgs[2]))){
+        		logger.error("转发QQ群号[{}]已不在列表中，无需移除",msgs[2]);
+        		return MESSAGE_BLOCK;
+        	}
+        	forwardGrouplist.remove(Long.parseLong(msgs[2]));
+        	config.put(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand(), forwardGrouplist);
+        	logger.info("转发QQ群号[{}]已移除",msgs[2]);
         	// cq.sendPrivateMsg(userId, "转发G[" + msgs[2] + "]已添加", false);
 			return MESSAGE_BLOCK;
         }else {

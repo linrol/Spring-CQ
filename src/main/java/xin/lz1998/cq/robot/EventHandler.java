@@ -1,18 +1,22 @@
 package xin.lz1998.cq.robot;
 
-import com.alibaba.fastjson.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
+
 import xin.lz1998.cq.event.message.CQDiscussMessageEvent;
 import xin.lz1998.cq.event.message.CQGroupMessageEvent;
 import xin.lz1998.cq.event.message.CQPrivateMessageEvent;
 import xin.lz1998.cq.event.meta.CQHeartBeatEvent;
-import xin.lz1998.cq.event.notice.*;
+import xin.lz1998.cq.event.notice.CQFriendAddNoticeEvent;
+import xin.lz1998.cq.event.notice.CQGroupAdminNoticeEvent;
+import xin.lz1998.cq.event.notice.CQGroupBanNoticeEvent;
+import xin.lz1998.cq.event.notice.CQGroupDecreaseNoticeEvent;
+import xin.lz1998.cq.event.notice.CQGroupIncreaseNoticeEvent;
+import xin.lz1998.cq.event.notice.CQGroupUploadNoticeEvent;
 import xin.lz1998.cq.event.request.CQFriendRequestEvent;
 import xin.lz1998.cq.event.request.CQGroupRequestEvent;
 import xin.lz1998.cq.plugin.PluginConfig;
-
-import java.util.List;
 
 @Service
 class EventHandler {
