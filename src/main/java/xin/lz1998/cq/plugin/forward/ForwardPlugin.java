@@ -6,7 +6,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,6 +35,13 @@ import xin.lz1998.cq.robot.CoolQ;
 public class ForwardPlugin extends CQPlugin {
 	
 	private Logger logger = LoggerFactory.getLogger(ForwardPlugin.class);
+	
+	public static Map<String,String> pidMap = new HashMap<String,String>();
+	
+	static {
+		pidMap.put("910092655", "mm_109302870_1080150328_109752250051");
+		pidMap.put("198896490", "mm_109302870_1090250211_109781850271");
+    }	
 	
 	public void downloadImage(String content) {
 		try {
@@ -110,12 +119,13 @@ public class ForwardPlugin extends CQPlugin {
     		return MESSAGE_IGNORE;
     	}
     	downloadImage(event.getMessage());
-    	if(msg.contains("￥")) {
-    		String sourceTkl = msg.substring(msg.indexOf("￥"),msg.lastIndexOf("￥") + 1);
-    		msg = msg.substring(0,msg.indexOf("￥")) + getNewTklBy21ds(sourceTkl) + msg.substring(msg.lastIndexOf("￥") + 1);
-    	}
+    	
     	List<Long> forwardGrouplist = (List<Long>) CommandPlugin.config.get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
     	for(Long groupId:forwardGrouplist) {
+    		if(msg.contains("￥")) {
+        		String sourceTkl = msg.substring(msg.indexOf("￥"),msg.lastIndexOf("￥") + 1);
+        		msg = msg.substring(0,msg.indexOf("￥")) + getNewTklBy21ds(sourceTkl,pidMap.get(String.valueOf(groupId))) + msg.substring(msg.lastIndexOf("￥") + 1);
+        	}
     		cq.sendGroupMsg(groupId, msg, false);
     	}
         return MESSAGE_IGNORE; // 继续执行下一个插件
@@ -123,10 +133,9 @@ public class ForwardPlugin extends CQPlugin {
     }
     
     
-    private String getNewTklBy21ds(String sourceTkl) {
+    private String getNewTklBy21ds(String sourceTkl,String pid) {
     	String url = "http://api.web.21ds.cn/taoke/doItemHighCommissionPromotionLinkByTpwd?apkey=%s&tpwdcode=%s&pid=%s&tbname=%s&tpwd=1&extsearch=1";
     	String apKey = "7918202b-ef4a-f251-291b-eb880302814c";
-    	String pid = "mm_109302870_1080150328_109752250051";
     	String tbname = "tb6746204";
     	JSONObject jsonResult;
 		try {
