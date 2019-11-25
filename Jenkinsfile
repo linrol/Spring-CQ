@@ -34,9 +34,14 @@ pipeline {
 	    stage('server deploy run'){
 	    	when { environment name: 'DEPLOY_TYPE', value: 'server' }
 			steps {
+				script {
+            		withEnv(['JENKINS_NODE_COOKIE=background_job']) {
+	            		sh "cp -rf ./target/*.jar ./server.sh /root/web/app/coolq/"
+            			sh "chmod +x /root/web/app/coolq/server.sh && cd /root/web/app/coolq/ && ./server.sh restart"
+            		}
+            	}
             	script {
-            		sh "cp -rf ./target/*.jar ./server.sh /root/web/app/coolq/"
-            		sh "chmod +x /root/web/app/coolq/server.sh && cd /root/web/app/coolq/ && ./server.sh restart"
+            		
               	}
           	}
 		}
