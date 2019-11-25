@@ -36,7 +36,7 @@ pipeline {
 			steps {
             	script {
             		sh "cp -rf ./target/*.jar ./server.sh /root/web/app/coolq/"
-            		sh "chmod +x /root/web/app/coolq/server.sh && /root/web/app/coolq/server.sh restart"
+            		sh "chmod +x /root/web/app/coolq/server.sh && cd /root/web/app/coolq/ && ./server.sh restart"
               	}
           	}
 		}
