@@ -35,7 +35,7 @@ pipeline {
 	    	when { environment name: 'DEPLOY_TYPE', value: 'server' }
 			steps {
             	script {
-            		sh "cp ./target/*.jar ./server.sh /root/web/app/coolq/"
+            		sh "cp -rf ./target/*.jar ./server.sh /root/web/app/coolq/"
             		sh "chmod +x /root/web/app/coolq/server.sh && /root/web/app/coolq/server.sh restart"
               	}
           	}
