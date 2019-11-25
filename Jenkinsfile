@@ -40,9 +40,6 @@ pipeline {
             			sh "chmod +x /root/web/app/coolq/server.sh && cd /root/web/app/coolq/ && ./server.sh restart"
             		}
             	}
-            	script {
-            		
-              	}
           	}
 		}
 	    
