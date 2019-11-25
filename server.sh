@@ -6,6 +6,7 @@ pid=`ps -ef|grep java|grep $app|awk '{print $2}'`
 
 startup(){
   nohup java -jar $args $app &
+  tail -f nohup.out
 }
 
 if [ ! $cmd ]; then
