@@ -114,7 +114,7 @@ public class ForwardPlugin extends CQPlugin {
     public int onGroupMessage(CoolQ cq, CQGroupMessageEvent event) {
     	List<Long> monitorGrouplist = (List<Long>) CommandPlugin.config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand());
     	long group_id = event.getGroupId();
-    	String msg = event.getMessage().replaceAll("元", "");
+    	String msg = filterMsg(event.getMessage());
     	if(!monitorGrouplist.contains(group_id)) {
     		return MESSAGE_IGNORE;
     	}
@@ -169,4 +169,7 @@ public class ForwardPlugin extends CQPlugin {
     	return sourceTkl;
     }
     
+    private String filterMsg(String msg) {
+    	return msg.replaceAll("元", "").replaceAll("生活费147223", "生活费3925276");
+    }
 }
