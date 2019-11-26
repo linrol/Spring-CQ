@@ -1,10 +1,15 @@
 package xin.lz1998.cq.controller;
 
+import java.io.IOException;
+
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xin.lz1998.cq.Global;
 
-import java.io.IOException;
+import com.alibaba.fastjson.JSONObject;
+
+import xin.lz1998.cq.Global;
+import xin.lz1998.cq.plugin.forward.HttpUtil;
 
 @RestController
 @RequestMapping("/web_api")
@@ -57,6 +62,17 @@ public class WebApiController {
     public String getGroupMemberInfo(long self_id,long group_id,long user_id,Boolean no_cache) throws IOException,  InterruptedException {
         Global.robots.get(self_id).getGroupMemberInfo(group_id,user_id,no_cache);
         return "ok";
+    }
+    
+    @RequestMapping("/get_tkl_api_test")
+    public Object getTklApiTest(@RequestBody JSONObject json) throws Exception {
+    	String url = json.getString("url");
+    	Object[] params = json.getObject("params", Object[].class);
+    	url = String.format(url,params);
+    	if(url.startsWith("https")) {
+    		return HttpUtil.sendHttpsGet(url);
+    	}
+    	return HttpUtil.sendGet(url);
     }
 
 }
