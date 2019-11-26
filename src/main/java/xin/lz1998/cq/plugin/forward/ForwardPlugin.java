@@ -9,14 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import xin.lz1998.cq.event.message.CQGroupMessageEvent;
@@ -124,7 +122,7 @@ public class ForwardPlugin extends CQPlugin {
     	for(Long groupId:forwardGrouplist) {
     		if(msg.contains("￥")) {
         		String sourceTkl = msg.substring(msg.indexOf("￥"),msg.lastIndexOf("￥") + 1);
-        		msg = msg.substring(0,msg.indexOf("￥")) + getNewTklBy21ds(sourceTkl,pidMap.get(String.valueOf(groupId))) + msg.substring(msg.lastIndexOf("￥") + 1);
+        		msg = msg.substring(0,msg.indexOf("￥")) + getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(groupId))) + msg.substring(msg.lastIndexOf("￥") + 1);
         	}
     		cq.sendGroupMsg(groupId, msg, false);
     	}
@@ -133,7 +131,7 @@ public class ForwardPlugin extends CQPlugin {
     }
     
     
-    private String getNewTklBy21ds(String sourceTkl,String pid) {
+    private String getChangeTklBy21ds(String sourceTkl,String pid) {
     	String url = "http://api.web.21ds.cn/taoke/doItemHighCommissionPromotionLinkByTpwd?apkey=%s&tpwdcode=%s&pid=%s&tbname=%s&tpwd=1&extsearch=1";
     	String apKey = "7918202b-ef4a-f251-291b-eb880302814c";
     	String tbname = "tb6746204";
@@ -145,28 +143,31 @@ public class ForwardPlugin extends CQPlugin {
 	    		return jsonResult.getJSONObject("data").getString("tpwd");
 	    	}
 	    	logger.error("获取喵有券高佣转淘口令api接口错误，请立即排查处理，否则影响引导收入，失败原因:[{}]",DsErrorEnum.getByCode(jsonResult.getString("code")));
+	    	return analyzeAndCreateNewTkl(sourceTkl);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
     	return sourceTkl;
     }
     
-    @SuppressWarnings("unused")
-	private String getNewTklByDingdanxia(String sourceTkl) {
-    	TreeMap<String, String> paramsMap = new TreeMap<>();
-		paramsMap.put("apikey", "qSk3afesPu2hhl1ruoS3VSveXw229TNW");
-		paramsMap.put("tkl", sourceTkl);
-		paramsMap.put("pid", "mm_109302870_1080150328_109752250051");
-		paramsMap.put("tpwd", "true");
-		paramsMap.put("text", "群号910092655");
-		String newtklResult = HttpUtil.httpMethodPost("http://api.tbk.dingdanxia.com/tbk/tkl_privilege", paramsMap, null);
-		logger.info("订单侠接口转换结果：" + newtklResult);
-		JSONObject jsonResult = JSON.parseObject(newtklResult);
-		if(jsonResult.getIntValue("code") == 200) {
-			return jsonResult.getJSONObject("data").getString("coupon_tpwd");
+    private String analyzeAndCreateNewTkl(String sourceTkl) {
+    	String analyzeUrl = "http://api.web.21ds.cn/taoke/jiexitkl?apkey=%s&kouling=%s";
+    	String createUrl = " http://api.web.21ds.cn/taoke/createTaoPwd?apkey=%s&url=%s&kltext=%s&tpwdpic=%s";
+    	String apKey = "7918202b-ef4a-f251-291b-eb880302814c";
+    	try {
+    		JSONObject analyzeJsonResult = HttpUtil.sendGet(String.format(analyzeUrl, apKey,sourceTkl));
+    		if(analyzeJsonResult.getInteger("code") != 200) {
+    			return sourceTkl;
+	    	}
+    		JSONObject createJsonResult = HttpUtil.sendGet(String.format(createUrl, apKey,analyzeJsonResult.getJSONObject("data").getString("url"),"免单群910092655",analyzeJsonResult.getJSONObject("data").getString("pic")));
+    		if(createJsonResult.getInteger("code") != 200) {
+    			return sourceTkl;
+	    	}
+    		return createJsonResult.getString("data");
+    	} catch (Exception e) {
+			e.printStackTrace();
+			return sourceTkl;
 		}
-		logger.error("获取订单侠高佣转淘口令api接口错误，请立即排查处理，否则影响引导收入，失败码:[{}]",jsonResult.getIntValue("code"));
-    	return sourceTkl;
     }
     
     private String filterMsg(String msg) {
