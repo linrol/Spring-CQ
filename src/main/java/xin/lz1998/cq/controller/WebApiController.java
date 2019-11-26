@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 
 import xin.lz1998.cq.Global;
+import xin.lz1998.cq.plugin.forward.ForwardPlugin;
 import xin.lz1998.cq.plugin.forward.HttpUtil;
 
 @RestController
@@ -73,6 +74,11 @@ public class WebApiController {
     		return HttpUtil.sendHttpsGet(url);
     	}
     	return HttpUtil.sendGet(url);
+    }
+    
+    @RequestMapping("/get_analyze_to_generate")
+    public Object getAnalyzeToGenerateTkl(String tkl) throws Exception {
+    	return ForwardPlugin.analyzeAndCreateNewTkl(tkl);
     }
 
 }

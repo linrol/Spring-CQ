@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -150,16 +151,19 @@ public class ForwardPlugin extends CQPlugin {
     	return sourceTkl;
     }
     
-    private String analyzeAndCreateNewTkl(String sourceTkl) {
+    public static String analyzeAndCreateNewTkl(String sourceTkl) {
     	String analyzeUrl = "http://api.web.21ds.cn/taoke/jiexitkl?apkey=%s&kouling=%s";
-    	String createUrl = " http://api.web.21ds.cn/taoke/createTaoPwd?apkey=%s&url=%s&kltext=%s&tpwdpic=%s";
+    	String createUrl = "http://api.web.21ds.cn/taoke/createTaoPwd?apkey=%s&url=%s&kltext=%s&tpwdpic=%s";
     	String apKey = "7918202b-ef4a-f251-291b-eb880302814c";
     	try {
     		JSONObject analyzeJsonResult = HttpUtil.sendGet(String.format(analyzeUrl, apKey,sourceTkl));
     		if(analyzeJsonResult.getInteger("code") != 200) {
     			return sourceTkl;
 	    	}
-    		JSONObject createJsonResult = HttpUtil.sendGet(String.format(createUrl, apKey,analyzeJsonResult.getJSONObject("data").getString("url"),"免单群910092655",analyzeJsonResult.getJSONObject("data").getString("pic")));
+    		String url = URLEncoder.encode(analyzeJsonResult.getJSONObject("data").getString("url"),"utf-8");
+    		String title = URLEncoder.encode("免单群910092655","utf-8");
+    		String pic = URLEncoder.encode(analyzeJsonResult.getJSONObject("data").getString("pic"),"utf-8");
+    		JSONObject createJsonResult = HttpUtil.sendGet(String.format(createUrl, apKey,url,title,pic));
     		if(createJsonResult.getInteger("code") != 200) {
     			return sourceTkl;
 	    	}
