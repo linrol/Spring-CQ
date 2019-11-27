@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,9 +38,13 @@ public class ForwardPlugin extends CQPlugin {
 	
 	public static Map<String,String> pidMap = new HashMap<String,String>();
 	
+	public static Map<String,List<String>> monitorUserMap = new HashMap<String,List<String>>();
+	
 	static {
 		pidMap.put("910092655", "mm_109302870_1080150328_109752250051");
 		pidMap.put("198896490", "mm_109302870_1090250211_109781850271");
+		monitorUserMap.put("1706860030", Arrays.asList("3317628455","2267793115","1096471489"));
+		monitorUserMap.put("779721310", Arrays.asList("1012230561","1256647017","1071893649"));
     }	
 	
 	public void downloadImage(String content) {
@@ -114,7 +119,7 @@ public class ForwardPlugin extends CQPlugin {
     	List<Long> monitorGrouplist = (List<Long>) CommandPlugin.config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand());
     	long group_id = event.getGroupId();
     	String msg = filterMsg(event.getMessage());
-    	if(!monitorGrouplist.contains(group_id)) {
+    	if(!monitorGrouplist.contains(group_id) || !monitorUserMap.get(String.valueOf(cq.getSelfId())).contains(String.valueOf(event.getUserId()))) {
     		return MESSAGE_IGNORE;
     	}
     	downloadImage(event.getMessage());
