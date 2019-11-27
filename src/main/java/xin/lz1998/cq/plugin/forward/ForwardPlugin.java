@@ -119,8 +119,8 @@ public class ForwardPlugin extends CQPlugin {
     	List<Long> monitorGrouplist = (List<Long>) CommandPlugin.config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand());
     	long group_id = event.getGroupId();
     	String msg = filterMsg(event.getMessage());
-    	if(!monitorGrouplist.contains(group_id) || !monitorUserMap.get(String.valueOf(cq.getSelfId())).contains(String.valueOf(event.getUserId()))) {
-    	//if(!monitorGrouplist.contains(group_id)) {
+    	//if(!monitorGrouplist.contains(group_id) || !monitorUserMap.get(String.valueOf(cq.getSelfId())).contains(String.valueOf(event.getUserId()))) {
+    	if(!monitorGrouplist.contains(group_id)) {
     		return MESSAGE_IGNORE;
     	}
     	downloadImage(event.getMessage());
