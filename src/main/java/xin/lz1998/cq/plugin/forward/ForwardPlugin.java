@@ -153,7 +153,7 @@ public class ForwardPlugin extends CQPlugin {
     
     public static String analyzeAndCreateNewTkl(String sourceTkl) {
     	String analyzeUrl = "http://api.web.21ds.cn/taoke/jiexitkl?apkey=%s&kouling=%s";
-    	String createUrl = "http://api.web.21ds.cn/taoke/createTaoPwd?apkey=%s&url=%s&kltext=%s&tpwdpic=%s";
+    	String createUrl = "http://api.web.21ds.cn/taoke/createTaoPwd?apkey=%s&url=%s&title=%s&pic=%s";
     	String apKey = "7918202b-ef4a-f251-291b-eb880302814c";
     	try {
     		JSONObject analyzeJsonResult = HttpUtil.sendGet(String.format(analyzeUrl, apKey,sourceTkl));
