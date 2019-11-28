@@ -5,35 +5,38 @@
 version: '2'
 
 services:
-  coolq:
+  coolq-pro:
     image: richardchien/cqhttp
     restart: always
-    container_name: coolq-${COOL_TYPE}
+    container_name: coolq-pro
     volumes:
-      - /root/web/app/coolq/air:/home/user/coolq
+      - /root/web/app/coolq/cooq-pro:/home/user/coolq
     environment:
-      - VNC_PASSWD=19941208
-      - COOLQ_URL=https://dlsec.cqp.me/cq${COOL_TYPE}-tuling
+      - VNC_PASSWD=${VNC_PASSWD}
+      - COOLQ_URL=https://dlsec.cqp.me/cqp-tuling
       - COOLQ_ACCOUNT=${COOL_QQ}
       - CQHTTP_USE_HTTP=false
       - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_URL=ws://www.alinkeji.com:${WS_PORT}/ws/universal/
+      - CQHTTP_WS_REVERSE_URL=${WS_URL}
       - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
     ports:
       - ${VNC_PORT}:9000
-  spring-coolq:
-    image: spring-coolq
+  coolq-air:
+    image: richardchien/cqhttp
     restart: always
-    container_name: spring-coolq
+    container_name: coolq-air
     volumes:
-      - /root/web/log/spring-coolq/:/logs
+      - /root/web/app/coolq/cooq-air:/home/user/coolq
     environment:
-      - JAVA_OPTS=-Xmx2048m -Xms1024m
-    expose:
-      - ${WS_PORT}
+      - VNC_PASSWD=${VNC_PASSWD}
+      - COOLQ_URL=http://dlsec.cqp.me/cqa-tuling
+      - COOLQ_ACCOUNT=${COOL_QQ}
+      - CQHTTP_USE_HTTP=false
+      - CQHTTP_USE_WS_REVERSE=true
+      - CQHTTP_WS_REVERSE_URL=${WS_URL}
+      - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
     ports:
-      - ${WS_PORT}:8081
-    depends_on:
-      - coolq
+      - ${VNC_PORT}:9000
+  
 
 

@@ -3,11 +3,12 @@ pipeline {
 	agent any
 	
 	parameters {
-		choice(name: 'DEPLOY_TYPE', choices: ['server', 'docker'], description: '部署方式[server或docker]')
-		choice(name: 'COOL_TYPE', choices: ['a', 'p'], description: '酷Q类型[air或pro]')
-		string(name: 'COOL_QQ', defaultValue: '779721310', description: '酷QQ号')
-		string(name: 'WS_PORT', defaultValue: '8082', description: 'websocket反向监听端口号')
+		choice(name: 'DOCKER_SERVICE', choices: ['coolq-pro', 'coolq-air'], description: '酷Q容器版本]')
+		string(name: 'COOL_QQ', defaultValue: '779721310', description: '酷Q帐号')
 		string(name: 'VNC_PORT', defaultValue: '9002', description: 'VNC端口号')
+		string(name: 'VNC_PASSWORD', defaultValue: '19941208', description: 'VNC管理密码')
+		string(name: 'WS_URL', defaultValue: 'ws://www.alinkeji.com:8081/ws/universal/', description: 'websocket监听地址')
+		
 	}
 	
 	stages {
@@ -21,7 +22,15 @@ pipeline {
 			}
 	    }
 	
-	    stage('maven build'){
+		stage('docker coolq run'){
+			steps {
+            	script {
+            		sh "docker-compose -f ./docker-compose.yaml up -d $DOCKER_SERVICE"
+              	}
+          	}
+		}
+		
+		stage('maven build'){
 	        steps {
 				script{
 					dir("./"){
@@ -30,9 +39,8 @@ pipeline {
 				}
 			}
 	    }
-	    
-	    stage('server deploy run'){
-	    	when { environment name: 'DEPLOY_TYPE', value: 'server' }
+		
+		stage('server deploy run'){
 			steps {
 				script {
             		withEnv(['JENKINS_NODE_COOKIE=background_job']) {
@@ -40,24 +48,6 @@ pipeline {
             			sh "chmod +x /root/web/app/coolq/server.sh && cd /root/web/app/coolq/ && ./server.sh restart"
             		}
             	}
-          	}
-		}
-	    
-	    stage('docker images build'){
-	    	when { environment name: 'DEPLOY_TYPE', value: 'docker' }
-			steps {
-            	script {
-            		sh "docker build -t $JOB_NAME --build-arg PROJ_NAME=$JOB_NAME -f Dockerfile ."
-              	}
-          	}
-		}
-		
-		stage('docker deploy run'){
-			when { environment name: 'DEPLOY_TYPE', value: 'docker' }
-			steps {
-            	script {
-            		sh "docker-compose -f ./docker-compose.yaml up -d"
-              	}
           	}
 		}		
 	}
