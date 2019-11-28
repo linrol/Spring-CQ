@@ -5,7 +5,7 @@ pipeline {
 	parameters {
 		choice(name: 'DOCKER_SERVICE', choices: ['coolq-pro', 'coolq-air'], description: '酷Q容器版本]')
 		string(name: 'COOL_QQ', defaultValue: '779721310', description: '酷Q帐号')
-		string(name: 'VNC_PORT', defaultValue: '9002', description: 'VNC端口号')
+		string(name: 'VNC_PORT', defaultValue: '9000', description: 'VNC端口号')
 		string(name: 'VNC_PASSWORD', defaultValue: '19941208', description: 'VNC管理密码')
 		string(name: 'WS_URL', defaultValue: 'ws://www.alinkeji.com:8081/ws/universal/', description: 'websocket监听地址')
 		
