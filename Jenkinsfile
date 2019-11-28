@@ -21,17 +21,8 @@ pipeline {
 				}
 			}
 	    }
-	
-		stage('docker coolq run'){
-			steps {
-            	script {
-            		sh "docker-compose -f ./docker-compose.yaml up -d $DOCKER_SERVICE"
-            		sleep 30
-              	}
-          	}
-		}
-		
-		stage('maven build'){
+	    
+	    stage('maven build'){
 	        steps {
 				script{
 					dir("./"){
@@ -50,7 +41,17 @@ pipeline {
             		}
             	}
           	}
-		}		
+		}
+	
+		stage('docker coolq run'){
+			steps {
+            	script {
+            		sleep 30
+            		sh "docker-compose -f ./docker-compose.yaml up -d $DOCKER_SERVICE"
+              	}
+          	}
+		}
+				
 	}
 
 }
