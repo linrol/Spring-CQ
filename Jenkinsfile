@@ -26,7 +26,7 @@ pipeline {
 			steps {
             	script {
             		sh "docker-compose -f ./docker-compose.yaml up -d $DOCKER_SERVICE"
-            		sleep 20000
+            		sleep 30
               	}
           	}
 		}
