@@ -10,7 +10,7 @@ services:
     restart: always
     container_name: coolq-pro
     volumes:
-      - /root/web/app/coolq/cooq-pro:/home/user/coolq
+      - /root/web/app/coolq/coolq-pro:/home/user/coolq
     environment:
       - VNC_PASSWD=${VNC_PASSWORD}
       - COOLQ_URL=https://dlsec.cqp.me/cqp-tuling
@@ -26,7 +26,7 @@ services:
     restart: always
     container_name: coolq-air
     volumes:
-      - /root/web/app/coolq/cooq-air:/home/user/coolq
+      - /root/web/app/coolq/coolq-air:/home/user/coolq
     environment:
       - VNC_PASSWD=${VNC_PASSWORD}
       - COOLQ_URL=http://dlsec.cqp.me/cqa-tuling
