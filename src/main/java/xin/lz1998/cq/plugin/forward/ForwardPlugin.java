@@ -43,7 +43,8 @@ public class ForwardPlugin extends CQPlugin {
     
     @Override
     public int onGroupMessage(CoolQ cq, CQGroupMessageEvent event) {
-    	List<Long> monitorGrouplist = (List<Long>) CommandPlugin.config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand());
+    	logger.info("QQ:{}收到群:{}消息", cq.getSelfId(), event.getGroupId());
+    	List<Long> monitorGrouplist = ((Map<Long,List<Long>>)CommandPlugin.config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand())).get(cq.getSelfId());
     	long group_id = event.getGroupId();
     	String msg = filterMsg(event.getMessage());
     	//if(!monitorGrouplist.contains(group_id) || !monitorUserMap.get(String.valueOf(cq.getSelfId())).contains(String.valueOf(event.getUserId()))) {

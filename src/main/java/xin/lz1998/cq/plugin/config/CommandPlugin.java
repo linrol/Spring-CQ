@@ -25,9 +25,17 @@ public class CommandPlugin extends CQPlugin {
 		List<Long> lcontrollerList = new ArrayList<Long>();
 		lcontrollerList.add(1071893649l);
 		config.put(CommandEnum.CONTROLLER_QQ_LIST.getCommand(), lcontrollerList);
+		Map<Long,List<Long>> monitorGroupMap = new HashMap<Long,List<Long>>();
 		List<Long> monitorGroupList = new ArrayList<Long>();
 		monitorGroupList.add(737215804l);
-		config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), monitorGroupList);
+		monitorGroupMap.put(2097736476l, monitorGroupList);
+		
+		List<Long> monitorGroupList2 = new ArrayList<Long>();
+		monitorGroupList2.add(286624903l);
+		monitorGroupMap.put(779721310l, monitorGroupList2);
+		config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), monitorGroupMap);
+		
+		
 		List<Long> forwardGroupList = new ArrayList<Long>();
 		forwardGroupList.add(910092655l);
 		forwardGroupList.add(198896490l);
@@ -59,24 +67,28 @@ public class CommandPlugin extends CQPlugin {
         	logger.info("主人QQ[{}]已添加,即刻开始enjoy吧!",msgs[2]);
 			return MESSAGE_BLOCK;
         }else if(commandEnum == CommandEnum.MONITOR_GROUP_ID_ADD) {
-        	List<Long> monitorGrouplist = (List<Long>) config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand());
+        	Map<Long,List<Long>> monitorGroupMap = (Map<Long,List<Long>>) config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand());
+        	List<Long> monitorGrouplist = monitorGroupMap.get(cq.getSelfId());
         	if(monitorGrouplist.contains(Long.parseLong(msgs[2]))){
         		logger.error("监听QQ群号[{}]已在列表中，请不要重复添加",msgs[2]);
         		return MESSAGE_BLOCK;
         	}
         	monitorGrouplist.add(Long.parseLong(msgs[2]));
-        	config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), monitorGrouplist);
+        	monitorGroupMap.put(cq.getSelfId(), monitorGrouplist);
+        	config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), monitorGroupMap);
         	logger.info("监听QQ群号[{}]已添加",msgs[2]);
         	// cq.sendPrivateMsg(userId, "监听G[" + msgs[2] + "]已添加", false);
 			return MESSAGE_BLOCK;
         }else if(commandEnum == CommandEnum.MONITOR_GROUP_ID_REMOVE) {
-        	List<Long> monitorGrouplist = (List<Long>) config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand());
+        	Map<Long,List<Long>> monitorGroupMap = (Map<Long,List<Long>>) config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand());
+        	List<Long> monitorGrouplist = monitorGroupMap.get(cq.getSelfId());
         	if(!monitorGrouplist.contains(Long.parseLong(msgs[2]))){
         		logger.error("监听QQ群号[{}]已不在列表中，无需移除",msgs[2]);
         		return MESSAGE_BLOCK;
         	}
         	monitorGrouplist.remove(Long.parseLong(msgs[2]));
-        	config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), monitorGrouplist);
+        	monitorGroupMap.put(cq.getSelfId(), monitorGrouplist);
+        	config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), monitorGroupMap);
         	logger.info("监听QQ群号[{}]已移除",msgs[2]);
         	// cq.sendPrivateMsg(userId, "监听G[" + msgs[2] + "]已添加", false);
 			return MESSAGE_BLOCK;
