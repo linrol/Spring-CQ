@@ -62,7 +62,7 @@
 		</dependency>
 	</dependencies>
     <build>
-    	<finalName>spring-coolq</finalName>
+    	<finalName>spring-coolq-air</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -1,5 +1,5 @@
 #!/bin/bash
-app='spring-coolq.jar'
+app='spring-coolq-air.jar'
 args='-Xms512M -Xmx1024m'
 cmd=$1
 pid=`ps -ef|grep java|grep $app|awk '{print $2}'`

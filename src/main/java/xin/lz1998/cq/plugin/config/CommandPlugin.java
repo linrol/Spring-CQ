@@ -37,8 +37,7 @@ public class CommandPlugin extends CQPlugin {
 		
 		
 		List<Long> forwardGroupList = new ArrayList<Long>();
-		forwardGroupList.add(910092655l);
-		forwardGroupList.add(198896490l);
+		forwardGroupList.add(425239590l);
 		config.put(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand(), forwardGroupList);
     }
 	

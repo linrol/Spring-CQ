@@ -58,8 +58,8 @@ public class ForwardPlugin extends CQPlugin {
         		String sourceTkl = msg.substring(msg.indexOf("￥"),msg.lastIndexOf("￥") + 1);
         		msg = msg.substring(0,msg.indexOf("￥")) + getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(groupId))) + msg.substring(msg.lastIndexOf("￥") + 1);
         	}
-    		Global.robots.get(1096471489l).sendGroupMsg(groupId, msg, false);
-    		//cq.sendGroupMsg(groupId, msg, false);
+    		//Global.robots.get(1096471489l).sendGroupMsg(groupId, msg, false);
+    		cq.sendGroupMsg(groupId, msg, false);
     	}
         return MESSAGE_IGNORE; // 继续执行下一个插件
         // return MESSAGE_BLOCK; // 不执行下一个插件
