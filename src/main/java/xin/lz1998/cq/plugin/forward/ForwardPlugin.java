@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
 
+import xin.lz1998.cq.Global;
 import xin.lz1998.cq.event.message.CQGroupMessageEvent;
 import xin.lz1998.cq.plugin.config.CommandEnum;
 import xin.lz1998.cq.plugin.config.CommandPlugin;
@@ -56,7 +57,8 @@ public class ForwardPlugin extends CQPlugin {
         		String sourceTkl = msg.substring(msg.indexOf("￥"),msg.lastIndexOf("￥") + 1);
         		msg = msg.substring(0,msg.indexOf("￥")) + getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(groupId))) + msg.substring(msg.lastIndexOf("￥") + 1);
         	}
-    		cq.sendGroupMsg(groupId, msg, false);
+    		Global.robots.get(779721310l).sendGroupMsg(groupId, msg, false);
+    		//cq.sendGroupMsg(groupId, msg, false);
     	}
         return MESSAGE_IGNORE; // 继续执行下一个插件
         // return MESSAGE_BLOCK; // 不执行下一个插件
