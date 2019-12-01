@@ -1,18 +1,10 @@
 package xin.lz1998.cq.plugin.forward;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,72 +39,6 @@ public class ForwardPlugin extends CQPlugin {
 		monitorUserMap.put("779721310", Arrays.asList("1012230561","1256647017","1071893649"));
     }	
 	
-	public void downloadImage(String content) {
-		try {
-			String path = "/root/web/app/coolq/coolqpro/data/image/";
-	    	List<String> list = extractMessageByRegular(content);
-	    	list.forEach(cqContent -> {
-	    		if(cqContent.startsWith("CQ:image")) {
-	    			String imagepath = path + cqContent.split(",")[1].replace("file=", "");
-	    			String url = cqContent.split(",")[2].replace("url=", "");
-	    			logger.info("下载图片[{}]到[{}]",url,imagepath);
-	    			download(url,imagepath);
-	    		}
-	    	});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * 使用正则表达式提取中括号中的内容
-	 * @param msg
-	 * @return 
-	 */
-	public static List<String> extractMessageByRegular(String msg){
-		List<String> list=new ArrayList<String>();
-		Pattern p = Pattern.compile("(\\[[^\\]]*\\])");
-		Matcher m = p.matcher(msg);
-		while(m.find()){
-			list.add(m.group().substring(1, m.group().length()-1));
-		}
-		return list;
-	}
-	
-	public static void download(String filename ,String savePath){
-		// 构造URL
-		InputStream is = null;
-		OutputStream os = null;
-		try {
-			java.net.URL url = new java.net.URL(filename );
-			 // 打开连接
-		    URLConnection con = url.openConnection();
-		    // 输入流
-		    is = con.getInputStream();
-		    // 1K的数据缓冲
-		    byte[] bs = new byte[1024];
-		    // 读取到的数据长度
-		    int len;
-		    // 输出的文件流
-		    os = new FileOutputStream(savePath);
-		    // 开始读取
-		    while ((len = is.read(bs)) != -1) {
-		      os.write(bs, 0, len);
-		    }
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-		    try {
-		    	// 完毕，关闭所有链接
-		    	if (null != is && null != os) {
-		    		is.close();
-		    		os.close();
-		    	}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
     
     @Override
     public int onGroupMessage(CoolQ cq, CQGroupMessageEvent event) {
@@ -123,8 +49,7 @@ public class ForwardPlugin extends CQPlugin {
     	if(!monitorGrouplist.contains(group_id)) {
     		return MESSAGE_IGNORE;
     	}
-    	downloadImage(event.getMessage());
-    	
+    	ImageUtil.downloadImage(event.getMessage());
     	List<Long> forwardGrouplist = (List<Long>) CommandPlugin.config.get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
     	for(Long groupId:forwardGrouplist) {
     		if(msg.contains("￥")) {
