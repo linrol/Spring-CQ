@@ -4,6 +4,7 @@ pipeline {
 	
 	parameters {
 		choice(name: 'DOCKER_SERVICE', choices: ['coolq-pro', 'coolq-pro-slave', 'coolq-air', 'coolq-air-slave'], description: '酷Q容器版本]')
+		choice(name: 'IS_RESTART', choices: ['false', 'true'], description: '是否重启服务]')
 		string(name: 'COOL_QQ', defaultValue: '779721310', description: '酷Q帐号')
 		string(name: 'VNC_PORT', defaultValue: '9000', description: 'VNC端口号')
 		string(name: 'VNC_PASSWORD', defaultValue: '19941208', description: 'VNC管理密码')
@@ -33,6 +34,7 @@ pipeline {
 	    }
 		
 		stage('server deploy run'){
+			when { environment name: 'IS_RESTART', value: 'true' }
 			steps {
 				script {
             		withEnv(['JENKINS_NODE_COOKIE=background_job']) {
