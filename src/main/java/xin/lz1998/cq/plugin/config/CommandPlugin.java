@@ -47,10 +47,10 @@ public class CommandPlugin extends CQPlugin {
 	@Override
 	@SuppressWarnings("unchecked")
     public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
-		long userId = event.getSender().getUserId();
+		//long userId = event.getSender().getUserId();
 		String msg = event.getMessage();
 		List<Long> controllerQQlist = (List<Long>) config.get(CommandEnum.CONTROLLER_QQ_LIST.getCommand());
-		if(!controllerQQlist.contains(userId) || !msg.startsWith("指令-")) {
+		if(!msg.startsWith("指令-")) {
 			return MESSAGE_IGNORE;
 		}
 		String[] msgs = msg.split("-");
