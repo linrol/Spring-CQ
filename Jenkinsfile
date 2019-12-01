@@ -16,7 +16,7 @@ pipeline {
 		stage('git clone'){
 			steps {
 				script{
-					git credentialsId: 'cd8a3a7a-2c4f-42e4-9454-bf5b3a2a120e', url: 'https://github.com/linrol/Spring-CQ.git'
+					git branch: 'air', credentialsId: 'cd8a3a7a-2c4f-42e4-9454-bf5b3a2a120e', url: 'https://github.com/linrol/Spring-CQ.git'
 					echo "code git clone success"
 				}
 			}
