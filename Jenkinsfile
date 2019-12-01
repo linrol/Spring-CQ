@@ -46,7 +46,7 @@ pipeline {
 		stage('docker coolq run'){
 			steps {
             	script {
-            		sleep 30
+            		sleep 10
             		sh "docker-compose -f ./docker-compose.yaml up -d $DOCKER_SERVICE"
               	}
           	}
