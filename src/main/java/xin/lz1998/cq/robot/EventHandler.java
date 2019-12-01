@@ -23,7 +23,6 @@ class EventHandler {
 
 
     static void handle(CoolQ cq, JSONObject eventJson) {
-        System.out.println(eventJson);
         String postType=eventJson.getString("post_type");
         switch (postType){
             case "message":{
