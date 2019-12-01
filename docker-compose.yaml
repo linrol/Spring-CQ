@@ -21,6 +21,22 @@ services:
       - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
     ports:
       - ${VNC_PORT}:9000
+  coolq-pro-slave:
+    image: richardchien/cqhttp
+    restart: always
+    container_name: coolq-pro-slave
+    volumes:
+      - /root/web/app/coolq/coolq-pro-slave:/home/user/coolq
+    environment:
+      - VNC_PASSWD=${VNC_PASSWORD}
+      - COOLQ_URL=https://dlsec.cqp.me/cqp-tuling
+      - COOLQ_ACCOUNT=${COOL_QQ}
+      - CQHTTP_USE_HTTP=false
+      - CQHTTP_USE_WS_REVERSE=true
+      - CQHTTP_WS_REVERSE_URL=${WS_URL}
+      - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
+    ports:
+      - ${VNC_PORT}:9000
   coolq-air:
     image: richardchien/cqhttp
     restart: always
