@@ -26,7 +26,6 @@ public class CommandPlugin extends CQPlugin {
 		lcontrollerList.add(1071893649l);
 		config.put(CommandEnum.CONTROLLER_QQ_LIST.getCommand(), lcontrollerList);
 		List<Long> monitorGroupList = new ArrayList<Long>();
-		monitorGroupList.add(286624903l);
 		monitorGroupList.add(737215804l);
 		config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), monitorGroupList);
 		List<Long> forwardGroupList = new ArrayList<Long>();
