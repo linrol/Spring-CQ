@@ -1,11 +1,15 @@
 package xin.lz1998.cq.plugin.forward;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,12 +37,28 @@ public class ForwardPlugin extends CQPlugin {
 	
 	public static Map<String,List<String>> monitorUserMap = new HashMap<String,List<String>>();
 	
+	private static ForyouStack<String> msgStack = new ForyouStack<String>(20);
+	
 	static {
 		pidMap.put("910092655", "mm_109302870_1080150328_109752250051");
 		pidMap.put("198896490", "mm_109302870_1090250211_109781850271");
 		monitorUserMap.put("1706860030", Arrays.asList("3317628455","2267793115","1096471489"));
 		monitorUserMap.put("779721310", Arrays.asList("1012230561","1256647017","1071893649"));
-    }	
+    }
+	
+	public static String getSourceTkl(String msg) {
+		if(msg.contains("￥")) {
+    		String sourceTkl = msg.substring(msg.indexOf("￥"),msg.lastIndexOf("￥") + 1);
+    		return sourceTkl;
+    	}
+		List<String> list = new ArrayList<String>();
+		Pattern p = Pattern.compile("(\\()([0-9a-zA-Z\\.\\/\\=])*(\\))");
+		Matcher m = p.matcher(msg);
+		while (m.find()) {
+			list.add(m.group(0).substring(1, m.group().length() - 1));
+		}
+		return list.size() > 0 ? "￥" + list.get(0) + "￥":"";
+	}
 	
     
     @Override
@@ -51,13 +71,19 @@ public class ForwardPlugin extends CQPlugin {
     	if(!monitorGrouplist.contains(group_id)) {
     		return MESSAGE_IGNORE;
     	}
+    	if(msgStack.containLike(StringUtil.getChineseString(msg), 0.8f)) {
+    		logger.info("消息[{}]大于相似因子0.8，放弃本次转发", StringUtil.getChineseString(msg));
+    		return MESSAGE_IGNORE;
+    	}
+    	msgStack.push(StringUtil.getChineseString(msg));
     	ImageUtil.downloadImage(event.getMessage());
     	List<Long> forwardGrouplist = (List<Long>) CommandPlugin.config.get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
+    	String sourceTkl = getSourceTkl(msg);
     	for(Long groupId:forwardGrouplist) {
-    		if(msg.contains("￥")) {
-        		String sourceTkl = msg.substring(msg.indexOf("￥"),msg.lastIndexOf("￥") + 1);
-        		msg = msg.substring(0,msg.indexOf("￥")) + getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(groupId))) + msg.substring(msg.lastIndexOf("￥") + 1);
-        	}
+    		if(StringUtils.isNotBlank(sourceTkl)) {
+    			String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(groupId)));
+    			msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", ""));
+    		}
     		Global.robots.get(779721310l).sendGroupMsg(groupId, msg, false);
     		//cq.sendGroupMsg(groupId, msg, false);
     	}
