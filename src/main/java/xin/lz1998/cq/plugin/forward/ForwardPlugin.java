@@ -19,7 +19,6 @@ import xin.lz1998.cq.Global;
 import xin.lz1998.cq.event.message.CQGroupMessageEvent;
 import xin.lz1998.cq.plugin.config.CommandEnum;
 import xin.lz1998.cq.plugin.config.CommandPlugin;
-import xin.lz1998.cq.plugin.forward.enums.DsErrorEnum;
 import xin.lz1998.cq.robot.CQPlugin;
 import xin.lz1998.cq.robot.CoolQ;
 
@@ -82,7 +81,8 @@ public class ForwardPlugin extends CQPlugin {
     	for(Long groupId:forwardGrouplist) {
     		if(StringUtils.isNotBlank(sourceTkl)) {
     			String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(groupId)));
-    			msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", ""));
+    			logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
+    			msg = msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", ""));
     		}
     		Global.robots.get(779721310l).sendGroupMsg(groupId, msg, false);
     		//cq.sendGroupMsg(groupId, msg, false);
@@ -92,18 +92,18 @@ public class ForwardPlugin extends CQPlugin {
     }
     
     
-    private String getChangeTklBy21ds(String sourceTkl,String pid) {
+    private static String getChangeTklBy21ds(String sourceTkl,String pid) {
     	String url = "http://api.web.21ds.cn/taoke/doItemHighCommissionPromotionLinkByTpwd?apkey=%s&tpwdcode=%s&pid=%s&tbname=%s&tpwd=1&extsearch=1";
     	String apKey = "7918202b-ef4a-f251-291b-eb880302814c";
     	String tbname = "tb6746204";
     	JSONObject jsonResult;
 		try {
 			jsonResult = HttpUtil.sendGet(String.format(url, apKey,sourceTkl,pid,tbname));
-			logger.info("喵有券接口转换结果：" + jsonResult.toJSONString());
+			//logger.info("喵有券接口转换结果：" + jsonResult.toJSONString());
 	    	if(jsonResult.getInteger("code") == 200) {
 	    		return jsonResult.getJSONObject("data").getString("tpwd");
 	    	}
-	    	logger.error("获取喵有券高佣转淘口令api接口错误，请立即排查处理，否则影响引导收入，失败原因:[{}]",DsErrorEnum.getByCode(jsonResult.getString("code")));
+	    	//logger.error("获取喵有券高佣转淘口令api接口错误，请立即排查处理，否则影响引导收入，失败原因:[{}]",DsErrorEnum.getByCode(jsonResult.getString("code")));
 	    	return analyzeAndCreateNewTkl(sourceTkl);
 		} catch (Exception e) {
 			e.printStackTrace();
