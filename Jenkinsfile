@@ -56,7 +56,7 @@ pipeline {
 			steps {
 				script {
             		withEnv(['JENKINS_NODE_COOKIE=background_job']) {
-	            		sh "scp -r ./target/*.jar ./server.sh ./docker-compose.yaml root@${DEPLOY_HOST}:/root/web/app/coolq/"
+	            		sh "scp -r ./target/*.jar ./server.sh root@${DEPLOY_HOST}:/root/web/app/coolq/"
 	            		sshCommand remote: server, command: "chmod +x /root/web/app/coolq/server.sh && cd /root/web/app/coolq/ && ./server.sh restart"
             		}
             	}
@@ -67,6 +67,7 @@ pipeline {
 			steps {
             	script {
             		sleep 10
+            		sh "scp -r ./docker-compose.yaml root@${DEPLOY_HOST}:/root/web/app/coolq/"
             		sshCommand remote: server, command: "cd /root/web/app/coolq/ && docker-compose -f ./docker-compose.yaml up -d $DOCKER_SERVICE"
               	}
           	}
