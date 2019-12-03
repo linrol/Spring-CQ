@@ -60,7 +60,7 @@ services:
     volumes:
       - /root/web/app/coolq/coolq-air-slave:/home/user/coolq
     environment:
-      - VNC_PASSWD=${VNC_PASSWORD}
+      - VNC_PASSWD=19941208
       - COOLQ_URL=http://dlsec.cqp.me/cqa-tuling
       - COOLQ_ACCOUNT=${COOL_QQ}
       - CQHTTP_USE_HTTP=false
