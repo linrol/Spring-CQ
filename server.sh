@@ -5,7 +5,7 @@ cmd=$1
 pid=`ps -ef|grep java|grep $app|awk '{print $2}'`
 
 startup(){
-  nohup java -jar $args $app > spring-coolq.log 2>&1 &
+  nohup /usr/local/java/jdk1.8.0_201/bin/java -jar $args $app > spring-coolq.log 2>&1 &
 }
 
 if [ ! $cmd ]; then
