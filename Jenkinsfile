@@ -1,7 +1,7 @@
-def getServer(){
+def getServer(host){
     def remote = [:]
-    remote.name = '${DEPLOY_HOST}'
-    remote.host = '${DEPLOY_HOST}'
+    remote.name = '${host}'
+    remote.host = '${host}'
     remote.user = 'root'
     remote.port = 22
     remote.password = '19941208'
@@ -30,7 +30,7 @@ pipeline {
 		stage('init-server'){
             steps {
                 script {                 
-                   server = getServer()                                   
+                   server = getServer($DEPLOY_HOST)                                   
                 }
             }
         }
