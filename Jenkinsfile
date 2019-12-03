@@ -12,19 +12,27 @@ pipeline {
 	}
 	
 	environment{
-        def server = {
-			def remote = [:]
-			remote.name = '${host}'
-			remote.host = '${host}'
-			remote.user = 'root'
-			remote.port = 22
-			remote.password = '19941208'
-			remote.allowAnyHosts = true
-			return remote
-		}
+        def server = ''
     }
 	
 	stages {
+	
+		stage('init-server'){
+            steps {
+                script {
+					server = {
+						def remote = [:]
+						remote.name = '${host}'
+						remote.host = '${host}'
+						remote.user = 'root'
+						remote.port = 22
+						remote.password = '19941208'
+						remote.allowAnyHosts = true
+						return remote
+					}
+                }
+            }
+        }
 	
 		stage('git clone'){
 			steps {
