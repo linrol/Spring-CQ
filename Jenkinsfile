@@ -1,4 +1,14 @@
 !groovy
+def getServer(host){
+	def remote = [:]
+	remote.name = '${host}'
+	remote.host = '${host}'
+	remote.user = 'root'
+	remote.port = 22
+	remote.password = '19941208'
+	remote.allowAnyHosts = true
+	return remote
+}
 pipeline {
 
 	agent any
@@ -69,15 +79,4 @@ pipeline {
 				
 	}
 
-}
-
-def getServer(host){
-	def remote = [:]
-	remote.name = '${host}'
-	remote.host = '${host}'
-	remote.user = 'root'
-	remote.port = 22
-	remote.password = '19941208'
-	remote.allowAnyHosts = true
-	return remote
 }
