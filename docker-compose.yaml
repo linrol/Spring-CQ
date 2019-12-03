@@ -12,7 +12,7 @@ services:
     volumes:
       - /root/web/app/coolq/coolq-pro:/home/user/coolq
     environment:
-      - VNC_PASSWD=${VNC_PASSWORD}
+      - VNC_PASSWD=19941208
       - COOLQ_URL=https://dlsec.cqp.me/cqp-tuling
       - COOLQ_ACCOUNT=${COOL_QQ}
       - CQHTTP_USE_HTTP=false
@@ -28,7 +28,7 @@ services:
     volumes:
       - /root/web/app/coolq/coolq-pro-slave:/home/user/coolq
     environment:
-      - VNC_PASSWD=${VNC_PASSWORD}
+      - VNC_PASSWD=19941208
       - COOLQ_URL=https://dlsec.cqp.me/cqp-tuling
       - COOLQ_ACCOUNT=${COOL_QQ}
       - CQHTTP_USE_HTTP=false
@@ -44,7 +44,7 @@ services:
     volumes:
       - /root/web/app/coolq/coolq-air:/home/user/coolq
     environment:
-      - VNC_PASSWD=${VNC_PASSWORD}
+      - VNC_PASSWD=19941208
       - COOLQ_URL=http://dlsec.cqp.me/cqa-tuling
       - COOLQ_ACCOUNT=${COOL_QQ}
       - CQHTTP_USE_HTTP=false
