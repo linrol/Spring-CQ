@@ -8,7 +8,7 @@ pipeline {
 		choice(name: 'IS_RESTART', choices: ['false', 'true'], description: '是否重启服务]')
 		string(name: 'COOL_QQ', defaultValue: '779721310', description: '酷Q帐号')
 		string(name: 'VNC_PORT', defaultValue: '9000', description: 'VNC端口号')
-		string(name: 'WS_PATH', defaultValue: '8081/ws/universal/', description: 'websocket监听地址')
+		string(name: 'WS_PORT', defaultValue: '8081', description: 'websocket监听地址')
 	}
 	
 	environment{
@@ -80,9 +80,4 @@ pipeline {
 				
 	}
 
-}
-
-@NonCPS
-def jsonParse(def json) {
-    new groovy.json.JsonSlurperClassic().parseText(json) // 重点
 }
