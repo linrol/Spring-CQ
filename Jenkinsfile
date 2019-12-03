@@ -1,13 +1,4 @@
-def getServer(host){
-    def remote = [:]
-    remote.name = 'host'
-    remote.host = 'host'
-    remote.user = 'root'
-    remote.port = 22
-    remote.password = '19941208'
-    remote.allowAnyHosts = true
-    return remote
-}
+
 pipeline {
 
 	agent any
@@ -29,8 +20,18 @@ pipeline {
 	
 		stage('init-server'){
             steps {
-                script {                 
-                   server = getServer('${DEPLOY_HOST}')                                   
+                script {
+                	def getServer(){
+					    def remote = [:]
+					    remote.name = '${DEPLOY_HOST}'
+					    remote.host = '${DEPLOY_HOST}'
+					    remote.user = 'root'
+					    remote.port = 22
+					    remote.password = '19941208'
+					    remote.allowAnyHosts = true
+					    return remote
+					}
+					server = getServer()
                 }
             }
         }
