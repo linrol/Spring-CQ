@@ -8,7 +8,7 @@ pipeline {
 		choice(name: 'IS_RESTART', choices: ['false', 'true'], description: '是否重启服务]')
 		string(name: 'COOL_QQ', defaultValue: '779721310', description: '酷Q帐号')
 		string(name: 'VNC_PORT', defaultValue: '9000', description: 'VNC端口号')
-		string(name: 'WS_URL', defaultValue: 'ws://${DEPLOY_HOST}:8081/ws/universal/', description: 'websocket监听地址')
+		string(name: 'WS_PATH', defaultValue: '8081/ws/universal/', description: 'websocket监听地址')
 	}
 	
 	environment{
@@ -36,14 +36,12 @@ pipeline {
 			steps {
 				script{
 					git credentialsId: 'githubId', url: 'https://github.com/linrol/Spring-CQ.git'
+					params.
 					params.each{
 						def search_params = "\${${it.key}}" 
 						def replace_params = "${it.value}"
 						sh "sed 's/${search_params}/${replace_params}/g' ./docker-compose.yaml"
 					}
-					
-					//sh "sed -e 's/${search_params}' -e 's/${replace_params}' ./docker-compose.yaml"
-					//sh "sed 's/${it.key}/it.value/g' ./docker-compose.yaml"
 					echo "code git clone success"
 				}
 			}
