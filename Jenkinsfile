@@ -39,7 +39,7 @@ pipeline {
 					params.each{
 						println(it.key)
 						println(it.value)
-						sh "sed 's/\$\{it.key\}/it.value/g' ./docker-compose.yaml"
+						sh "sed 's/${it.key}/it.value/g' ./docker-compose.yaml"
 					}
 					echo "code git clone success"
 				}
