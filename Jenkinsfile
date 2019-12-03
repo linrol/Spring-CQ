@@ -71,7 +71,7 @@ pipeline {
             		params.each{
 						def search_params = "\${${it.key}}" 
 						def replace_params = "${it.value}"
-						sshCommand remote: server, command: "sudo sed 's/${search_params}/${replace_params}/g' /root/web/app/coolq/docker-compose.yaml"
+						sshCommand remote: server, command: "sudo sed -i 's/${search_params}/${replace_params}/g' /root/web/app/coolq/docker-compose.yaml"
 					}
             		sshCommand remote: server, command: "cd /root/web/app/coolq/ && docker-compose -f ./docker-compose.yaml up -d $DOCKER_SERVICE"
               	}
