@@ -35,8 +35,7 @@ pipeline {
 		stage('git clone'){
 			steps {
 				script{
-					echo "${WS_URL}"
-					sshCommand remote: server, command: "git credentialsId: 'cd8a3a7a-2c4f-42e4-9454-bf5b3a2a120e', url: 'https://github.com/linrol/Spring-CQ.git'"
+					sshCommand remote: server, command: "git credentialsId: 'githubId', url: 'https://github.com/linrol/Spring-CQ.git'"
 					echo "code git clone success"
 				}
 			}
