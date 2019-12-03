@@ -67,7 +67,7 @@ public class ForwardPlugin extends CQPlugin {
     	long group_id = event.getGroupId();
     	String msg = filterMsg(event.getMessage());
     	//if(!monitorGrouplist.contains(group_id) || !monitorUserMap.get(String.valueOf(cq.getSelfId())).contains(String.valueOf(event.getUserId()))) {
-    	if(monitorGrouplist != null && !monitorGrouplist.contains(group_id)) {
+    	if(monitorGrouplist == null || !monitorGrouplist.contains(group_id)) {
     		return MESSAGE_IGNORE;
     	}
     	if(msgStack.containLike(StringUtil.getChineseString(msg), 0.8f)) {
