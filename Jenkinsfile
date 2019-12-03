@@ -22,7 +22,7 @@ pipeline {
                 script {
                 	def remote = [:]
 					remote.name = '${DEPLOY_HOST}'
-					remote.host = '${DEPLOY_HOST}'
+					remote.host = ${DEPLOY_HOST}
 					remote.user = 'root'
 					remote.port = 22
 					remote.password = '19941208'
