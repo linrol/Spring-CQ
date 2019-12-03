@@ -29,8 +29,15 @@ pipeline {
 					remote.allowAnyHosts = true
 					server = remote
 					//获取到的是Map对象
-			        def map = new JsonSlurper().parseText('{"id":1,"name":"Thinking in Java"}')
-			        println(map)
+					import groovy.json.JsonBuilder
+					def json = new JsonBuilder()
+					json.state{
+					   capital "Denver"
+					   majorCities "Denver", "Colorado Springs", "Fort Collins"
+					}
+					println json
+			        //def map = new JsonSlurper().parseText('{"id":1,"name":"Thinking in Java"}')
+			        //println(map)
                 }
             }
         }
