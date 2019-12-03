@@ -12,33 +12,22 @@ pipeline {
 	}
 	
 	environment{
-        def server = ''
+        def remote = [:]
+        remote.name = '${DEPLOY_HOST}'
+		remote.host = '${DEPLOY_HOST}'
+		remote.user = 'root'
+		remote.port = 22
+		remote.password = '19941208'
+		remote.allowAnyHosts = true
     }
 	
 	stages {
-	
-		stage('init-server'){
-            steps {
-                script {
-					server = {
-						def remote = [:]
-						remote.name = '${host}'
-						remote.host = '${host}'
-						remote.user = 'root'
-						remote.port = 22
-						remote.password = '19941208'
-						remote.allowAnyHosts = true
-						return remote
-					}
-                }
-            }
-        }
 	
 		stage('git clone'){
 			steps {
 				script{
 					echo "${WS_URL}"
-					sshCommand remote: server, command: "git credentialsId: 'cd8a3a7a-2c4f-42e4-9454-bf5b3a2a120e', url: 'https://github.com/linrol/Spring-CQ.git'"
+					sshCommand remote: remote, command: "git credentialsId: 'cd8a3a7a-2c4f-42e4-9454-bf5b3a2a120e', url: 'https://github.com/linrol/Spring-CQ.git'"
 					echo "code git clone success"
 				}
 			}
