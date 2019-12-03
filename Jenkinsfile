@@ -35,7 +35,7 @@ pipeline {
 		stage('git clone'){
 			steps {
 				script{
-					sshCommand remote: server, command: "git credentialsId: 'githubId', url: 'https://github.com/linrol/Spring-CQ.git'"
+					git credentialsId: 'githubId', url: 'https://github.com/linrol/Spring-CQ.git'
 					echo "code git clone success"
 				}
 			}
@@ -56,8 +56,8 @@ pipeline {
 			steps {
 				script {
             		withEnv(['JENKINS_NODE_COOKIE=background_job']) {
-	            		sh "cp -rf ./target/*.jar ./server.sh /root/web/app/coolq/"
-            			sh "chmod +x /root/web/app/coolq/server.sh && cd /root/web/app/coolq/ && ./server.sh restart"
+	            		sh "scp -r ./target/*.jar ./server.sh ./docker-compose.yaml root@${DEPLOY_HOST}:/root/web/app/coolq/"
+	            		sshCommand remote: server, command: "chmod +x /root/web/app/coolq/server.sh && cd /root/web/app/coolq/ && ./server.sh restart"
             		}
             	}
           	}
@@ -67,7 +67,7 @@ pipeline {
 			steps {
             	script {
             		sleep 10
-            		sh "docker-compose -f ./docker-compose.yaml up -d $DOCKER_SERVICE"
+            		sshCommand remote: server, command: "cd /root/web/app/coolq/ && docker-compose -f ./docker-compose.yaml up -d $DOCKER_SERVICE"
               	}
           	}
 		}
