@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ilex
 app='spring-coolq.jar'
 args='-Xms512M -Xmx1024m'
 cmd=$1
