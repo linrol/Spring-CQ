@@ -29,7 +29,7 @@ pipeline {
 					remote.allowAnyHosts = true
 					server = remote
 					//获取到的是Map对象
-			        def map = jsonSlurper.parseText('{"id":1,"name":"Thinking in Java"}')
+			        def map = new JsonSlurper().parseText('{"id":1,"name":"Thinking in Java"}')
 			        println(map)
                 }
             }
