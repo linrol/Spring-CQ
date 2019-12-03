@@ -1,7 +1,7 @@
 def getServer(host){
     def remote = [:]
-    remote.name = '${host}'
-    remote.host = '${host}'
+    remote.name = ${host}
+    remote.host = ${host}
     remote.user = 'root'
     remote.port = 22
     remote.password = '19941208'
