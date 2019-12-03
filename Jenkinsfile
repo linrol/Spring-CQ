@@ -28,7 +28,7 @@ pipeline {
 					remote.password = '19941208'
 					remote.allowAnyHosts = true
 					server = remote
-					def mapProperties = params.getProperties()
+					def mapProperties = params.getProperties().get('class').getProperties()
 					println(mapProperties)
 					def store = ''
 					mapProperties.each{
