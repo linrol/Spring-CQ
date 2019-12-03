@@ -136,6 +136,10 @@ public class ForwardPlugin extends CQPlugin {
     }
     
     private String filterMsg(String msg) {
-    	return msg.replaceAll("元", "").replaceAll("生活费147223", "生活费3925276");
+    	msg = msg.replaceAll("元", "").replaceAll("生活费147223", "生活费3925276");
+    	for(Map.Entry<String, String> entry : CommandPlugin.filterMap.entrySet()){
+    		msg = msg.replaceAll(entry.getKey(), entry.getValue());
+    	}
+    	return msg;
     }
 }

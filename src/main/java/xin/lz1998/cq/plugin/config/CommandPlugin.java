@@ -21,6 +21,8 @@ public class CommandPlugin extends CQPlugin {
 	
 	public static Map<String,Object> config = new HashMap<String,Object>();
 	
+	public static Map<String,String> filterMap = new HashMap<String,String>();
+	
 	static {
 		List<Long> lcontrollerList = new ArrayList<Long>();
 		lcontrollerList.add(1071893649l);
@@ -41,6 +43,9 @@ public class CommandPlugin extends CQPlugin {
 		forwardGroupList.add(910092655l);
 		forwardGroupList.add(198896490l);
 		config.put(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand(), forwardGroupList);
+		
+		filterMap.put("自助优惠券商城\r\n查券找好物点击~~~\r\n", "");
+		filterMap.put("http://kpeyfty.asia", "");
     }
 	
 	private Logger logger = LoggerFactory.getLogger(CommandPlugin.class);
@@ -56,7 +61,7 @@ public class CommandPlugin extends CQPlugin {
 		}
 		String[] msgs = msg.split("-");
 		CommandEnum commandEnum = CommandEnum.getCommandEnum(msgs[1]);
-		if(commandEnum == null || msgs.length != 3) {
+		if(commandEnum == null || msgs.length < 3) {
 			logger.error("未知指令或指令格式不对:{}",msg);
 			// cq.sendPrivateMsg(userId, "未知指令或指令格式不对", false);
 			return MESSAGE_BLOCK;
@@ -113,6 +118,11 @@ public class CommandPlugin extends CQPlugin {
         	forwardGrouplist.remove(Long.parseLong(msgs[2]));
         	config.put(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand(), forwardGrouplist);
         	logger.info("转发QQ群号[{}]已移除",msgs[2]);
+        	// cq.sendPrivateMsg(userId, "转发G[" + msgs[2] + "]已添加", false);
+			return MESSAGE_BLOCK;
+        }else if(commandEnum == CommandEnum.FORWARD_MSG_FILTER) {
+        	filterMap.put(msgs[2], msgs[3]);
+        	logger.info("转发消息中[{}]过滤[{}]成功",msgs[2],msgs[3]);
         	// cq.sendPrivateMsg(userId, "转发G[" + msgs[2] + "]已添加", false);
 			return MESSAGE_BLOCK;
         }else {

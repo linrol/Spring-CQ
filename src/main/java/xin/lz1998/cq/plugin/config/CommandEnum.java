@@ -23,7 +23,8 @@ public enum CommandEnum {
     MONITOR_GROUP_ID_REMOVE("monitor_group_id_remove", "监听QQ群号移除"),
     FORWARD_GROUP_ID_LIST("forward_group_id_list", "转发QQ群号列表"),
     FORWARD_GROUP_ID_ADD("forward_group_id_add", "转发QQ群号添加"),
-    FORWARD_GROUP_ID_REMOVE("forward_group_id_remove", "转发QQ群号移除");
+    FORWARD_GROUP_ID_REMOVE("forward_group_id_remove", "转发QQ群号移除"),
+	FORWARD_MSG_FILTER("forward_msg_filter", "转发消息过滤");
 
     private String command;
     private String desc;
