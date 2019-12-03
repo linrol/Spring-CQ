@@ -20,7 +20,7 @@ pipeline {
 		stage('init-server'){
             steps {
                 script {
-					server = getServer(${DEPLOY_HOST})
+					server = getServer('${DEPLOY_HOST}')
                 }
             }
         }
