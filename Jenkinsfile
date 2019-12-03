@@ -28,14 +28,6 @@ pipeline {
 					remote.password = '19941208'
 					remote.allowAnyHosts = true
 					server = remote
-					
-			        def map = new groovy.json.JsonSlurperClassic().parseText('{"id":1,"name":"Thinking in Java"}')
-			        def mapProperties = params.getProperties()
-			        params.each{
-						println(it.key)
-						println(it.value)
-					}
-			        println(map)
                 }
             }
         }
@@ -44,6 +36,11 @@ pipeline {
 			steps {
 				script{
 					git credentialsId: 'githubId', url: 'https://github.com/linrol/Spring-CQ.git'
+					params.each{
+						println(it.key)
+						println(it.value)
+						sh "sed 's/\$\{it.key\}/it.value/g' ./docker-compose.yaml"
+					}
 					echo "code git clone success"
 				}
 			}
