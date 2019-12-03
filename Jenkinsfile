@@ -28,6 +28,8 @@ pipeline {
 					remote.password = '19941208'
 					remote.allowAnyHosts = true
 					server = remote
+					def mapProperties = params.getProperties()
+					println(mapProperties)
                 }
             }
         }
