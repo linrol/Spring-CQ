@@ -36,11 +36,15 @@ pipeline {
 			steps {
 				script{
 					git credentialsId: 'githubId', url: 'https://github.com/linrol/Spring-CQ.git'
+					def search_params=''
+					def replace_params=''
 					params.each{
-						println(it.key)
-						println(it.value)
-						sh "sed 's/${it.key}/it.value/g' ./docker-compose.yaml"
+						search_params += '\${${it.key}}/' 
+						replace_params += '${it.value}/'
+						//sh "sed 's/${it.key}/it.value/g' ./docker-compose.yaml"
 					}
+					echo "${search_params}"
+					echo "${replace_params}"
 					echo "code git clone success"
 				}
 			}
