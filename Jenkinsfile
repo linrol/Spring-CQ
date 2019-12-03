@@ -30,6 +30,11 @@ pipeline {
 					server = remote
 					
 			        def map = new groovy.json.JsonSlurperClassic().parseText('{"id":1,"name":"Thinking in Java"}')
+			        def mapProperties = params.getProperties()
+			        params.each{
+						println(it.key)
+						println(it.value)
+					}
 			        println(map)
                 }
             }
