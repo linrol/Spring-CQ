@@ -36,11 +36,11 @@ pipeline {
 			steps {
 				script{
 					git credentialsId: 'githubId', url: 'https://github.com/linrol/Spring-CQ.git'
-					def search_params=''
-					def replace_params=''
+					def search_params=""
+					def replace_params=""
 					params.each{
-						search_params += '\${${it.key}}/' 
-						replace_params += '${it.value}/'
+						search_params += "\${${it.key}}/" 
+						replace_params += "${it.value}/"
 						//sh "sed 's/${it.key}/it.value/g' ./docker-compose.yaml"
 					}
 					echo "${search_params}"
