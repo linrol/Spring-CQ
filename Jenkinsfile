@@ -30,10 +30,9 @@ pipeline {
 					server = remote
 					def mapProperties = params.getProperties()
 					def store = ''
-					map.each{entry -> {
-						println(entry.key)
-						println(entry.value)
-						}
+					map.each{
+						println(it.key)
+						println(it.value)
 					}
 					
                 }
