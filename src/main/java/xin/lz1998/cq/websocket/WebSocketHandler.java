@@ -18,6 +18,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) {
         long xSelfId = Long.valueOf(session.getHandshakeHeaders().get("x-self-id").get(0));
+        logger.info("{} received event notice....", xSelfId);
         CoolQ robot = Global.robots.get(xSelfId);
         JSONObject recvJson=JSON.parseObject(message.getPayload());
         if (recvJson.containsKey("echo")) {

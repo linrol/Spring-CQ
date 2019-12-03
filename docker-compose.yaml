@@ -12,12 +12,12 @@ services:
     volumes:
       - /root/web/app/coolq/coolq-pro:/home/user/coolq
     environment:
-      - VNC_PASSWD=${VNC_PASSWORD}
+      - VNC_PASSWD=19941208
       - COOLQ_URL=https://dlsec.cqp.me/cqp-tuling
       - COOLQ_ACCOUNT=${COOL_QQ}
       - CQHTTP_USE_HTTP=false
       - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_URL=${WS_URL}
+      - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
       - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
     ports:
       - ${VNC_PORT}:9000
@@ -28,12 +28,12 @@ services:
     volumes:
       - /root/web/app/coolq/coolq-pro-slave:/home/user/coolq
     environment:
-      - VNC_PASSWD=${VNC_PASSWORD}
+      - VNC_PASSWD=19941208
       - COOLQ_URL=https://dlsec.cqp.me/cqp-tuling
       - COOLQ_ACCOUNT=${COOL_QQ}
       - CQHTTP_USE_HTTP=false
       - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_URL=${WS_URL}
+      - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
       - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
     ports:
       - ${VNC_PORT}:9000
@@ -44,12 +44,12 @@ services:
     volumes:
       - /root/web/app/coolq/coolq-air:/home/user/coolq
     environment:
-      - VNC_PASSWD=${VNC_PASSWORD}
+      - VNC_PASSWD=19941208
       - COOLQ_URL=http://dlsec.cqp.me/cqa-tuling
       - COOLQ_ACCOUNT=${COOL_QQ}
       - CQHTTP_USE_HTTP=false
       - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_URL=${WS_URL}
+      - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
       - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
     ports:
       - ${VNC_PORT}:9000
@@ -60,12 +60,12 @@ services:
     volumes:
       - /root/web/app/coolq/coolq-air-slave:/home/user/coolq
     environment:
-      - VNC_PASSWD=${VNC_PASSWORD}
+      - VNC_PASSWD=19941208
       - COOLQ_URL=http://dlsec.cqp.me/cqa-tuling
       - COOLQ_ACCOUNT=${COOL_QQ}
       - CQHTTP_USE_HTTP=false
       - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_URL=${WS_URL}
+      - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
       - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
     ports:
       - ${VNC_PORT}:9000  
