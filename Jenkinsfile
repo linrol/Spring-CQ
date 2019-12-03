@@ -41,10 +41,12 @@ pipeline {
 					params.each{
 						search_params += "\${${it.key}}/" 
 						replace_params += "${it.value}/"
-						//sh "sed 's/${it.key}/it.value/g' ./docker-compose.yaml"
 					}
 					echo "${search_params}"
 					echo "${replace_params}"
+					
+					sh "sed -e 's/${search_params}' -e 's/${replace_params}' ./docker-compose.yaml"
+					//sh "sed 's/${it.key}/it.value/g' ./docker-compose.yaml"
 					echo "code git clone success"
 				}
 			}
