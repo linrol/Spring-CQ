@@ -33,7 +33,7 @@ services:
       - COOLQ_ACCOUNT=${COOL_QQ}
       - CQHTTP_USE_HTTP=false
       - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PATH}
+      - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
       - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
     ports:
       - ${VNC_PORT}:9000
@@ -49,7 +49,7 @@ services:
       - COOLQ_ACCOUNT=${COOL_QQ}
       - CQHTTP_USE_HTTP=false
       - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PATH}
+      - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
       - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
     ports:
       - ${VNC_PORT}:9000
@@ -65,7 +65,7 @@ services:
       - COOLQ_ACCOUNT=${COOL_QQ}
       - CQHTTP_USE_HTTP=false
       - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PATH}
+      - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
       - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
     ports:
       - ${VNC_PORT}:9000  
