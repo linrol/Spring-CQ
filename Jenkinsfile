@@ -55,8 +55,10 @@ pipeline {
 			when { environment name: 'IS_RESTART', value: 'true' }
 			steps {
 				script {
-            		sh "scp -r ./target/*.jar ./server.sh root@${DEPLOY_HOST}:/root/web/app/coolq/"
-	            	sshCommand remote: server, command: "chmod +x /root/web/app/coolq/server.sh && cd /root/web/app/coolq/ && ./server.sh restart"
+					withEnv(['JENKINS_NODE_COOKIE=background_job']) {
+	            		sh "scp -r ./target/*.jar ./server.sh root@${DEPLOY_HOST}:/root/web/app/coolq/"
+	            		sshCommand remote: server, command: "chmod +x /root/web/app/coolq/server.sh && cd /root/web/app/coolq/ && ./server.sh restart"
+            		}
             	}
           	}
 		}
