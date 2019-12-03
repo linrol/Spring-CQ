@@ -1,4 +1,4 @@
-
+!groovy
 pipeline {
 
 	agent any
@@ -21,16 +21,6 @@ pipeline {
 		stage('init-server'){
             steps {
                 script {
-                	def getServer(){
-					    def remote = [:]
-					    remote.name = '${DEPLOY_HOST}'
-					    remote.host = '${DEPLOY_HOST}'
-					    remote.user = 'root'
-					    remote.port = 22
-					    remote.password = '19941208'
-					    remote.allowAnyHosts = true
-					    return remote
-					}
 					server = getServer()
                 }
             }
@@ -79,4 +69,15 @@ pipeline {
 				
 	}
 
+}
+
+def getServer(){
+	def remote = [:]
+	remote.name = '${DEPLOY_HOST}'
+	remote.host = '${DEPLOY_HOST}'
+	remote.user = 'root'
+	remote.port = 22
+	remote.password = '19941208'
+	remote.allowAnyHosts = true
+	return remote
 }
