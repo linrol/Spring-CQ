@@ -28,13 +28,9 @@ pipeline {
 					remote.password = '19941208'
 					remote.allowAnyHosts = true
 					server = remote
-					def mapProperties = params.getProperties().get('class').getProperties()
-					println(mapProperties)
-					def store = ''
-					mapProperties.each{
-						println(it.key)
-						println(it.value)
-					}
+					def jsonOutput = new JsonOutput()
+			        def result = jsonOutput.toJson(params)
+			        println(result)
 					
                 }
             }
