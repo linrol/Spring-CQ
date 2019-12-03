@@ -29,7 +29,13 @@ pipeline {
 					remote.allowAnyHosts = true
 					server = remote
 					def mapProperties = params.getProperties()
-					println(mapProperties)
+					def store = ''
+					map.each{entry -> {
+						println(entry.key)
+						println(entry.value)
+						}
+					}
+					
                 }
             }
         }
