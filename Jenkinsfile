@@ -28,10 +28,9 @@ pipeline {
 					remote.password = '19941208'
 					remote.allowAnyHosts = true
 					server = remote
-					def jsonOutput = new JsonOutput()
-			        def result = jsonOutput.toJson(params)
-			        println(result)
-					
+					//获取到的是Map对象
+			        def map = jsonSlurper.parseText('{"id":1,"name":"Thinking in Java"}')
+			        println(map)
                 }
             }
         }
