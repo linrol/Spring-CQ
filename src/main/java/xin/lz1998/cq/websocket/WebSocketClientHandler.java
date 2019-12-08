@@ -27,17 +27,18 @@ public class WebSocketClientHandler extends WebSocketClient {
 		 Qlight robot = Global.qlightRobots.get(qlightSelfId);
 		 robot.setSelfId(qlightSelfId);
 		 robot.setRobotWebSocketClient(this);
+		 LOGGER.info("{} WebSocketClient open success....", qlightSelfId);
 	 }
 
 	 @Override
 	 public void onClose(int arg0, String arg1, boolean arg2) {
-		 LOGGER.info("------ MyWebSocket onClose ------{}",arg1);
 		 Global.robots.remove(qlightSelfId);
+		 LOGGER.info("{} WebSocketClient close success....", qlightSelfId);
 	 }
 
 	 @Override
 	 public void onError(Exception arg0) {
-		 LOGGER.info("------ MyWebSocket onError ------{}",arg0);
+		 LOGGER.info("------ WebSocketClient onError ------{}",arg0);
 	 }
 
 	 @Override

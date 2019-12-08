@@ -10,11 +10,13 @@ public class WebSocketClientListener implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		WebSocketClientHandler webSocketClient = new WebSocketClientHandler(1706860030l,new URI("ws://aliyun.alinkeji.com:49632/"));
-        webSocketClient.connect();
-        
-        WebSocketClientHandler webSocketClient2 = new WebSocketClientHandler(1096471489l,new URI("ws://aliyun.alinkeji.com:49631/"));
-        webSocketClient2.connect();
+		
+        WebSocketClientHandler webSocketClientm = new WebSocketClientHandler(2097736476l,new URI("ws://aliyun.alinkeji.com:49631/"));
+        webSocketClientm.connect();
+		
+		WebSocketClientHandler webSocketClientf = new WebSocketClientHandler(1706860030l,new URI("ws://aliyun.alinkeji.com:49632/"));
+        webSocketClientf.connect();
+
 	}
 
 }
