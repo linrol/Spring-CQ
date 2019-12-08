@@ -21,6 +21,7 @@ import xin.lz1998.cq.plugin.config.CommandEnum;
 import xin.lz1998.cq.plugin.config.CommandPlugin;
 import xin.lz1998.cq.robot.CQPlugin;
 import xin.lz1998.cq.robot.CoolQ;
+import xin.lz1998.cq.robot.qlight.Qlight;
 
 /**
  * 转发插件
@@ -86,12 +87,40 @@ public class ForwardPlugin extends CQPlugin {
     		}else {
     			Global.robots.get(779721310l).sendGroupMsg(groupId, msg, false);
     		}
-    		//cq.sendGroupMsg(groupId, msg, false);
     	}
         return MESSAGE_IGNORE; // 继续执行下一个插件
         // return MESSAGE_BLOCK; // 不执行下一个插件
     }
     
+    public int onGroupMessage(Qlight qlight,JSONObject jsonData) {
+    	String group_id = jsonData.getJSONObject("params").getString("group");
+    	String message = jsonData.getJSONObject("params").getString("content");
+    	logger.info("QQ:{}收到群:{}消息", qlight.getSelfId(), group_id);
+    	List<Long> monitorGrouplist = ((Map<Long,List<Long>>)CommandPlugin.config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand())).get(qlight.getSelfId());
+    	String msg = filterMsg(message);
+    	//if(!monitorGrouplist.contains(group_id) || !monitorUserMap.get(String.valueOf(cq.getSelfId())).contains(String.valueOf(event.getUserId()))) {
+    	if(monitorGrouplist == null || !monitorGrouplist.contains(Long.valueOf(group_id))) {
+    		return MESSAGE_IGNORE;
+    	}
+    	if(msgStack.containLike(StringUtil.getChineseString(msg), 0.8f)) {
+    		logger.info("消息[{}]大于相似因子0.8，放弃本次转发", StringUtil.getChineseString(msg));
+    		return MESSAGE_IGNORE;
+    	}
+    	msgStack.push(StringUtil.getChineseString(msg));
+    	ImageUtil.downloadImage(message);
+    	List<Long> forwardGrouplist = (List<Long>) CommandPlugin.config.get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
+    	String sourceTkl = getSourceTkl(msg);
+    	for(Long groupId:forwardGrouplist) {
+    		if(StringUtils.isNotBlank(sourceTkl)) {
+    			String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(groupId)));
+    			logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
+    			Global.qlightRobots.get(1706860030l).sendGroupMsg(String.valueOf(groupId), msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")));
+    		}else {
+    			Global.qlightRobots.get(1706860030l).sendGroupMsg(String.valueOf(groupId), msg);
+    		}
+    	}
+        return MESSAGE_IGNORE; // 继续执行下一个插件
+    }
     
     private static String getChangeTklBy21ds(String sourceTkl,String pid) {
     	String url = "http://api.web.21ds.cn/taoke/doItemHighCommissionPromotionLinkByTpwd?apkey=%s&tpwdcode=%s&pid=%s&tbname=%s&tpwd=1&extsearch=1";

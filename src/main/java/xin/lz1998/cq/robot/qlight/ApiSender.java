@@ -28,8 +28,8 @@ class ApiSender extends Thread {
 
     void onReceiveJson(JSONObject responseJSON) {
     	JSONObject response = new JSONObject();
-    	response.put("status", "true");
-    	response.put("retcode", "ok");
+    	response.put("status", "ok");
+    	response.put("retcode", 0);
     	response.put("data", responseJSON);
         this.responseJSON = response;
         synchronized (this) {

@@ -8,9 +8,10 @@ import xin.lz1998.cq.event.meta.CQHeartBeatEvent;
 import xin.lz1998.cq.event.notice.*;
 import xin.lz1998.cq.event.request.CQFriendRequestEvent;
 import xin.lz1998.cq.event.request.CQGroupRequestEvent;
+import xin.lz1998.cq.robot.qlight.QlightPlugin;
 
 @Component
-public class CQPlugin {
+public class CQPlugin extends QlightPlugin {
     public static final int MESSAGE_BLOCK = 1;
     public static final int MESSAGE_IGNORE = 0;
 

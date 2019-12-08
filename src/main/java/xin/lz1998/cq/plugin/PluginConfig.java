@@ -6,7 +6,6 @@ import java.util.List;
 import xin.lz1998.cq.plugin.config.CommandPlugin;
 import xin.lz1998.cq.plugin.forward.ForwardPlugin;
 import xin.lz1998.cq.plugin.log.LogPlugin;
-import xin.lz1998.cq.plugin.log.QlightLogPlugin;
 import xin.lz1998.cq.plugin.status.StatusPlugin;
 import xin.lz1998.cq.robot.CQPlugin;
 import xin.lz1998.cq.robot.qlight.QlightPlugin;
@@ -23,7 +22,7 @@ public class PluginConfig {
         //pluginList.add(new PrefixPlugin()); // 前缀处理插件
         pluginList.add(new ForwardPlugin()); // 转发插件
         
-        qlightPluginList.add(new QlightLogPlugin());
+        qlightPluginList.add(new ForwardPlugin());
     }
 
 }
