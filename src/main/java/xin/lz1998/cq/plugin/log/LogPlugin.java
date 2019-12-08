@@ -37,7 +37,7 @@ public class LogPlugin extends CQPlugin {
                 .userId(event.getUserId())
                 .content(event.getMessage())
                 .build();
-        //logger.info("EVENT self:{} type:{} groupId:{} userId:{} content:{}", myLog.getSelfId(), myLog.getType(), myLog.getGroupId(), myLog.getUserId(), myLog.getContent());
+        logger.debug("EVENT self:{} type:{} groupId:{} userId:{} content:{}", myLog.getSelfId(), myLog.getType(), myLog.getGroupId(), myLog.getUserId(), myLog.getContent());
         return MESSAGE_IGNORE;
     }
 
@@ -50,7 +50,7 @@ public class LogPlugin extends CQPlugin {
                 .userId(event.getUserId())
                 .content(event.getMessage())
                 .build();
-        //logger.info("EVENT self:{} type:{} groupId:{} userId:{} content:{}", myLog.getSelfId(), myLog.getType(), myLog.getGroupId(), myLog.getUserId(), myLog.getContent());
+        logger.debug("EVENT self:{} type:{} groupId:{} userId:{} content:{}", myLog.getSelfId(), myLog.getType(), myLog.getGroupId(), myLog.getUserId(), myLog.getContent());
 
 
         return MESSAGE_IGNORE;
@@ -65,7 +65,7 @@ public class LogPlugin extends CQPlugin {
                 .userId(event.getUserId())
                 .content(event.getFile().getName())
                 .build();
-        //logger.info("EVENT self:{} type:{} groupId:{} userId:{} content:{}", myLog.getSelfId(), myLog.getType(), myLog.getGroupId(), myLog.getUserId(), myLog.getContent());
+        logger.debug("EVENT self:{} type:{} groupId:{} userId:{} content:{}", myLog.getSelfId(), myLog.getType(), myLog.getGroupId(), myLog.getUserId(), myLog.getContent());
 
 
         return MESSAGE_IGNORE;
@@ -79,7 +79,7 @@ public class LogPlugin extends CQPlugin {
                 .groupId(event.getGroupId())
                 .userId(event.getUserId())
                 .build();
-        //logger.info("EVENT self:{} type:{} groupId:{} userId:{}", myLog.getSelfId(), myLog.getType(), myLog.getGroupId(), myLog.getUserId());
+        logger.debug("EVENT self:{} type:{} groupId:{} userId:{}", myLog.getSelfId(), myLog.getType(), myLog.getGroupId(), myLog.getUserId());
 
 
         return MESSAGE_IGNORE;
@@ -94,7 +94,7 @@ public class LogPlugin extends CQPlugin {
                 .userId(event.getUserId())
                 .operatorId(event.getOperatorId())
                 .build();
-        //logger.info("EVENT self:{} type:{} groupId:{} userId:{} operatorId:{}", myLog.getSelfId(), myLog.getType(), myLog.getGroupId(), myLog.getUserId(), myLog.getOperatorId());
+        logger.debug("EVENT self:{} type:{} groupId:{} userId:{} operatorId:{}", myLog.getSelfId(), myLog.getType(), myLog.getGroupId(), myLog.getUserId(), myLog.getOperatorId());
 
 
         return MESSAGE_IGNORE;
@@ -109,7 +109,7 @@ public class LogPlugin extends CQPlugin {
                 .userId(event.getUserId())
                 .operatorId(event.getOperatorId())
                 .build();
-        //logger.info("EVENT self:{} type:{} groupId:{} userId:{} operatorId:{}", myLog.getSelfId(), myLog.getType(), myLog.getGroupId(), myLog.getUserId(), myLog.getOperatorId());
+        logger.debug("EVENT self:{} type:{} groupId:{} userId:{} operatorId:{}", myLog.getSelfId(), myLog.getType(), myLog.getGroupId(), myLog.getUserId(), myLog.getOperatorId());
 
         return MESSAGE_IGNORE;
     }
@@ -121,7 +121,7 @@ public class LogPlugin extends CQPlugin {
                 .type("event_" + event.getPostType() + "_" + event.getNoticeType())
                 .userId(event.getUserId())
                 .build();
-        //logger.info("EVENT self:{} type:{} userId:{}", myLog.getSelfId(), myLog.getType(), myLog.getUserId());
+        logger.debug("EVENT self:{} type:{} userId:{}", myLog.getSelfId(), myLog.getType(), myLog.getUserId());
 
 
         return MESSAGE_IGNORE;
@@ -135,7 +135,7 @@ public class LogPlugin extends CQPlugin {
                 .userId(event.getUserId())
                 .content(event.getComment())
                 .build();
-        //logger.info("EVENT self:{} type:{} userId:{} content:{}", myLog.getSelfId(), myLog.getType(), myLog.getUserId(), myLog.getContent());
+        logger.debug("EVENT self:{} type:{} userId:{} content:{}", myLog.getSelfId(), myLog.getType(), myLog.getUserId(), myLog.getContent());
 
         return MESSAGE_IGNORE;
     }
@@ -149,7 +149,7 @@ public class LogPlugin extends CQPlugin {
                 .userId(event.getUserId())
                 .content(event.getComment())
                 .build();
-        //logger.info("EVENT self:{} type:{} groupId:{} userId:{} content:{}", myLog.getSelfId(), myLog.getType(), myLog.getGroupId(), myLog.getUserId(), myLog.getContent());
+        logger.debug("EVENT self:{} type:{} groupId:{} userId:{} content:{}", myLog.getSelfId(), myLog.getType(), myLog.getGroupId(), myLog.getUserId(), myLog.getContent());
 
         return MESSAGE_IGNORE;
     }
