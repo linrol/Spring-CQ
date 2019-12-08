@@ -114,9 +114,9 @@ public class ForwardPlugin extends CQPlugin {
     		if(StringUtils.isNotBlank(sourceTkl)) {
     			String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(groupId)));
     			logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
-    			//Global.qlightRobots.get(1706860030l).sendGroupMsg(String.valueOf(groupId), msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")));
+    			Global.qlightRobots.get(1706860030l).sendGroupMsg(String.valueOf(groupId), msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")));
     		}else {
-    			//Global.qlightRobots.get(1706860030l).sendGroupMsg(String.valueOf(groupId), msg);
+    			Global.qlightRobots.get(1706860030l).sendGroupMsg(String.valueOf(groupId), msg);
     		}
     	}
         return MESSAGE_IGNORE; // 继续执行下一个插件
