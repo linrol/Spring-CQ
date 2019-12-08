@@ -45,7 +45,10 @@ public class CommandPlugin extends CQPlugin {
 		forwardGroupList.add(198896490l);
 		config.put(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand(), forwardGroupList);
 		
+		filterMap.put("\n自助优惠券商城\n查券找好物点击~~~\n", "");
 		filterMap.put("\r\n自助优惠券商城\r\n查券找好物点击~~~\r\n", "");
+		filterMap.put("\\r\\n自助优惠券商城\\r\\n查券找好物点击~~~\\r\\n", "");
+		filterMap.put("\\\r\\\n自助优惠券商城\\\r\\\n查券找好物点击~~~\\\r\\\n", "");
 		filterMap.put("\\\\r\\\\n自助优惠券商城\\\\r\\\\n查券找好物点击~~~\\\\r\\\\n", "");
 		filterMap.put("http://kpeyfty.asia", "");
     }
