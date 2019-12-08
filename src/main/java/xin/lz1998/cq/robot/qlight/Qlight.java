@@ -12,7 +12,7 @@ import com.alibaba.fastjson.TypeReference;
 import lombok.Getter;
 import lombok.Setter;
 import xin.lz1998.cq.retdata.ApiData;
-import xin.lz1998.cq.websocket.client.RobotWebSocketClient;
+import xin.lz1998.cq.websocket.WebSocketClientHandler;
 
 public class Qlight {
 
@@ -22,7 +22,7 @@ public class Qlight {
 
     @Getter
     @Setter
-    private RobotWebSocketClient robotWebSocketClient;
+    private WebSocketClientHandler robotWebSocketClient;
 
 
     private Logger logger = LoggerFactory.getLogger(getClass());

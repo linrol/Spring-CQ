@@ -5,13 +5,13 @@ import java.io.IOException;
 import com.alibaba.fastjson.JSONObject;
 
 import xin.lz1998.cq.robot.RobotConfig;
-import xin.lz1998.cq.websocket.client.RobotWebSocketClient;
+import xin.lz1998.cq.websocket.WebSocketClientHandler;
 
 class ApiSender extends Thread {
-    private final RobotWebSocketClient robotWebSocketClient;
+    private final WebSocketClientHandler robotWebSocketClient;
     private JSONObject responseJSON;
 
-    ApiSender(RobotWebSocketClient robotWebSocketClient) {
+    ApiSender(WebSocketClientHandler robotWebSocketClient) {
         this.robotWebSocketClient = robotWebSocketClient;
     }
 
