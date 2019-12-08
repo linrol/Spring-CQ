@@ -2,6 +2,7 @@ package xin.lz1998.cq.plugin.config;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class CommandPlugin extends CQPlugin {
 	
 	public static Map<String,Object> config = new HashMap<String,Object>();
 	
-	public static Map<String,String> filterMap = new HashMap<String,String>();
+	public static Map<String,String> filterMap = new LinkedHashMap<String,String>();
 	
 	static {
 		List<Long> lcontrollerList = new ArrayList<Long>();
@@ -44,8 +45,8 @@ public class CommandPlugin extends CQPlugin {
 		forwardGroupList.add(198896490l);
 		config.put(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand(), forwardGroupList);
 		
-		filterMap.put("\\\\\\\\r\\\\\\\\n自助优惠券商城\\\\\\\\r\\\\\\\\n查券找好物点击~~~\\\\\\\\r\\\\\\\\n", "");
 		filterMap.put("\r\n自助优惠券商城\r\n查券找好物点击~~~\r\n", "");
+		filterMap.put("\\\\r\\\\n自助优惠券商城\\\\r\\\\n查券找好物点击~~~\\\\r\\\\n", "");
 		filterMap.put("http://kpeyfty.asia", "");
     }
 	
