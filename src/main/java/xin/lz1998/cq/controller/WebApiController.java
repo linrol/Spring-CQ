@@ -28,6 +28,12 @@ public class WebApiController {
         Global.robots.get(self_id).sendGroupMsg(group_id,message,auto_escape);
         return "ok";
     }
+    
+    @RequestMapping("/send_group_msg_qlight")
+    public String sendGroupMsgQlight(long self_id, long group_id, String message) throws IOException,  InterruptedException {
+        Global.qlightRobots.get(self_id).sendGroupMsg(String.valueOf(group_id),message);
+        return "ok";
+    }
 
     @RequestMapping("/send_discuss_msg")
     public String sendDiscussMsg(long self_id, long discuss_id, String message, Boolean auto_escape) throws IOException,  InterruptedException {
