@@ -396,11 +396,8 @@ public class HttpUtil {
 	 * 
 	 * HTTP协议POST请求方法
 	 */
-	public static String httpMethodPost(String url,
-                                        TreeMap<String, String> paramsMap, String gb) {
-		if (null == gb || "".equals(gb)) {
-			gb = "utf-8";
-		}
+	public static String httpMethodPost(String url,TreeMap<String, String> paramsMap) {
+		String gb = "utf-8";
 		String params = null;
 		if (null != paramsMap) {
 			params = getParamStr(paramsMap);

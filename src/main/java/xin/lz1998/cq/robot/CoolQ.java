@@ -1,5 +1,6 @@
 package xin.lz1998.cq.robot;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import lombok.Getter;
@@ -9,10 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.WebSocketSession;
 import xin.lz1998.cq.entity.CQGroupAnonymous;
 import xin.lz1998.cq.entity.CQStatus;
+import xin.lz1998.cq.plugin.forward.HttpUtil;
 import xin.lz1998.cq.retdata.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class CoolQ {
 
@@ -99,10 +102,13 @@ public class CoolQ {
         params.put("group_id", group_id);
         params.put("message", message);
         params.put("auto_escape", auto_escape);
-
-
-        ApiData<MessageData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<MessageData>>() {
-        });
+        
+        @SuppressWarnings("unchecked")
+		TreeMap<String, String> paramsMap = JSON.parseObject(params.toString(),TreeMap.class);
+    	ApiData<MessageData> result = JSON.parseObject(HttpUtil.httpMethodPost("http://www.alinkeji.com:5700/" + action.getUrl(), paramsMap)).toJavaObject(new TypeReference<ApiData<MessageData>>() {
+    	});
+    	//ApiData<MessageData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<MessageData>>() {
+        //});
         return result;
     }
 
