@@ -91,10 +91,15 @@ public class ForwardPlugin extends CQPlugin {
     	String group_id = jsonData.getJSONObject("params").getString("group");
     	String message = jsonData.getJSONObject("params").getString("content");
     	logger.info("QQ:{}收到群:{}消息", qlight.getSelfId(), group_id);
-    	List<Long> monitorGrouplist = ((Map<Long,List<Long>>)CommandPlugin.config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand())).get(qlight.getSelfId());
+    	Map<Long,List<Long>> monitorMap = (Map<Long, List<Long>>) CommandPlugin.config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand());
+    	if(monitorMap == null || !monitorMap.containsKey(qlight.getSelfId())) {
+    		logger.error("QQ:{}未设置监听的配置,结束执行", qlight.getSelfId());
+    		return MESSAGE_IGNORE;
+    	}
+    	List<Long> monitorGrouplist = monitorMap.get(qlight.getSelfId());
     	String msg = filterMsg(message);
-    	//if(!monitorGrouplist.contains(group_id) || !monitorUserMap.get(String.valueOf(cq.getSelfId())).contains(String.valueOf(event.getUserId()))) {
     	if(monitorGrouplist == null || !monitorGrouplist.contains(Long.valueOf(group_id))) {
+    		logger.error("QQ:{}设置的监听群列表中不包含群:{}的配置,结束执行", qlight.getSelfId(), group_id);
     		return MESSAGE_IGNORE;
     	}
     	if(msgStack.containLike(StringUtil.getChineseString(msg), 0.8f)) {
