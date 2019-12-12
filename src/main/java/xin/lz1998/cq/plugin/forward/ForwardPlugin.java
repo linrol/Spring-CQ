@@ -41,21 +41,6 @@ public class ForwardPlugin extends CQPlugin {
 		pidMap.put("198896490", "mm_109302870_1090250211_109781850271");
     }
 	
-	public static String getSourceTkl(String msg) {
-		if(msg.contains("￥")) {
-    		String sourceTkl = msg.substring(msg.indexOf("￥"),msg.lastIndexOf("￥") + 1);
-    		return sourceTkl;
-    	}
-		List<String> list = new ArrayList<String>();
-		Pattern p = Pattern.compile("(\\()([0-9a-zA-Z\\.\\/\\=])*(\\))");
-		Matcher m = p.matcher(msg);
-		while (m.find()) {
-			list.add(m.group(0).substring(1, m.group().length() - 1));
-		}
-		return list.size() > 0 ? "￥" + list.get(0) + "￥":"";
-	}
-	
-    
     @Override
     public int onGroupMessage(CoolQ cq, CQGroupMessageEvent event) {
     	logger.info("QQ:{}收到群:{}消息", cq.getSelfId(), event.getGroupId());
@@ -87,6 +72,7 @@ public class ForwardPlugin extends CQPlugin {
         // return MESSAGE_BLOCK; // 不执行下一个插件
     }
     
+    @Override
     public int onGroupMessage(Qlight qlight,JSONObject jsonData) {
     	String group_id = jsonData.getJSONObject("params").getString("group");
     	String message = jsonData.getJSONObject("params").getString("content");
@@ -121,6 +107,20 @@ public class ForwardPlugin extends CQPlugin {
     	}
         return MESSAGE_IGNORE; // 继续执行下一个插件
     }
+    
+    public static String getSourceTkl(String msg) {
+		if(msg.contains("￥")) {
+    		String sourceTkl = msg.substring(msg.indexOf("￥"),msg.lastIndexOf("￥") + 1);
+    		return sourceTkl;
+    	}
+		List<String> list = new ArrayList<String>();
+		Pattern p = Pattern.compile("(\\()([0-9a-zA-Z\\.\\/\\=])*(\\))");
+		Matcher m = p.matcher(msg);
+		while (m.find()) {
+			list.add(m.group(0).substring(1, m.group().length() - 1));
+		}
+		return list.size() > 0 ? "￥" + list.get(0) + "￥":"";
+	}
     
     private static String getChangeTklBy21ds(String sourceTkl,String pid) {
     	String url = "http://api.web.21ds.cn/taoke/doItemHighCommissionPromotionLinkByTpwd?apkey=%s&tpwdcode=%s&pid=%s&tbname=%s&tpwd=1&extsearch=1";
