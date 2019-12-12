@@ -6,7 +6,7 @@ version: '2'
 
 services:
   coolq-pro:
-    image: richardchien/cqhttp
+    image: richardchien/cqhttp:latest
     restart: always
     container_name: coolq-pro
     volumes:
@@ -22,7 +22,7 @@ services:
     ports:
       - ${VNC_PORT}:9000
   coolq-pro-slave:
-    image: richardchien/cqhttp
+    image: richardchien/cqhttp:latest
     restart: always
     container_name: coolq-pro-slave
     volumes:
@@ -38,7 +38,7 @@ services:
     ports:
       - ${VNC_PORT}:9000
   coolq-air:
-    image: richardchien/cqhttp
+    image: richardchien/cqhttp:latest
     restart: always
     container_name: coolq-air
     volumes:
@@ -54,7 +54,7 @@ services:
     ports:
       - ${VNC_PORT}:9000
   coolq-air-slave:
-    image: richardchien/cqhttp
+    image: richardchien/cqhttp:latest
     restart: always
     container_name: coolq-air-slave
     volumes:
