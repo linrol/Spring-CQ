@@ -2,7 +2,6 @@ package xin.lz1998.cq.plugin.forward;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,15 +34,11 @@ public class ForwardPlugin extends CQPlugin {
 	
 	public static Map<String,String> pidMap = new HashMap<String,String>();
 	
-	public static Map<String,List<String>> monitorUserMap = new HashMap<String,List<String>>();
-	
 	private static ForyouStack<String> msgStack = new ForyouStack<String>(20);
 	
 	static {
 		pidMap.put("910092655", "mm_109302870_1080150328_109752250051");
 		pidMap.put("198896490", "mm_109302870_1090250211_109781850271");
-		monitorUserMap.put("1706860030", Arrays.asList("3317628455","2267793115","1096471489"));
-		monitorUserMap.put("779721310", Arrays.asList("1012230561","1256647017","1071893649"));
     }
 	
 	public static String getSourceTkl(String msg) {
@@ -114,9 +109,9 @@ public class ForwardPlugin extends CQPlugin {
     		if(StringUtils.isNotBlank(sourceTkl)) {
     			String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(groupId)));
     			logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
-    			Global.qlightRobots.get(1706860030l).sendGroupMsg(String.valueOf(groupId), msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")));
+    			Global.qlightRobots.get(779721310l).sendGroupMsg(String.valueOf(groupId), msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")));
     		}else {
-    			Global.qlightRobots.get(1706860030l).sendGroupMsg(String.valueOf(groupId), msg);
+    			Global.qlightRobots.get(779721310l).sendGroupMsg(String.valueOf(groupId), msg);
     		}
     	}
         return MESSAGE_IGNORE; // 继续执行下一个插件

@@ -16,6 +16,9 @@ public class WebSocketClientListener implements CommandLineRunner {
 		
 		WebSocketClientHandler webSocketClientf = new WebSocketClientHandler(1706860030l,new URI("ws://aliyun.alinkeji.com:49632/"));
         webSocketClientf.connect();
+        
+        WebSocketClientHandler webSocketClientf2 = new WebSocketClientHandler(779721310l,new URI("ws://aliyun.alinkeji.com:49633/"));
+        webSocketClientf2.connect();
 
 	}
 
