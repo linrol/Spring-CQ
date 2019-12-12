@@ -99,9 +99,9 @@ public class CoolQ {
         ApiEnum action = ApiEnum.SEND_GROUP_MSG;
 
         JSONObject params = new JSONObject();
-        params.put("group_id", group_id);
+        params.put("group_id", String.valueOf(group_id));
         params.put("message", message);
-        params.put("auto_escape", auto_escape);
+        params.put("auto_escape", String.valueOf(auto_escape));
         
         @SuppressWarnings("unchecked")
 		TreeMap<String, String> paramsMap = JSON.parseObject(params.toString(),TreeMap.class);
