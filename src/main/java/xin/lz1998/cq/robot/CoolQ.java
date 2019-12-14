@@ -105,15 +105,9 @@ public class CoolQ {
     		ApiEnum action = ApiEnum.SEND_GROUP_MSG;
 
             JSONObject params = new JSONObject();
-            params.put("group_id", String.valueOf(group_id));
-            params.put("message", URLEncoder.encode(message,"UTF-8"));
-            params.put("auto_escape", String.valueOf(auto_escape));
-            
-            @SuppressWarnings("unchecked")
-    		/*TreeMap<String, String> paramsMap = JSON.parseObject(params.toString(),TreeMap.class);
-        	ApiData<MessageData> result = JSON.parseObject(HttpUtil.httpMethodPost("http://www.alinkeji.com:5700/" + action.getUrl(), paramsMap)).toJavaObject(new TypeReference<ApiData<MessageData>>() {
-        	});
-        	logger.info("request params:" + paramsMap.toString() + ",response:" + result.toString());*/
+            params.put("group_id", group_id);
+            params.put("message", message);
+            params.put("auto_escape", auto_escape);
         	ApiData<MessageData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<MessageData>>() {
             });
             return result;
