@@ -66,7 +66,6 @@ pipeline {
 		stage('docker coolq run'){
 			steps {
             	script {
-            		sleep 10
             		sh "scp -r ./docker-compose.yaml root@${DEPLOY_HOST}:/root/web/app/coolq/"
             		params.each{
 						def search_params = "\${${it.key}}" 
