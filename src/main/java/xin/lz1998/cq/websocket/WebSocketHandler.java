@@ -20,7 +20,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
         long xSelfId = Long.valueOf(session.getHandshakeHeaders().get("x-self-id").get(0));
         logger.info("{} received event notice....", xSelfId);
         CoolQ robot = Global.robots.get(xSelfId);
-        robot.setBotSession(session);
         JSONObject recvJson=JSON.parseObject(message.getPayload());
         if (recvJson.containsKey("echo")) {
             // 带有echo说明是调用api的返回数据
