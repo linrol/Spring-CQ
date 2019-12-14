@@ -110,12 +110,12 @@ public class CoolQ {
             params.put("auto_escape", String.valueOf(auto_escape));
             
             @SuppressWarnings("unchecked")
-    		TreeMap<String, String> paramsMap = JSON.parseObject(params.toString(),TreeMap.class);
+    		/*TreeMap<String, String> paramsMap = JSON.parseObject(params.toString(),TreeMap.class);
         	ApiData<MessageData> result = JSON.parseObject(HttpUtil.httpMethodPost("http://www.alinkeji.com:5700/" + action.getUrl(), paramsMap)).toJavaObject(new TypeReference<ApiData<MessageData>>() {
         	});
-        	logger.info("request params:" + paramsMap.toString() + ",response:" + result.toString());
-        	//ApiData<MessageData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<MessageData>>() {
-            //});
+        	logger.info("request params:" + paramsMap.toString() + ",response:" + result.toString());*/
+        	ApiData<MessageData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<MessageData>>() {
+            });
             return result;
 		} catch (Exception e) {
 			e.printStackTrace();
