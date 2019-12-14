@@ -18,8 +18,8 @@ services:
       - FORCE_ENV=true
       - CQHTTP_USE_HTTP=true
       - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
-      - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
+      - CQHTTP_WS_REVERSE_API_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/api/
+      - CQHTTP_WS_REVERSE_EVENT_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/event/
       - CQHTTP_LOG_LEVEL=debug
       - CQHTTP_SHOW_LOG_CONSOLE=true
     ports:
@@ -38,8 +38,8 @@ services:
       - FORCE_ENV=true
       - CQHTTP_USE_HTTP=true
       - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
-      - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
+      - CQHTTP_WS_REVERSE_API_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/api/
+      - CQHTTP_WS_REVERSE_EVENT_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/event/
       - CQHTTP_LOG_LEVEL=debug
       - CQHTTP_SHOW_LOG_CONSOLE=true
     ports:
@@ -57,8 +57,8 @@ services:
       - FORCE_ENV=true
       - CQHTTP_USE_HTTP=true
       - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
-      - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
+      - CQHTTP_WS_REVERSE_API_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/api/
+      - CQHTTP_WS_REVERSE_EVENT_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/event/
       - CQHTTP_LOG_LEVEL=debug
       - CQHTTP_SHOW_LOG_CONSOLE=true
     ports:
@@ -76,8 +76,8 @@ services:
       - FORCE_ENV=true
       - CQHTTP_USE_HTTP=true
       - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
-      - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
+      - CQHTTP_WS_REVERSE_API_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/api/
+      - CQHTTP_WS_REVERSE_EVENT_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/event/
       - CQHTTP_LOG_LEVEL=debug
       - CQHTTP_SHOW_LOG_CONSOLE=true
     ports:

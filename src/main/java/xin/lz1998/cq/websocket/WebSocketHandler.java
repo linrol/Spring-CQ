@@ -2,6 +2,10 @@ package xin.lz1998.cq.websocket;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+
+import lombok.Getter;
+import lombok.Setter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
@@ -14,30 +18,41 @@ import xin.lz1998.cq.robot.CoolQ;
 
 public class WebSocketHandler extends TextWebSocketHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
+    
+    @Getter
+    @Setter
+    private String socketType;
+    
+    public WebSocketHandler(String socketType) {
+    	this.socketType = socketType;
+    }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) {
         long xSelfId = Long.valueOf(session.getHandshakeHeaders().get("x-self-id").get(0));
-        logger.info("{} received event notice....", xSelfId);
+        logger.info("{} received {} websocket handle....", xSelfId, this.getSocketType());
         CoolQ robot = Global.robots.get(xSelfId);
         JSONObject recvJson=JSON.parseObject(message.getPayload());
-        if (recvJson.containsKey("echo")) {
-            // 带有echo说明是调用api的返回数据
-            robot.onReceiveApiMessage(recvJson);
-        }else {
-            // 不带有echo是事件上报
-            robot.onReceiveEventMessage(recvJson);
+        if("api".equals(this.getSocketType())) {
+        	robot.onReceiveApiMessage(recvJson);
+        }else if("event".equals(this.getSocketType())) {
+        	robot.setBotEventSession(session);
+        	robot.onReceiveEventMessage(recvJson);
         }
     }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         long xSelfId = Long.valueOf(session.getHandshakeHeaders().get("x-self-id").get(0));
-        logger.info("{} connected", xSelfId);
+        logger.info("{} {} connected", xSelfId, this.getSocketType());
         Global.robots.putIfAbsent(xSelfId, new CoolQ(xSelfId));
         CoolQ robot = Global.robots.get(xSelfId);
         robot.setSelfId(xSelfId);
-        robot.setBotSession(session);
+        if("api".equals(this.getSocketType())) {
+        	robot.setBotApiSession(session);
+        }else if("event".equals(this.getSocketType())) {
+        	robot.setBotEventSession(session);
+        }
     }
 
     @Override

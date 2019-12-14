@@ -24,10 +24,14 @@ public class CoolQ {
     @Getter
     @Setter
     private long selfId;
+    
+    @Getter
+    @Setter
+    private WebSocketSession botApiSession;
 
     @Getter
     @Setter
-    private WebSocketSession botSession;
+    private WebSocketSession botEventSession;
 
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -51,7 +55,7 @@ public class CoolQ {
     private JSONObject sendApiMessage(ApiEnum action, JSONObject params) {
         JSONObject apiJSON = constructApiJSON(action, params);
         String echo = apiJSON.getString("echo");
-        ApiSender apiSender = new ApiSender(botSession);
+        ApiSender apiSender = new ApiSender(botApiSession);
         apiCallbackMap.put(echo, apiSender);
         logger.info("{} SEND API   {} {}", selfId, action.getDesc(), params);
         JSONObject retJson;
