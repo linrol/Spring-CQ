@@ -19,6 +19,8 @@ services:
       - CQHTTP_USE_WS_REVERSE=true
       - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
       - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
+      - CQHTTP_LOG_LEVEL=debug
+      - CQHTTP_SHOW_LOG_CONSOLE=true
     ports:
       - ${VNC_PORT}:9000
       - 5700:5700
@@ -36,6 +38,8 @@ services:
       - CQHTTP_USE_WS_REVERSE=true
       - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
       - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
+      - CQHTTP_LOG_LEVEL=debug
+      - CQHTTP_SHOW_LOG_CONSOLE=true
     ports:
       - ${VNC_PORT}:9000
   coolq-air:
@@ -52,6 +56,8 @@ services:
       - CQHTTP_USE_WS_REVERSE=true
       - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
       - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
+      - CQHTTP_LOG_LEVEL=debug
+      - CQHTTP_SHOW_LOG_CONSOLE=true
     ports:
       - ${VNC_PORT}:9000
   coolq-air-slave:
@@ -68,7 +74,7 @@ services:
       - CQHTTP_USE_WS_REVERSE=true
       - CQHTTP_WS_REVERSE_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/universal/
       - CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true
+      - CQHTTP_LOG_LEVEL=debug
+      - CQHTTP_SHOW_LOG_CONSOLE=true
     ports:
       - ${VNC_PORT}:9000  
-
-
