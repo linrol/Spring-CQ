@@ -59,7 +59,7 @@ public class ForwardPlugin extends CQPlugin {
 			return MESSAGE_IGNORE;
 		}
     	logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
-    	cq.sendGroupMsg(event.getSelfId(), msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")), false);
+    	cq.sendPrivateMsg(event.getSelfId(), msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")), false);
         return MESSAGE_IGNORE; // 继续执行下一个插件
     }
     
