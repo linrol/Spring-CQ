@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import xin.lz1998.cq.Global;
 import xin.lz1998.cq.event.message.CQGroupMessageEvent;
+import xin.lz1998.cq.event.message.CQPrivateMessageEvent;
 import xin.lz1998.cq.plugin.config.CommandEnum;
 import xin.lz1998.cq.plugin.config.CommandPlugin;
 import xin.lz1998.cq.robot.CQPlugin;
@@ -45,20 +46,22 @@ public class ForwardPlugin extends CQPlugin {
 		monitorUserMap.put("779721310", Arrays.asList("1012230561","1256647017","1071893649"));
     }
 	
-	public static String getSourceTkl(String msg) {
-		if(msg.contains("￥")) {
-    		String sourceTkl = msg.substring(msg.indexOf("￥"),msg.lastIndexOf("￥") + 1);
-    		return sourceTkl;
+	public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
+		logger.info("QQ:{}收到好友:{}消息", cq.getSelfId(), event.getSelfId());
+    	String msg = filterMsg(event.getMessage());
+    	ImageUtil.downloadImage(event.getMessage());
+    	String sourceTkl = getSourceTkl(msg);
+    	if(StringUtils.isBlank(sourceTkl)) {
+    		return MESSAGE_IGNORE;
     	}
-		List<String> list = new ArrayList<String>();
-		Pattern p = Pattern.compile("(\\()([0-9a-zA-Z\\.\\/\\=])*(\\))");
-		Matcher m = p.matcher(msg);
-		while (m.find()) {
-			list.add(m.group(0).substring(1, m.group().length() - 1));
+    	String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(910092655l)));
+		if(sourceTkl.equals(newTkl)) {
+			return MESSAGE_IGNORE;
 		}
-		return list.size() > 0 ? "￥" + list.get(0) + "￥":"";
-	}
-	
+    	logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
+    	cq.sendGroupMsg(event.getSelfId(), msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")), false);
+        return MESSAGE_IGNORE; // 继续执行下一个插件
+    }
     
     @Override
     public int onGroupMessage(CoolQ cq, CQGroupMessageEvent event) {
@@ -92,6 +95,19 @@ public class ForwardPlugin extends CQPlugin {
         // return MESSAGE_BLOCK; // 不执行下一个插件
     }
     
+    public static String getSourceTkl(String msg) {
+		if(msg.contains("￥")) {
+    		String sourceTkl = msg.substring(msg.indexOf("￥"),msg.lastIndexOf("￥") + 1);
+    		return sourceTkl;
+    	}
+		List<String> list = new ArrayList<String>();
+		Pattern p = Pattern.compile("(\\()([0-9a-zA-Z\\.\\/\\=])*(\\))");
+		Matcher m = p.matcher(msg);
+		while (m.find()) {
+			list.add(m.group(0).substring(1, m.group().length() - 1));
+		}
+		return list.size() > 0 ? "￥" + list.get(0) + "￥":"";
+	}
     
     private static String getChangeTklBy21ds(String sourceTkl,String pid) {
     	String url = "http://api.web.21ds.cn/taoke/doItemHighCommissionPromotionLinkByTpwd?apkey=%s&tpwdcode=%s&pid=%s&tbname=%s&tpwd=1&extsearch=1";
