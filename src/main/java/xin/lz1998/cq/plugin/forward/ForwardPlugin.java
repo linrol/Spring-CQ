@@ -47,7 +47,7 @@ public class ForwardPlugin extends CQPlugin {
     }
 	
 	public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
-		logger.info("QQ:{}收到好友:{}消息", cq.getSelfId(), event.getSelfId());
+		logger.info("QQ:{}收到好友:{}消息", cq.getSelfId(), event.getUserId());
     	String msg = filterMsg(event.getMessage());
     	ImageUtil.downloadImage(event.getMessage());
     	String sourceTkl = getSourceTkl(msg);
@@ -59,7 +59,7 @@ public class ForwardPlugin extends CQPlugin {
 			return MESSAGE_IGNORE;
 		}
     	logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
-    	cq.sendPrivateMsg(event.getSelfId(), msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")), false);
+    	cq.sendPrivateMsg(event.getUserId(), msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")), false);
         return MESSAGE_IGNORE; // 继续执行下一个插件
     }
     
