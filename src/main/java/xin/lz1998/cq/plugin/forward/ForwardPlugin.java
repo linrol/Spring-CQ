@@ -54,10 +54,10 @@ public class ForwardPlugin extends CQPlugin {
     		return MESSAGE_IGNORE;
     	}
     	String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(910092655l)));
+    	logger.info("tkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
 		if(sourceTkl.equals(newTkl)) {
 			return MESSAGE_IGNORE;
 		}
-    	logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
     	cq.sendPrivateMsg(event.getUserId(), newTkl, false);
         return MESSAGE_IGNORE; // 继续执行下一个插件
     }
@@ -83,7 +83,7 @@ public class ForwardPlugin extends CQPlugin {
     	for(Long groupId:forwardGrouplist) {
     		if(StringUtils.isNotBlank(sourceTkl)) {
     			String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(groupId)));
-    			logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
+    			logger.info("tkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
     			Global.robots.get(779721310l).sendGroupMsg(groupId, msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")), false);
     		}else {
     			Global.robots.get(779721310l).sendGroupMsg(groupId, msg, false);
