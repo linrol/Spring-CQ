@@ -1,7 +1,6 @@
 package xin.lz1998.cq.plugin.forward;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +58,7 @@ public class ForwardPlugin extends CQPlugin {
 			return MESSAGE_IGNORE;
 		}
     	logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
-    	cq.sendPrivateMsg(event.getUserId(), msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")), false);
+    	cq.sendPrivateMsg(event.getUserId(), newTkl, false);
         return MESSAGE_IGNORE; // 继续执行下一个插件
     }
     
@@ -95,18 +94,25 @@ public class ForwardPlugin extends CQPlugin {
         // return MESSAGE_BLOCK; // 不执行下一个插件
     }
     
-    public static String getSourceTkl(String msg) {
-		if(msg.contains("￥")) {
-    		String sourceTkl = msg.substring(msg.indexOf("￥"),msg.lastIndexOf("￥") + 1);
-    		return sourceTkl;
-    	}
-		List<String> list = new ArrayList<String>();
-		Pattern p = Pattern.compile("(\\()([0-9a-zA-Z\\.\\/\\=])*(\\))");
-		Matcher m = p.matcher(msg);
-		while (m.find()) {
-			list.add(m.group(0).substring(1, m.group().length() - 1));
+    public String getSourceTkl(String msg) {
+    	String source = "";
+    	String pattern = "([\\p{Sc}])\\w{8,12}([\\p{Sc}])";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(msg);
+        if (m.find()) {
+        	source =  m.group();
+        	source = source.substring(1,source.length() - 1);
+        	return "￥" + source + "￥";
+        }
+		Pattern p2 = Pattern.compile("(\\()([0-9a-zA-Z\\.\\/\\=])*(\\))");
+		Matcher m2 = p2.matcher(msg);
+		if (m2.find()) {
+			source =  m2.group(0);
+			source = source.substring(1,source.length() - 1);
+			return "￥" + source + "￥";
 		}
-		return list.size() > 0 ? "￥" + list.get(0) + "￥":"";
+		logger.error("待发送内容:{},未匹配到淘口令", msg);
+		return source;
 	}
     
     private static String getChangeTklBy21ds(String sourceTkl,String pid) {
