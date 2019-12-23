@@ -30,7 +30,7 @@ import xin.lz1998.cq.robot.CoolQ;
 @SuppressWarnings("unchecked")
 public class ForwardPlugin extends CQPlugin {
 	
-	private Logger logger = LoggerFactory.getLogger(ForwardPlugin.class);
+	private static Logger logger = LoggerFactory.getLogger(ForwardPlugin.class);
 	
 	public static Map<String,String> pidMap = new HashMap<String,String>();
 	
@@ -94,7 +94,7 @@ public class ForwardPlugin extends CQPlugin {
         // return MESSAGE_BLOCK; // 不执行下一个插件
     }
     
-    public String getSourceTkl(String msg) {
+    public static String getSourceTkl(String msg) {
     	String source = "";
     	String pattern = "([\\p{Sc}])\\w{8,12}([\\p{Sc}])";
         Pattern r = Pattern.compile(pattern);
@@ -122,7 +122,7 @@ public class ForwardPlugin extends CQPlugin {
     	JSONObject jsonResult;
 		try {
 			jsonResult = HttpUtil.sendGet(String.format(url, apKey,sourceTkl,pid,tbname));
-			//logger.info("喵有券接口转换结果：" + jsonResult.toJSONString());
+			logger.info("喵有券接口转换结果：" + jsonResult.toJSONString());
 	    	if(jsonResult.getInteger("code") == 200) {
 	    		return jsonResult.getJSONObject("data").getString("tpwd");
 	    	}
