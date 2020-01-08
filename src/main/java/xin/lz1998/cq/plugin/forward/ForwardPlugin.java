@@ -1,6 +1,7 @@
 package xin.lz1998.cq.plugin.forward;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -49,16 +50,26 @@ public class ForwardPlugin extends CQPlugin {
 		logger.info("QQ:{}收到好友:{}消息", cq.getSelfId(), event.getUserId());
     	String msg = filterMsg(event.getMessage());
     	ImageUtil.downloadImage(event.getMessage());
-    	String sourceTkl = getSourceTkl(msg);
-    	if(StringUtils.isBlank(sourceTkl)) {
+    	List<String> sourceContentList = getSourceContent(msg);
+    	if(sourceContentList.size() < 1) {
     		return MESSAGE_IGNORE;
     	}
-    	String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(910092655l)));
-    	logger.info("tkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
-		if(sourceTkl.equals(newTkl)) {
+    	String newMsg = "";
+    	for(String sourceContent:sourceContentList) {
+    		if(!sourceContent.contains(".jd.com")) {
+    			String newContent = getChangeTklBy21ds("￥" + sourceContent + "￥",pidMap.get(String.valueOf(910092655l)));
+    			logger.info("source tkl:" + sourceContent + "-----new tkl:" + newContent.replaceAll("￥", ""));
+    			newMsg += newContent + "\n";
+    		}else {
+    			String newContent = getJdShortUrl(sourceContent);
+    			logger.info("source url:" + sourceContent + "-----new url:" + newContent.replaceAll("￥", ""));
+    			newMsg += newContent + "\n";
+    		}
+    	}
+		if(StringUtils.isBlank(newMsg)) {
 			return MESSAGE_IGNORE;
 		}
-    	cq.sendPrivateMsg(event.getUserId(), newTkl, false);
+    	cq.sendPrivateMsg(event.getUserId(), newMsg, false);
         return MESSAGE_IGNORE; // 继续执行下一个插件
     }
     
@@ -79,41 +90,59 @@ public class ForwardPlugin extends CQPlugin {
     	msgStack.push(StringUtil.getChineseString(msg));
     	ImageUtil.downloadImage(event.getMessage());
     	List<Long> forwardGrouplist = (List<Long>) CommandPlugin.config.get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
-    	String sourceTkl = getSourceTkl(msg);
-    	for(Long groupId:forwardGrouplist) {
-    		if(StringUtils.isNotBlank(sourceTkl)) {
-    			String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(groupId)));
-    			logger.info("tkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
-    			Global.robots.get(779721310l).sendGroupMsg(groupId, msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")), false);
-    		}else {
-    			Global.robots.get(779721310l).sendGroupMsg(groupId, msg, false);
-    		}
+    	List<String> sourceContentList = getSourceContent(msg);
+    	forwardGrouplist.forEach(groupId -> {
+    		Global.robots.get(779721310l).sendGroupMsg(groupId, convertMsg(sourceContentList,msg,pidMap.get(String.valueOf(groupId))), false);
     		//cq.sendGroupMsg(groupId, msg, false);
-    	}
+    	});
         return MESSAGE_IGNORE; // 继续执行下一个插件
         // return MESSAGE_BLOCK; // 不执行下一个插件
     }
     
-    public static String getSourceTkl(String msg) {
-    	String source = "";
-    	String pattern = "([\\p{Sc}])\\w{8,12}([\\p{Sc}])";
-        Pattern r = Pattern.compile(pattern);
-        Matcher m = r.matcher(msg);
-        if (m.find()) {
-        	source =  m.group();
+    private static List<String> getSourceContent(String msg) {
+    	List<String> sourceList = new ArrayList<String>();
+        Pattern p1 = Pattern.compile("([\\p{Sc}])\\w{8,12}([\\p{Sc}])");
+        Matcher m1 = p1.matcher(msg);
+        if (m1.find()) {
+        	String source =  m1.group();
         	source = source.substring(1,source.length() - 1);
-        	return "￥" + source + "￥";
+        	sourceList.add(source);
+        	return sourceList;
         }
 		Pattern p2 = Pattern.compile("(\\()([0-9a-zA-Z\\.\\/\\=])*(\\))");
 		Matcher m2 = p2.matcher(msg);
 		if (m2.find()) {
-			source =  m2.group(0);
+			String source =  m2.group(0);
 			source = source.substring(1,source.length() - 1);
-			return "￥" + source + "￥";
+			sourceList.add(source);
+			return sourceList;
 		}
-		logger.error("待发送内容:{},未匹配到淘口令", msg);
-		return source;
+		Pattern p3 = Pattern.compile("http[s]?://(?:(?!http[s]?://)[a-zA-Z]|[0-9]|[$\\-_@.&+/]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+");
+		Matcher m3 = p3.matcher(msg);
+		while(m3.find()) {
+			sourceList.add(m3.group());
+        }
+		if(sourceList.size() > 0) {
+			return sourceList;
+		}
+		logger.error("待发送内容:{},未匹配到淘口令或URL", msg);
+		return sourceList;
 	}
+    
+    private static String convertMsg(List<String> sourceContentList,String msg,String pid) {
+    	for(String sourceContent:sourceContentList) {
+    		if(!sourceContent.contains(".jd.com")) {
+    			String newContent = getChangeTklBy21ds("￥" + sourceContent + "￥",pid);
+    			logger.info("source tkl:" + sourceContent + "-----new tkl:" + newContent.replaceAll("￥", ""));
+    			msg = msg.replace(sourceContent, newContent.replaceAll("￥", ""));
+    		}else {
+    			String newContent = getJdShortUrl(sourceContent);
+    			logger.info("source url:" + sourceContent + "-----new url:" + newContent.replaceAll("￥", ""));
+    			msg = msg.replace(sourceContent, newContent.replaceAll("￥", ""));
+    		}
+    	}
+    	return msg;
+    }
     
     private static String getChangeTklBy21ds(String sourceTkl,String pid) {
     	String url = "http://api.web.21ds.cn/taoke/doItemHighCommissionPromotionLinkByTpwd?apkey=%s&tpwdcode=%s&pid=%s&tbname=%s&tpwd=1&extsearch=1";
@@ -154,6 +183,22 @@ public class ForwardPlugin extends CQPlugin {
     	} catch (Exception e) {
 			e.printStackTrace();
 			return sourceTkl;
+		}
+    }
+    
+    private static String getJdShortUrl(String sourceShortUrl) {
+    	String url = "http://api.web.21ds.cn/jingdong/doItemCpsUrl?apkey=%s&materialId=%s&key_id=%s";
+    	String apKey = "7918202b-ef4a-f251-291b-eb880302814c";
+    	String jdKeyId = "759e5b5d-4b6d-8e63-b3ac-65353c2ac7ea";
+    	try {
+    		JSONObject result = HttpUtil.sendGet(String.format(url, apKey,URLEncoder.encode(sourceShortUrl,"utf-8"),jdKeyId));
+    		if(result.getInteger("code") != 200) {
+    			return sourceShortUrl;
+	    	}
+    		return result.getJSONObject("data").getString("shortURL");
+    	} catch (Exception e) {
+			e.printStackTrace();
+			return sourceShortUrl;
 		}
     }
     
