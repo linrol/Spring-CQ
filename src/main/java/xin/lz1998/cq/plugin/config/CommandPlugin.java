@@ -30,7 +30,6 @@ public class CommandPlugin extends CQPlugin {
 		Map<Long,List<Long>> monitorGroupMap = new HashMap<Long,List<Long>>();
 		List<Long> monitorGroupList = new ArrayList<Long>();
 		monitorGroupList.add(737215804l);
-		monitorGroupList.add(286624903l);
 		monitorGroupMap.put(2097736476l, monitorGroupList);
 		
 		List<Long> monitorGroupList2 = new ArrayList<Long>();
