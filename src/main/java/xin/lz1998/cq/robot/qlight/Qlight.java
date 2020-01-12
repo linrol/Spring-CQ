@@ -2,6 +2,7 @@ package xin.lz1998.cq.robot.qlight;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,9 @@ public class Qlight {
     
     public void onReceiveEventMessage(JSONObject message) {
         logger.debug(selfId + " RECV Event {}", message);
-        new Thread(() -> EventQlightHandler.handle(Qlight.this, message)).start();
+        CompletableFuture.runAsync(() -> {
+        	EventQlightHandler.handle(Qlight.this, message);
+		 });
     }
 
     public void onReceiveApiMessage(JSONObject message) {
@@ -105,5 +108,40 @@ public class Qlight {
         });
         return result;
     }
+    
+    public ApiData<JSONObject> addFriend(String qq) {
+    	ApiEnum action = ApiEnum.ADD_FRIEND;
 
+        JSONObject params = new JSONObject();
+        params.put("qq", qq);
+        params.put("message", "同意一下");
+
+        ApiData<JSONObject> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<JSONObject>>() {
+        });
+        return result;
+    }
+    
+    public ApiData<JSONObject> inviteIntoGroup(String qq) {
+    	ApiEnum action = ApiEnum.INVITE_INTO_GROUP;
+
+        JSONObject params = new JSONObject();
+        params.put("qq", qq);
+        params.put("group", "910092655");
+
+        ApiData<JSONObject> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<JSONObject>>() {
+        });
+        return result;
+    }
+    
+    public ApiData<JSONObject> getGroupMemberList(String group) {
+    	ApiEnum action = ApiEnum.GET_GROUP_MEMBER_LIST;
+
+        JSONObject params = new JSONObject();
+        params.put("group", group);
+        params.put("cache", false);
+
+        ApiData<JSONObject> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<JSONObject>>() {
+        });
+        return result;
+    }
 }

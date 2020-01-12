@@ -2,12 +2,18 @@ package xin.lz1998.cq.robot.qlight;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.alibaba.fastjson.JSONObject;
 
 import xin.lz1998.cq.robot.RobotConfig;
 import xin.lz1998.cq.websocket.WebSocketClientHandler;
 
 class ApiSender extends Thread {
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	
     private final WebSocketClientHandler robotWebSocketClient;
     private JSONObject responseJSON;
 
@@ -27,6 +33,7 @@ class ApiSender extends Thread {
 
 
     void onReceiveJson(JSONObject responseJSON) {
+    	logger.info(responseJSON.toString());
     	JSONObject response = new JSONObject();
     	response.put("status", "ok");
     	response.put("retcode", 0);

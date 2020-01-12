@@ -1,6 +1,7 @@
 package xin.lz1998.cq.websocket;
 
 import java.net.URI;
+import java.util.concurrent.CompletableFuture;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -27,6 +28,9 @@ public class WebSocketClientHandler extends WebSocketClient {
 		 Qlight robot = Global.qlightRobots.get(qlightSelfId);
 		 robot.setSelfId(qlightSelfId);
 		 robot.setRobotWebSocketClient(this);
+		 CompletableFuture.runAsync(() -> {
+			 Global.qlightRobots.get(1706860030l).getGroupMemberList("479460338");
+		 });
 		 LOGGER.info("{} WebSocketClient open success....", qlightSelfId);
 	 }
 
@@ -43,7 +47,7 @@ public class WebSocketClientHandler extends WebSocketClient {
 
 	 @Override
 	 public void onMessage(String data) {
-		 LOGGER.info("{} received event notice....", qlightSelfId);
+		 LOGGER.info("{} received event notice....data:{}", qlightSelfId,data);
 		 Qlight robot = Global.qlightRobots.get(qlightSelfId);
 		 String apiId = JSON.parseObject(data).getString("id");
 		 if(robot.getApiCallbackMap().containsKey(apiId)) {

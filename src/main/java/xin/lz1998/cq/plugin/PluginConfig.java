@@ -22,7 +22,7 @@ public class PluginConfig {
         //pluginList.add(new PrefixPlugin()); // 前缀处理插件
         //pluginList.add(new ForwardPlugin()); // 转发插件
         
-        qlightPluginList.add(new ForwardPlugin());
+        //qlightPluginList.add(new ForwardPlugin());
     }
 
 }
