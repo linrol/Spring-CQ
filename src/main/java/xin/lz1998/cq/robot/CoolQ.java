@@ -363,6 +363,15 @@ public class CoolQ {
         });
         return result;
     }
+    
+    public JSONObject getGroupMemberList(long group_id) {
+        ApiEnum action = ApiEnum.GET_GROUP_MEMBER_LIST;
+
+        JSONObject params = new JSONObject();
+        params.put("group_id", group_id);
+
+        return sendApiMessage(action, params);
+    }
 
     public ApiData<CookiesData> getCookies(String domain) {
         ApiEnum action = ApiEnum.GET_COOKIES;

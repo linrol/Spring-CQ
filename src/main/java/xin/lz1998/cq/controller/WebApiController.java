@@ -65,6 +65,11 @@ public class WebApiController {
         return "ok";
     }
     
+    @RequestMapping("/get_group_member_list")
+    public Object get_group_member_list(long self_id,long group_id) throws IOException,  InterruptedException {
+    	return Global.robots.get(self_id).getGroupMemberList(group_id);
+    }
+    
     @RequestMapping("/get_tkl_api_test")
     public Object getTklApiTest(@RequestBody JSONObject json) throws Exception {
     	String url = json.getString("url");
