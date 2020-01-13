@@ -43,7 +43,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-    	int maxSize = 128 * 1024 * 1024;	// 128M
+    	int maxSize = 256 * 1024 * 1024;	// 128M
     	session.setBinaryMessageSizeLimit(maxSize);
     	session.setTextMessageSizeLimit(maxSize);
     	

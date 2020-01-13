@@ -1,6 +1,6 @@
 #!/bin/bash
 app='spring-coolq.jar'
-args='-Xms512M -Xmx1024m'
+args='-Xms1024M -Xmx2048m'
 cmd=$1
 pid=`ps -ef|grep java|grep $app|awk '{print $2}'`
 
