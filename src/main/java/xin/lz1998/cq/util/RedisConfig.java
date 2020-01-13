@@ -11,7 +11,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
  
 import org.springframework.data.redis.serializer.StringRedisSerializer;
- 
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
  
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -73,5 +75,13 @@ public class RedisConfig {
         return template;
  
     }
- 
+    
+    @Bean
+    public TaskScheduler taskScheduler(){
+        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+        taskScheduler.setPoolSize(10);
+        taskScheduler.initialize();
+        return taskScheduler;
+    }
+    
 }
