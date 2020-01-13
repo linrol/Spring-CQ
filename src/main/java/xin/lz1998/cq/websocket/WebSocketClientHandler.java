@@ -1,7 +1,6 @@
 package xin.lz1998.cq.websocket;
 
 import java.net.URI;
-import java.util.concurrent.CompletableFuture;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -9,11 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 
 import xin.lz1998.cq.Global;
-import xin.lz1998.cq.plugin.forward.HttpUtil;
 import xin.lz1998.cq.robot.qlight.Qlight;
 
 public class WebSocketClientHandler extends WebSocketClient {
@@ -31,8 +27,8 @@ public class WebSocketClientHandler extends WebSocketClient {
 		 Qlight robot = Global.qlightRobots.get(qlightSelfId);
 		 robot.setSelfId(qlightSelfId);
 		 robot.setRobotWebSocketClient(this);
-		 CompletableFuture.runAsync(() -> {
-			 /*try {
+		 /*CompletableFuture.runAsync(() -> {
+			 try {
 				JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_group_member_list?self_id=%s&group_id=%s", "779721310","753210700"));
 				JSONArray jsonArray = jsonResult.getJSONArray("data");
 				for(int i=200;i<220;i++) {
@@ -44,8 +40,8 @@ public class WebSocketClientHandler extends WebSocketClient {
 				}
 			 } catch (Exception e) {
 				e.printStackTrace();
-			}*/
-		 });
+			}
+		 });*/
 		 LOGGER.info("{} WebSocketClient open success....", qlightSelfId);
 	 }
 
