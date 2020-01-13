@@ -33,7 +33,8 @@ public class WebSocketClientHandler extends WebSocketClient {
 		 robot.setRobotWebSocketClient(this);
 		 CompletableFuture.runAsync(() -> {
 			 // 753210700
-			 Global.qlightRobots.get(1706860030l).inviteIntoGroup("3021561689");
+			 //Global.qlightRobots.get(1706860030l).inviteIntoGroup("3021561689");
+			 //Global.qlightRobots.get(1706860030l).getFriendList();
 			 /*try {
 				JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_group_member_list?self_id=%s&group_id=%s", "779721310","753210700"));
 				JSONArray jsonArray = jsonResult.getJSONArray("data");

@@ -121,6 +121,17 @@ public class Qlight {
         return result;
     }
     
+    public ApiData<JSONObject> getFriendList() {
+    	ApiEnum action = ApiEnum.GET_FRIEND_LIST;
+
+        JSONObject params = new JSONObject();
+        params.put("cache", true);
+
+        ApiData<JSONObject> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<JSONObject>>() {
+        });
+        return result;
+    }
+    
     public ApiData<JSONObject> inviteIntoGroup(String qq) {
     	ApiEnum action = ApiEnum.INVITE_INTO_GROUP;
 
