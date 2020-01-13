@@ -56,13 +56,15 @@ public class ScheduledTask {
 		Map<String,Object> itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex("753210700_group_list", currentAddPosition + 1);
 		while(itemWaitAddMap != null && !((Boolean)itemWaitAddMap.get("isAdd"))) {
 			String addUserId = (String) itemWaitAddMap.get("userId");
-			int random=(int)(Math.random()*40+20);
+			int random=(int)(Math.random()*15+20);
 			LOGGER.info("当前执行第{}条添加qq好友{}操作，并随机等待{}秒执行下一次添加",currentAddPosition,addUserId,random);
 			Global.qlightRobots.get(1706860030l).addFriend(addUserId);
 			itemWaitAddMap.put("isAdd", true);
 			redisUtil.lUpdateIndex("753210700_group_list", currentAddPosition, itemWaitAddMap);
 			redisUtil.incr("753210700_group_list_add_position", 1l);
 			Thread.sleep(random * 1000);
+			currentAddPosition = (Integer) redisUtil.get("753210700_group_list_add_position");
+			itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex("753210700_group_list", currentAddPosition + 1);
 		}
     }
 	
