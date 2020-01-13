@@ -91,10 +91,7 @@ public class ForwardPlugin extends CQPlugin {
     	ImageUtil.downloadImage(event.getMessage());
     	List<Long> forwardGrouplist = (List<Long>) CommandPlugin.config.get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
     	List<String> sourceContentList = getSourceContent(msg);
-    	forwardGrouplist.forEach(groupId -> {
-    		Global.robots.get(779721310l).sendGroupMsg(groupId, convertMsg(sourceContentList,msg,pidMap.get(String.valueOf(groupId))), false);
-    		//cq.sendGroupMsg(groupId, msg, false);
-    	});
+    	forwardGrouplist.forEach(groupId -> Global.robots.get(779721310l).sendGroupMsg(groupId, convertMsg(sourceContentList,msg,pidMap.get(String.valueOf(groupId))), false));
         return MESSAGE_IGNORE; // 继续执行下一个插件
         // return MESSAGE_BLOCK; // 不执行下一个插件
     }
