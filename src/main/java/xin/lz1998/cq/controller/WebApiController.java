@@ -72,7 +72,7 @@ public class WebApiController {
     
     @RequestMapping("/get_friend_list")
     public Object getFriendList(long self_id) throws IOException,  InterruptedException {
-    	Global.robots.get(self_id).setRestart(true, true, true);
+    	//Global.robots.get(self_id).setRestart(true, true, true);
     	return Global.robots.get(self_id).getFriendList();
     }
     
