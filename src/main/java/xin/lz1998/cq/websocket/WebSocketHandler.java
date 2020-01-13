@@ -43,7 +43,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-    	int maxSize = 64 * 1024 * 1024;	// 128M
+    	int maxSize = 256 * 1024 * 1024;	// 128M
     	
     	long xSelfId = Long.valueOf(session.getHandshakeHeaders().get("x-self-id").get(0));
         logger.info("{} {} connected", xSelfId, this.getSocketType());
