@@ -8,8 +8,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import xin.lz1998.cq.Global;
 import xin.lz1998.cq.plugin.PluginConfig;
-import xin.lz1998.cq.util.RedisUtil;
-import xin.lz1998.cq.util.SpringContextUtil;
 
 @Service
 class EventQlightHandler {
@@ -40,22 +38,22 @@ class EventQlightHandler {
 	        	String inviteQQ = eventJson.getJSONObject("params").getString("qq");
 	        	LOGGER.info("已和qq:{}成为单向好友,邀请好友如群",inviteQQ);
 	        	Global.qlightRobots.get(1706860030l).inviteIntoGroup(inviteQQ);
-	        	RedisUtil redisUtil = SpringContextUtil.getBean(RedisUtil.class);
+	        	/*RedisUtil redisUtil = SpringContextUtil.getBean(RedisUtil.class);
 	        	if(redisUtil != null) {
 	        		redisUtil.set("1706860030_friend_invite_" + inviteQQ, true);
 					redisUtil.incr("1706860030_friend_size", 1l);
-	        	}
+	        	}*/
 	            break;
 	        }
 	        case "friendChange2":{
 	        	String inviteQQ = eventJson.getJSONObject("params").getString("qq");
 	        	LOGGER.info("已和qq:{}成为双向好友,邀请好友如群",inviteQQ);
 	        	Global.qlightRobots.get(1706860030l).inviteIntoGroup(inviteQQ);
-	        	RedisUtil redisUtil = SpringContextUtil.getBean(RedisUtil.class);
+	        	/*RedisUtil redisUtil = SpringContextUtil.getBean(RedisUtil.class);
 	        	if(redisUtil != null) {
 	        		redisUtil.set("1706860030_friend_invite_" + inviteQQ, true);
 					redisUtil.incr("1706860030_friend_size", 1l);
-	        	}
+	        	}*/
 	            break;
 	        }
         }
