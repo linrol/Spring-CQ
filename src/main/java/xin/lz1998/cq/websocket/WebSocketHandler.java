@@ -44,8 +44,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
     	int maxSize = 64 * 1024 * 1024;	// 128M
-    	session.setBinaryMessageSizeLimit(maxSize);
-    	session.setTextMessageSizeLimit(maxSize);
     	
     	long xSelfId = Long.valueOf(session.getHandshakeHeaders().get("x-self-id").get(0));
         logger.info("{} {} connected", xSelfId, this.getSocketType());
@@ -56,6 +54,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
         	robot.setBotApiSession(session);
         }else if("event".equals(this.getSocketType())) {
         	robot.setBotEventSession(session);
+        	session.setBinaryMessageSizeLimit(maxSize);
+        	session.setTextMessageSizeLimit(maxSize);
         }
     }
 
