@@ -50,12 +50,15 @@ public class WebSocketHandler extends TextWebSocketHandler {
         Global.robots.putIfAbsent(xSelfId, new CoolQ(xSelfId));
         CoolQ robot = Global.robots.get(xSelfId);
         robot.setSelfId(xSelfId);
+        if(779721310l == xSelfId) {
+        	logger.info("{} set maxSize", xSelfId);
+        	session.setBinaryMessageSizeLimit(maxSize);
+        	session.setTextMessageSizeLimit(maxSize);
+        }
         if("api".equals(this.getSocketType())) {
         	robot.setBotApiSession(session);
         }else if("event".equals(this.getSocketType())) {
         	robot.setBotEventSession(session);
-        	session.setBinaryMessageSizeLimit(maxSize);
-        	session.setTextMessageSizeLimit(maxSize);
         }
     }
 
