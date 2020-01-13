@@ -30,7 +30,7 @@ public class ScheduledTask {
 	//fixedRate 周期 频率
     @Scheduled(initialDelay=10000,fixedDelay=600000)
     public void addFriendTask() throws Exception {
-        LOGGER.info("每隔5分钟执行好友添加操作");
+        LOGGER.info("每隔10分钟执行好友添加操作");
         List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
         if(!redisUtil.hasKey("753210700_group_list")) {
         	JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_group_member_list?self_id=%s&group_id=%s", "779721310","753210700"));
