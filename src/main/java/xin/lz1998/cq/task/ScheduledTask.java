@@ -28,7 +28,7 @@ public class ScheduledTask {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledTask.class);
 	
 	//fixedRate 周期 频率
-    @Scheduled(initialDelay=10000,fixedDelay=600000)
+    @Scheduled(initialDelay=10000,fixedDelay=1800000)
     public void addFriendTask() throws Exception {
         LOGGER.info("每隔10分钟执行好友添加操作");
         List<Object> list = new ArrayList<Object>();
@@ -53,6 +53,8 @@ public class ScheduledTask {
 			redisUtil.set("753210700_group_list_add_position", 0);
 			currentAddPosition = 0; 
 		}
+		int randomBreakCount = (int)(Math.random()*15+20);
+		int position = 0;
 		Map<String,Object> itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex("753210700_group_list", currentAddPosition + 1);
 		while(itemWaitAddMap != null && !((Boolean)itemWaitAddMap.get("isAdd"))) {
 			String addUserId = (String) itemWaitAddMap.get("userId");
@@ -65,6 +67,10 @@ public class ScheduledTask {
 			Thread.sleep(random * 1000);
 			currentAddPosition = (Integer) redisUtil.get("753210700_group_list_add_position");
 			itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex("753210700_group_list", currentAddPosition + 1);
+			position++;
+			if(position > randomBreakCount) {
+				break;
+			}
 		}
     }
 	
