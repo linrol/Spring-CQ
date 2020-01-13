@@ -372,6 +372,7 @@ public class CoolQ {
 
         return sendApiMessage(action, params);
     }
+    
 
     public ApiData<CookiesData> getCookies(String domain) {
         ApiEnum action = ApiEnum.GET_COOKIES;

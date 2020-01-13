@@ -66,8 +66,13 @@ public class WebApiController {
     }
     
     @RequestMapping("/get_group_member_list")
-    public Object get_group_member_list(long self_id,long group_id) throws IOException,  InterruptedException {
+    public Object getGroupMemberList(long self_id,long group_id) throws IOException,  InterruptedException {
     	return Global.robots.get(self_id).getGroupMemberList(group_id);
+    }
+    
+    @RequestMapping("/get_friend_list")
+    public Object getFriendList(long self_id) throws IOException,  InterruptedException {
+    	return Global.robots.get(self_id).getFriendList();
     }
     
     @RequestMapping("/get_tkl_api_test")
