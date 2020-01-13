@@ -31,11 +31,11 @@ public class ScheduledTask {
     @Scheduled(initialDelay=10000,fixedDelay=600000)
     public void addFriendTask() throws Exception {
         LOGGER.info("每隔10分钟执行好友添加操作");
-        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+        List<Object> list = new ArrayList<Object>();
         if(!redisUtil.hasKey("753210700_group_list")) {
         	JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_group_member_list?self_id=%s&group_id=%s", "779721310","753210700"));
         	JSONArray jsonArray = jsonResult.getJSONArray("data");
-        	for(int i=200;i<jsonArray.size();i++) {
+        	for(int i=0;i<jsonArray.size();i++) {
         		Map<String,Object> itemMap = new HashMap<String, Object>();
 				String friendQQ = jsonArray.getJSONObject(i).getString("user_id");
 				itemMap.put("userId", friendQQ);
@@ -44,23 +44,23 @@ public class ScheduledTask {
 				LOGGER.info("执行第{}条保存群内的qq用户号{}到本地内存的操作",i,friendQQ);
 			}
         	if(list.size() > 0) {
-        		LOGGER.info("执行本地内存的qq用户列表上传内存Redis[key={}]的操作","753210700_group_list");
+        		LOGGER.info("执行本地内存的qq用户列表数量{}上传内存Redis[key={}]的操作",list.size(),"753210700_group_list");
         		redisUtil.lSet("753210700_group_list", list);
         	}
         }
-        Object currentAddPosition = redisUtil.get("753210700_group_list_add_position");
+        Integer currentAddPosition = (Integer) redisUtil.get("753210700_group_list_add_position");
 		if(currentAddPosition == null) {
 			redisUtil.set("753210700_group_list_add_position", 0);
 			currentAddPosition = 0; 
 		}
-		Map<String,Object> itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex("753210700_group_list", (long)currentAddPosition);
+		Map<String,Object> itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex("753210700_group_list", currentAddPosition + 1);
 		while(itemWaitAddMap != null && !((Boolean)itemWaitAddMap.get("isAdd"))) {
 			String addUserId = (String) itemWaitAddMap.get("userId");
 			int random=(int)(Math.random()*40+20);
 			LOGGER.info("当前执行第{}条添加qq好友{}操作，并随机等待{}秒执行下一次添加",currentAddPosition,addUserId,random);
 			Global.qlightRobots.get(1706860030l).addFriend(addUserId);
 			itemWaitAddMap.put("isAdd", true);
-			redisUtil.lUpdateIndex("753210700_group_list", (long)currentAddPosition, itemWaitAddMap);
+			redisUtil.lUpdateIndex("753210700_group_list", currentAddPosition, itemWaitAddMap);
 			redisUtil.incr("753210700_group_list_add_position", 1l);
 			Thread.sleep(random * 1000);
 		}
