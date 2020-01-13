@@ -1,4 +1,4 @@
-package cn.lliiooll;
+package xin.lz1998.cq.util;
 
 import org.springframework.context.annotation.Bean;
 

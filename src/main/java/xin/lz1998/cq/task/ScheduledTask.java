@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import cn.lliiooll.RedisUtil;
 import xin.lz1998.cq.Global;
 import xin.lz1998.cq.plugin.forward.HttpUtil;
+import xin.lz1998.cq.util.RedisUtil;
 
 @Component
 public class ScheduledTask {
