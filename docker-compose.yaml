@@ -8,7 +8,7 @@ services:
   redis:
     image: docker.io/redis
     container_name: redis
-    command: redis-server --requirepass linrol_redis
+    command: redis-server --requirepass linrol_redis --appendonly yes
     expose:
       - 6379
     ports:
@@ -16,6 +16,8 @@ services:
     restart: always
     ports:
       - 6379:6379
+    volumes:
+      - /root/web/app/redis:/data
   coolq-pro:
     image: richardchien/cqhttp:latest
     restart: always
