@@ -78,9 +78,9 @@ public class ScheduledTask {
     }
 	
 	//fixedRate 周期 频率
-    @Scheduled(initialDelay=10000,fixedDelay=300000)
+    @Scheduled(initialDelay=10000,fixedDelay=1800000)
     public void inviteIntoGroupTask() {
-        LOGGER.info("每隔5分钟执行邀请好友入群操作");
+        LOGGER.info("每隔30分钟执行邀请好友入群操作");
         try {
 			 //JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_friend_list?self_id=%s", "1706860030"));
 			 //JSONArray jsonArray = jsonResult.getJSONArray("data");
