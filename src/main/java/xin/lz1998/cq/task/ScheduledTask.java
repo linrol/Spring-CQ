@@ -97,6 +97,8 @@ public class ScheduledTask {
 			 }
 			 Integer oldSize = (Integer) oldSizeObject;
 			 LOGGER.info("上一次获取到的好友数:{},当前获取最新好友数:{}",oldSize,newSize);
+			 int randomBreakCount = (int)(Math.random()*20+10);
+			 int position = 0;
 			 if(!newSize.equals(oldSize) && newSize >= oldSize) {
 				 Integer changeSize = newSize - oldSize;
 				 LOGGER.info("最新获取好友数变化了:{}个,执行第{}个好友后的邀请入群",changeSize,oldSize);
@@ -112,6 +114,10 @@ public class ScheduledTask {
 					 Global.qlightRobots.get(1706860030l).inviteIntoGroup(friendQQ);
 					 redisUtil.set("1706860030_friend_invite_" + friendQQ, true);
 					 redisUtil.incr("1706860030_friend_size", 1l);
+					 position++;
+					 if(position > randomBreakCount) {
+						 break;
+					 }
 					 Thread.sleep(random * 1000);
 				 }
 			 }

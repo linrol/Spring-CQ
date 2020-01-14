@@ -63,21 +63,6 @@ pipeline {
           	}
 		}
 	
-		stage('docker coolq run'){
-			steps {
-            	script {
-            		sleep 10
-            		sh "scp -r ./docker-compose.yaml root@${DEPLOY_HOST}:/root/web/app/coolq/"
-            		params.each{
-						def search_params = "\${${it.key}}" 
-						def replace_params = "${it.value}"
-						sshCommand remote: server, command: "sudo sed -i 's/${search_params}/${replace_params}/g' /root/web/app/coolq/docker-compose.yaml"
-					}
-            		sshCommand remote: server, command: "cd /root/web/app/coolq/ && docker-compose -f ./docker-compose.yaml up -d $DOCKER_SERVICE"
-              	}
-          	}
-		}
-				
 	}
 
 }
