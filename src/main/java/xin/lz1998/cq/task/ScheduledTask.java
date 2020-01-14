@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +17,12 @@ import com.alibaba.fastjson.JSONObject;
 
 import xin.lz1998.cq.Global;
 import xin.lz1998.cq.plugin.forward.HttpUtil;
+import xin.lz1998.cq.retdata.ApiData;
 import xin.lz1998.cq.util.RedisUtil;
 
 @Component
 @SuppressWarnings("unchecked")
+@ConditionalOnProperty(prefix="scheduler",name = "enable", havingValue = "true")
 public class ScheduledTask {
 	
 	@Autowired
@@ -79,8 +82,14 @@ public class ScheduledTask {
     public void inviteIntoGroupTask() {
         LOGGER.info("每隔5分钟执行邀请好友入群操作");
         try {
-			 JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_friend_list?self_id=%s", "1706860030"));
-			 JSONArray jsonArray = jsonResult.getJSONArray("data");
+			 //JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_friend_list?self_id=%s", "1706860030"));
+			 //JSONArray jsonArray = jsonResult.getJSONArray("data");
+			 JSONArray jsonArray = new JSONArray();
+			 ApiData<JSONObject> data = Global.qlightRobots.get(1706860030l).getFriendList();
+			 JSONObject groupJsonObject = data.getData().getJSONObject("result").getJSONObject("result");
+			 for (Map.Entry<String, Object> entry : groupJsonObject.entrySet()) {
+				 jsonArray.addAll(((JSONObject)entry.getValue()).getJSONArray("mems"));
+			 }
 			 Integer newSize = jsonArray.size();
 			 Object oldSizeObject = redisUtil.get("1706860030_friend_size");
 			 if(oldSizeObject == null) {
@@ -92,7 +101,7 @@ public class ScheduledTask {
 				 Integer changeSize = newSize - oldSize;
 				 LOGGER.info("最新获取好友数变化了:{}个,执行第{}个好友后的邀请入群",changeSize,oldSize);
 				 for(int i=0;i<newSize;i++) {
-					 String friendQQ = jsonArray.getJSONObject(i).getString("userId");
+					 String friendQQ = jsonArray.getJSONObject(i).getString("uin");
 					 Object inviteBoolean = redisUtil.get("1706860030_friend_invite_" + friendQQ);
 					 if(inviteBoolean != null && ((Boolean) inviteBoolean)) {
 						 LOGGER.error("执行第{}条邀请qq好友{}加群操作异常,异常信息:好友已被邀请过",i,friendQQ);

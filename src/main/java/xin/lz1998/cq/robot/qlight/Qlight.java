@@ -125,7 +125,7 @@ public class Qlight {
     	ApiEnum action = ApiEnum.GET_FRIEND_LIST;
 
         JSONObject params = new JSONObject();
-        params.put("cache", true);
+        params.put("cache", false);
 
         ApiData<JSONObject> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<JSONObject>>() {
         });
