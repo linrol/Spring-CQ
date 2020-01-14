@@ -18,9 +18,6 @@ class ApiSender extends Thread {
         synchronized (apiSession){
             apiSession.sendMessage(new TextMessage(apiJSON.toJSONString()));
         }
-        if(apiJSON.getString("action").startsWith("_")) {
-        	return responseJSON;
-        }
         synchronized (this) {
             this.wait(RobotConfig.CQ_API_TIMEOUT);
         }
