@@ -36,7 +36,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
         if("api".equals(this.getSocketType())) {
         	robot.onReceiveApiMessage(recvJson);
         }else if("event".equals(this.getSocketType())) {
-        	robot.setBotEventSession(session);
         	robot.onReceiveEventMessage(recvJson);
         }
     }
@@ -48,18 +47,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
         Global.robots.putIfAbsent(xSelfId, new CoolQ(xSelfId));
         CoolQ robot = Global.robots.get(xSelfId);
         robot.setSelfId(xSelfId);
-        if(779721310l == xSelfId) {
-        	int maxSize = 256 * 1024 * 1024;	// 128M
-        	logger.info("{} set maxSize", xSelfId);
-        	session.setBinaryMessageSizeLimit(maxSize);
-        	session.setTextMessageSizeLimit(maxSize);
-        }
-        if(1706860030l == xSelfId ) {
-        	int maxSize = 128 * 1024 * 1024;	// 128M
-        	logger.info("{} set maxSize", xSelfId);
-        	session.setBinaryMessageSizeLimit(maxSize);
-        	session.setTextMessageSizeLimit(maxSize);
-        }
         if("api".equals(this.getSocketType())) {
         	robot.setBotApiSession(session);
         }else if("event".equals(this.getSocketType())) {

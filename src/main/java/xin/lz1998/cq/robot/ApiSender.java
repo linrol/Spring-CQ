@@ -10,8 +10,10 @@ class ApiSender extends Thread {
     private final WebSocketSession apiSession;
     private JSONObject responseJSON;
 
-    ApiSender(WebSocketSession apiSession) {
+    ApiSender(WebSocketSession apiSession,int maxSize) {
         this.apiSession = apiSession;
+        this.apiSession.setBinaryMessageSizeLimit(maxSize);
+        this.apiSession.setTextMessageSizeLimit(maxSize);
     }
 
     JSONObject sendApiJson(JSONObject apiJSON) throws IOException, InterruptedException {

@@ -51,11 +51,16 @@ public class CoolQ {
         apiSender.onReceiveJson(message);
         apiCallbackMap.remove(echo);
     }
-
+    
     private JSONObject sendApiMessage(ApiEnum action, JSONObject params) {
+    	int defaultSize = 1024 * 1024;	// 128M
+    	return sendApiMessage(action,params,defaultSize);
+    }
+
+    private JSONObject sendApiMessage(ApiEnum action, JSONObject params,int maxSize) {
         JSONObject apiJSON = constructApiJSON(action, params);
         String echo = apiJSON.getString("echo");
-        ApiSender apiSender = new ApiSender(botApiSession);
+        ApiSender apiSender = new ApiSender(botApiSession,maxSize);
         apiCallbackMap.put(echo, apiSender);
         logger.info("{} SEND API   {} {}", selfId, action.getDesc(), params);
         JSONObject retJson;
@@ -338,19 +343,21 @@ public class CoolQ {
     }
 
     public ApiListData<FriendData> getFriendList(){
+    	int maxSize = 256 * 1024 * 1024;	// 256M
         ApiEnum action=ApiEnum.GET_FRIEND_LIST;
-        ApiListData<FriendData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiListData<FriendData>>() {
+        ApiListData<FriendData> result = sendApiMessage(action, null,maxSize).toJavaObject(new TypeReference<ApiListData<FriendData>>() {
         });
         return result;
     }
     
     public JSONObject _getFriendList(){
+    	int maxSize = 256 * 1024 * 1024;	// 256M
         ApiEnum action=ApiEnum._GET_FRIEND_LIST;
         
         JSONObject params = new JSONObject();
         params.put("flat", true);
         
-        return sendApiMessage(action, null);
+        return sendApiMessage(action, null,maxSize);
     }
     
     public ApiListData<GroupData> getGroupList() {
@@ -375,12 +382,13 @@ public class CoolQ {
     }
     
     public JSONObject getGroupMemberList(long group_id) {
+    	int maxSize = 256 * 1024 * 1024;	// 256M
         ApiEnum action = ApiEnum.GET_GROUP_MEMBER_LIST;
 
         JSONObject params = new JSONObject();
         params.put("group_id", group_id);
 
-        return sendApiMessage(action, params);
+        return sendApiMessage(action, params, maxSize);
     }
     
 
