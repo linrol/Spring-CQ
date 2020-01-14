@@ -43,14 +43,19 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-    	int maxSize = 256 * 1024 * 1024;	// 128M
-    	
     	long xSelfId = Long.valueOf(session.getHandshakeHeaders().get("x-self-id").get(0));
         logger.info("{} {} connected", xSelfId, this.getSocketType());
         Global.robots.putIfAbsent(xSelfId, new CoolQ(xSelfId));
         CoolQ robot = Global.robots.get(xSelfId);
         robot.setSelfId(xSelfId);
         if(779721310l == xSelfId) {
+        	int maxSize = 256 * 1024 * 1024;	// 128M
+        	logger.info("{} set maxSize", xSelfId);
+        	session.setBinaryMessageSizeLimit(maxSize);
+        	session.setTextMessageSizeLimit(maxSize);
+        }
+        if(1706860030l == xSelfId ) {
+        	int maxSize = 128 * 1024 * 1024;	// 128M
         	logger.info("{} set maxSize", xSelfId);
         	session.setBinaryMessageSizeLimit(maxSize);
         	session.setTextMessageSizeLimit(maxSize);

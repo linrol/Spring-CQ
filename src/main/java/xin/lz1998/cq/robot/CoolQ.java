@@ -476,6 +476,17 @@ public class CoolQ {
         ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
         return result;
     }
+    
+    public void setRestart(boolean cleanLog,boolean cleanCache,boolean cleanEvent) {
+        ApiEnum action = ApiEnum._SET_RESTART;
+
+        JSONObject params = new JSONObject();
+        params.put("clean_log", cleanLog);
+        params.put("clean_cache", cleanCache);
+        params.put("clean_event", cleanEvent);
+
+        sendApiMessage(action, params);
+    }
 
     public ApiRawData cleanDataDir(String data_dir) {
         ApiEnum action = ApiEnum.CLEAN_DATA_DIR;

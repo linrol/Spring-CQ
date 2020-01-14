@@ -42,7 +42,8 @@ public enum ApiEnum {
     GET_VERSION_INFO("get_version_info", "获取 酷Q 及 HTTP API 插件的版本信息"),
     SET_RESTART_PLUGIN("set_restart_plugin", "重启 HTTP API 插件"),
     CLEAN_DATA_DIR("clean_data_dir", "清理数据目录"),
-    CLEAN_PLUGIN_LOG("clean_plugin_log", "清理插件日志");
+    CLEAN_PLUGIN_LOG("clean_plugin_log", "清理插件日志"),
+    _SET_RESTART("_set_restart", "重启酷Q");
 
 
     private String url;
