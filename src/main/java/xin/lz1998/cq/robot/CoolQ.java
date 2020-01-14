@@ -343,6 +343,16 @@ public class CoolQ {
         });
         return result;
     }
+    
+    public JSONObject _getFriendList(){
+        ApiEnum action=ApiEnum._GET_FRIEND_LIST;
+        
+        JSONObject params = new JSONObject();
+        params.put("flat", true);
+        
+        return sendApiMessage(action, null);
+    }
+    
     public ApiListData<GroupData> getGroupList() {
         ApiEnum action = ApiEnum.GET_GROUP_LIST;
 

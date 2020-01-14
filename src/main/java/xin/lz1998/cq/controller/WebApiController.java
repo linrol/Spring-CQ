@@ -75,6 +75,11 @@ public class WebApiController {
     	return Global.robots.get(self_id).getFriendList();
     }
     
+    @RequestMapping("/_get_friend_list")
+    public Object _getFriendList(long self_id) throws IOException,  InterruptedException {
+    	return Global.robots.get(self_id)._getFriendList();
+    }
+    
     @RequestMapping("/get_tkl_api_test")
     public Object getTklApiTest(@RequestBody JSONObject json) throws Exception {
     	String url = json.getString("url");
