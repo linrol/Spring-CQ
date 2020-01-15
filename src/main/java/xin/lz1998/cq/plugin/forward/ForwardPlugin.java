@@ -51,7 +51,7 @@ public class ForwardPlugin extends CQPlugin {
     	String msg = filterMsg(event.getMessage());
     	ImageUtil.downloadImage(event.getMessage());
     	List<String> sourceContentList = getSourceContent(msg);
-    	if(sourceContentList.size() < 1 || cq.getSelfId() != 779721319) {
+    	if(sourceContentList.size() < 1 || cq.getSelfId() != 779721310) {
     		return MESSAGE_IGNORE;
     	}
     	String newMsg = "";
