@@ -82,8 +82,6 @@ public class ScheduledTask {
     public void inviteIntoGroupTask() {
         LOGGER.info("每隔30分钟执行邀请好友入群操作");
         try {
-			 //JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_friend_list?self_id=%s", "1706860030"));
-			 //JSONArray jsonArray = jsonResult.getJSONArray("data");
 			 JSONArray jsonArray = new JSONArray();
 			 ApiData<JSONObject> data = Global.qlightRobots.get(1706860030l).getFriendList();
 			 JSONObject groupJsonObject = data.getData().getJSONObject("result").getJSONObject("result");
@@ -91,36 +89,29 @@ public class ScheduledTask {
 				 jsonArray.addAll(((JSONObject)entry.getValue()).getJSONArray("mems"));
 			 }
 			 Integer newSize = jsonArray.size();
-			 Object oldSizeObject = redisUtil.get("1706860030_friend_size");
-			 if(oldSizeObject == null) {
-				 oldSizeObject = 0; 
-			 }
-			 Integer oldSize = (Integer) oldSizeObject;
-			 LOGGER.info("上一次获取到的好友数:{},当前获取最新好友数:{}",oldSize,newSize);
+			 LOGGER.info("当前获取最新好友数:{}",newSize);
 			 int randomBreakCount = (int)(Math.random()*20+10);
 			 int position = 0;
-			 if(!newSize.equals(oldSize) && newSize >= oldSize) {
-				 Integer changeSize = newSize - oldSize;
-				 LOGGER.info("最新获取好友数变化了:{}个,执行第{}个好友后的邀请入群",changeSize,oldSize);
-				 for(int i=0;i<newSize;i++) {
-					 String friendQQ = jsonArray.getJSONObject(i).getString("uin");
-					 Object inviteBoolean = redisUtil.get("1706860030_friend_invite_" + friendQQ);
-					 if(inviteBoolean != null && ((Boolean) inviteBoolean)) {
-						 LOGGER.error("执行第{}条邀请qq好友{}加群操作异常,异常信息:好友已被邀请过",i,friendQQ);
-						 continue;
-					 }
-					 int random=(int)(Math.random()*20+20);
-					 LOGGER.info("执行第{}条邀请qq好友{}加群操作，并随机等待{}秒执行下一次邀请",i,friendQQ,random);
-					 Global.qlightRobots.get(1706860030l).inviteIntoGroup(friendQQ);
-					 redisUtil.set("1706860030_friend_invite_" + friendQQ, true);
-					 redisUtil.incr("1706860030_friend_size", 1l);
-					 position++;
-					 if(position > randomBreakCount) {
-						 break;
-					 }
-					 Thread.sleep(random * 1000);
+			 List<String> friendList = new ArrayList<String>();
+			 for(int i=0;i<newSize;i++) {
+				 String friendQQ = jsonArray.getJSONObject(i).getString("uin");
+				 friendList.add(friendQQ);
+				 Object inviteBoolean = redisUtil.get("1706860030_friend_invite_" + friendQQ);
+				 if(inviteBoolean != null && ((Boolean) inviteBoolean)) {
+					 LOGGER.error("执行第{}条邀请qq好友{}加群操作异常,异常信息:好友已被邀请过",i,friendQQ);
+					 continue;
 				 }
+				 int random=(int)(Math.random()*20+20);
+				 LOGGER.info("执行第{}条邀请qq好友{}加群操作，并随机等待{}秒执行下一次邀请",i,friendQQ,random);
+				 Global.qlightRobots.get(1706860030l).inviteIntoGroup(friendQQ);
+				 redisUtil.set("1706860030_friend_invite_" + friendQQ, true);
+				 position++;
+				 if(position > randomBreakCount) {
+					 break;
+				 }
+				 Thread.sleep(random * 1000);
 			 }
+			 redisUtil.lSet("1706860030_friend_list", friendList);
 		 } catch (Exception e) {
 			e.printStackTrace();
 		}
