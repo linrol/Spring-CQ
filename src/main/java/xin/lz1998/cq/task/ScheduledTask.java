@@ -127,7 +127,7 @@ public class ScheduledTask {
     		if(friendListSegment == null) {
     			redisUtil.set("1706860030_friend_list_segment", 0);
     		}
-        	List<Object> friendList = redisUtil.lGet("1706860030_friend_list", friendListSegment * friendListSegmentSize, friendListSegmentSize);
+        	List<Object> friendList = redisUtil.lGet("1706860030_friend_list", friendListSegment * friendListSegmentSize, (friendListSegment + 1) * friendListSegmentSize);
         	redisUtil.set("1706860030_friend_list_segment", (++friendListSegment)%12);
         	Global.qlightRobots.get(1706860030l).getGroupMemberList("910092655");
         	ApiData<JSONObject> apiData = Global.qlightRobots.get(1706860030l).getGroupMemberList("910092655");
