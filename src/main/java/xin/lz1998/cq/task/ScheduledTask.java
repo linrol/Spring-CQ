@@ -32,7 +32,7 @@ public class ScheduledTask {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledTask.class);
 	
 	//fixedRate 周期 频率
-    @Scheduled(initialDelay=10000,fixedDelay=1800000)
+   	@Scheduled(initialDelay=10000,fixedDelay=1800000)
     public void addFriendTask() throws Exception {
         LOGGER.info("每隔10分钟执行好友添加操作");
         List<Object> list = new ArrayList<Object>();
@@ -119,7 +119,7 @@ public class ScheduledTask {
 		}
     }
     
-    /*@Scheduled(initialDelay=10000,fixedDelay=300000)
+    @Scheduled(initialDelay=10000,fixedDelay=300000)
     public void inviteIntoNExistGroupTask() {
         LOGGER.info("每隔五分钟轮寻不在群里的好友邀请入群操作");
         try {
@@ -134,7 +134,6 @@ public class ScheduledTask {
     		}
         	List<Object> friendList = redisUtil.lGet("1706860030_friend_list", (friendListSegment * friendListSegmentSize) + 1, (friendListSegment + 1) * friendListSegmentSize);
         	redisUtil.set("1706860030_friend_list_segment", (++friendListSegment)%12);
-        	Global.qlightRobots.get(1706860030l).getGroupMemberList("910092655");
         	ApiData<JSONObject> apiData = Global.qlightRobots.get(1706860030l).getGroupMemberList("910092655");
 			JSONObject meberJson = apiData.getData().getJSONObject("result").getJSONObject("members");
         	List<Object> filterList = friendList.stream().filter(friend -> !meberJson.containsKey(friend)).collect(Collectors.toList());
@@ -147,6 +146,6 @@ public class ScheduledTask {
 		 } catch (Exception e) {
 			e.printStackTrace();
 		}
-    }*/
+    }
     
 }
