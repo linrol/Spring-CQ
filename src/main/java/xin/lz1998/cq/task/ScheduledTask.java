@@ -112,12 +112,37 @@ public class ScheduledTask {
 				 }
 				 Thread.sleep(random * 1000);
 			 }
+			 redisUtil.del("1706860030_friend_list");
 			 redisUtil.lSet("1706860030_friend_list", friendList);
 		 } catch (Exception e) {
 			e.printStackTrace();
 		}
     }
     
-   
+    @Scheduled(initialDelay=10000,fixedDelay=300000)
+    public void inviteIntoNExistGroupTask() {
+        LOGGER.info("每隔五分钟轮寻不在群里的好友邀请入群操作");
+        try {
+        	Integer friendListSegmentSize = (int) (redisUtil.lGetListSize("1706860030_friend_list") / 12);
+        	Integer friendListSegment = (Integer) redisUtil.get("1706860030_friend_list_segment");
+    		if(friendListSegment == null) {
+    			redisUtil.set("1706860030_friend_list_segment", 0);
+    		}
+        	List<Object> friendList = redisUtil.lGet("1706860030_friend_list", (friendListSegment * friendListSegmentSize) + 1, (friendListSegment + 1) * friendListSegmentSize);
+        	redisUtil.set("1706860030_friend_list_segment", (++friendListSegment)%12);
+        	Global.qlightRobots.get(1706860030l).getGroupMemberList("910092655");
+        	ApiData<JSONObject> apiData = Global.qlightRobots.get(1706860030l).getGroupMemberList("910092655");
+			JSONObject meberJson = apiData.getData().getJSONObject("result").getJSONObject("members");
+        	List<Object> filterList = friendList.stream().filter(friend -> !meberJson.containsKey(friend)).collect(Collectors.toList());
+        	LOGGER.info("筛选前好友总数:{},过滤已在组内后总数:{}",friendList.size(),filterList.size());
+        	for(Object friend:filterList) {
+        		Global.qlightRobots.get(1706860030l).inviteIntoGroup(friend.toString());
+        		LOGGER.info("执行邀请qq好友{}加群操作，并等待{}秒执行下一次邀请",friend.toString(),(3300 / filterList.size()));
+        		Thread.sleep((3300 / filterList.size()) * 1000);
+        	}
+		 } catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
     
 }
