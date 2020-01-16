@@ -56,7 +56,7 @@ public class ScheduledTask {
 			redisUtil.set("286624903_group_list_add_position", 0);
 			currentAddPosition = 0; 
 		}
-		int randomBreakCount = (int)(Math.random()*15+20);
+		int randomBreakCount = (int)(Math.random()*20+10);
 		int position = 0;
 		Map<String,Object> itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex("286624903_group_list", currentAddPosition + 1);
 		while(itemWaitAddMap != null && !((Boolean)itemWaitAddMap.get("isAdd"))) {
@@ -90,9 +90,9 @@ public class ScheduledTask {
 			 }
 			 Integer newSize = jsonArray.size();
 			 LOGGER.info("当前获取最新好友数:{}",newSize);
-			 int randomBreakCount = (int)(Math.random()*20+10);
+			 int randomBreakCount = (int)(Math.random()*20+5);
 			 int position = 0;
-			 List<String> friendList = new ArrayList<String>();
+			 List<Object> friendList = new ArrayList<Object>();
 			 for(int i=0;i<newSize;i++) {
 				 String friendQQ = jsonArray.getJSONObject(i).getString("uin");
 				 friendList.add(friendQQ);
@@ -116,5 +116,24 @@ public class ScheduledTask {
 			e.printStackTrace();
 		}
     }
+    
+    /*@Scheduled(initialDelay=10000,fixedDelay=3600000)
+    public void inviteIntoNExistGroupTask() {
+        LOGGER.info("每隔一小时执行邀请好友入群操作");
+        try {
+        	Integer friendListSegment = (Integer) redisUtil.get("1706860030_friend_list_segment");
+        	Integer friendListSegmentSize = (int) (redisUtil.lGetListSize("1706860030_friend_list") / 12);
+    		if(friendListSegment == null) {
+    			redisUtil.set("1706860030_friend_list_segment", "0");
+    		}
+        	List<Object> friendList = redisUtil.lGet("1706860030_friend_list", friendListSegment * friendListSegmentSize, friendListSegmentSize);
+        	Global.qlightRobots.get(1706860030l).getGroupMemberList("910092655");
+        	friendList.forEach(each -> {
+        		
+        	});
+		 } catch (Exception e) {
+			e.printStackTrace();
+		}
+    }*/
     
 }
