@@ -119,7 +119,7 @@ public class ScheduledTask {
 		}
     }
     
-    @Scheduled(initialDelay=10000,fixedDelay=300000)
+    /*@Scheduled(initialDelay=10000,fixedDelay=300000)
     public void inviteIntoNExistGroupTask() {
         LOGGER.info("每隔五分钟轮寻不在群里的好友邀请入群操作");
         try {
@@ -147,6 +147,6 @@ public class ScheduledTask {
 		 } catch (Exception e) {
 			e.printStackTrace();
 		}
-    }
+    }*/
     
 }
