@@ -31,13 +31,15 @@ public class ScheduledTask {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledTask.class);
 	
+	private static String group = "479460338";
+	
 	//fixedRate 周期 频率
    	@Scheduled(initialDelay=10000,fixedDelay=1800000)
     public void addFriendTask() throws Exception {
         LOGGER.info("每隔10分钟执行好友添加操作");
         List<Object> list = new ArrayList<Object>();
-        if(!redisUtil.hasKey("286624903_group_list")) {
-        	JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_group_member_list?self_id=%s&group_id=%s", "779721310","286624903"));
+        if(!redisUtil.hasKey(group + "_group_list")) {
+        	JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_group_member_list?self_id=%s&group_id=%s", "1706860030",group));
         	JSONArray jsonArray = jsonResult.getJSONArray("data");
         	for(int i=0;i<jsonArray.size();i++) {
         		Map<String,Object> itemMap = new HashMap<String, Object>();
@@ -48,29 +50,29 @@ public class ScheduledTask {
 				LOGGER.info("执行第{}条保存群内的qq用户号{}到本地内存的操作",i,friendQQ);
 			}
         	if(list.size() > 0) {
-        		LOGGER.info("执行本地内存的qq用户列表数量{}上传内存Redis[key={}]的操作",list.size(),"286624903_group_list");
-        		redisUtil.lSet("286624903_group_list", list);
+        		LOGGER.info("执行本地内存的qq用户列表数量{}上传内存Redis[key={}]的操作",list.size(),group + "_group_list");
+        		redisUtil.lSet(group + "_group_list", list);
         	}
         }
-        Integer currentAddPosition = (Integer) redisUtil.get("286624903_group_list_add_position");
+        Integer currentAddPosition = (Integer) redisUtil.get(group + "_group_list_add_position");
 		if(currentAddPosition == null) {
-			redisUtil.set("286624903_group_list_add_position", 0);
+			redisUtil.set(group + "_group_list_add_position", 0);
 			currentAddPosition = 0; 
 		}
 		int randomBreakCount = (int)(Math.random()*20+10);
 		int position = 0;
-		Map<String,Object> itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex("286624903_group_list", currentAddPosition + 1);
+		Map<String,Object> itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex(group + "_group_list", currentAddPosition + 1);
 		while(itemWaitAddMap != null && !((Boolean)itemWaitAddMap.get("isAdd"))) {
 			String addUserId = (String) itemWaitAddMap.get("userId");
 			int random=(int)(Math.random()*15+20);
 			LOGGER.info("当前执行第{}条添加qq好友{}操作，并随机等待{}秒执行下一次添加",currentAddPosition,addUserId,random);
 			Global.qlightRobots.get(1706860030l).addFriend(addUserId);
 			itemWaitAddMap.put("isAdd", true);
-			redisUtil.lUpdateIndex("286624903_group_list", currentAddPosition, itemWaitAddMap);
-			redisUtil.incr("286624903_group_list_add_position", 1l);
+			redisUtil.lUpdateIndex(group + "_group_list", currentAddPosition, itemWaitAddMap);
+			redisUtil.incr(group + "_group_list_add_position", 1l);
 			Thread.sleep(random * 1000);
-			currentAddPosition = (Integer) redisUtil.get("286624903_group_list_add_position");
-			itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex("286624903_group_list", currentAddPosition + 1);
+			currentAddPosition = (Integer) redisUtil.get(group + "_group_list_add_position");
+			itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex(group + "_group_list", currentAddPosition + 1);
 			position++;
 			if(position > randomBreakCount) {
 				break;
@@ -139,8 +141,8 @@ public class ScheduledTask {
         	List<Object> filterList = friendList.stream().filter(friend -> !meberJson.containsKey(friend)).collect(Collectors.toList());
         	LOGGER.info("获取第{}段数据筛选前好友总数:{},过滤已在组内后总数:{}",(friendListSegment + 1),friendList.size(),filterList.size());
         	for(Object friend:filterList) {
-        		//Global.qlightRobots.get(1706860030l).inviteIntoGroup(friend.toString());
-        		Global.qlightRobots.get(1706860030l).sendPrivateMsg(friend.toString(), "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<msg templateID=\"-1\" action=\"web\" brief=\"推荐群聊：线报发车交流群\" serviceID=\"15\" i_actionData=\"group:910092655\" url=\"https://jq.qq.com/?_wv=1027&amp;k=5aavukc\"><item layout=\"0\" mode=\"1\"><summary>推荐群聊</summary><hr/></item><item layout=\"2\" mode=\"1\"><picture cover=\"https://p.qlogo.cn/gh/910092655/910092655/100\"/><title>线报发车交流群</title><summary>大家好才是真的好</summary></item><source/></msg>\n");
+        		Global.qlightRobots.get(1706860030l).inviteIntoGroup(friend.toString());
+        		//Global.qlightRobots.get(1706860030l).sendPrivateMsg(friend.toString(), "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<msg templateID=\"-1\" action=\"web\" brief=\"推荐群聊：线报发车交流群\" serviceID=\"15\" i_actionData=\"group:910092655\" url=\"https://jq.qq.com/?_wv=1027&amp;k=5aavukc\"><item layout=\"0\" mode=\"1\"><summary>推荐群聊</summary><hr/></item><item layout=\"2\" mode=\"1\"><picture cover=\"https://p.qlogo.cn/gh/910092655/910092655/100\"/><title>线报发车交流群</title><summary>大家好才是真的好</summary></item><source/></msg>\n");
         		LOGGER.info("执行邀请qq好友{}加群操作，并等待{}秒执行下一次邀请",friend.toString(),(3300 / filterList.size()));
         		Thread.sleep((3300 / filterList.size()) * 1000);
         	}

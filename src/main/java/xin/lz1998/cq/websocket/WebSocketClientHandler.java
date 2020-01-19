@@ -27,7 +27,6 @@ public class WebSocketClientHandler extends WebSocketClient {
 		 Qlight robot = Global.qlightRobots.get(qlightSelfId);
 		 robot.setSelfId(qlightSelfId);
 		 robot.setRobotWebSocketClient(this);
-		 
 		 LOGGER.info("{} WebSocketClient open success....", qlightSelfId);
 	 }
 
