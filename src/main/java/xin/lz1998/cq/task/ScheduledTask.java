@@ -139,7 +139,8 @@ public class ScheduledTask {
         	List<Object> filterList = friendList.stream().filter(friend -> !meberJson.containsKey(friend)).collect(Collectors.toList());
         	LOGGER.info("获取第{}段数据筛选前好友总数:{},过滤已在组内后总数:{}",(friendListSegment + 1),friendList.size(),filterList.size());
         	for(Object friend:filterList) {
-        		Global.qlightRobots.get(1706860030l).inviteIntoGroup(friend.toString());
+        		//Global.qlightRobots.get(1706860030l).inviteIntoGroup(friend.toString());
+        		Global.qlightRobots.get(1706860030l).sendPrivateMsg(friend.toString(), "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<msg templateID=\"-1\" action=\"web\" brief=\"推荐群聊：线报发车交流群\" serviceID=\"15\" i_actionData=\"group:910092655\" url=\"https://jq.qq.com/?_wv=1027&amp;k=5aavukc\"><item layout=\"0\" mode=\"1\"><summary>推荐群聊</summary><hr/></item><item layout=\"2\" mode=\"1\"><picture cover=\"https://p.qlogo.cn/gh/910092655/910092655/100\"/><title>线报发车交流群</title><summary>大家好才是真的好</summary></item><source/></msg>\n");
         		LOGGER.info("执行邀请qq好友{}加群操作，并等待{}秒执行下一次邀请",friend.toString(),(3300 / filterList.size()));
         		Thread.sleep((3300 / filterList.size()) * 1000);
         	}
