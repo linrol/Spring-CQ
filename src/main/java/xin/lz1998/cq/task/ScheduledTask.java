@@ -31,12 +31,12 @@ public class ScheduledTask {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledTask.class);
 	
-	private static String group = "479460338";
+	private static String group = "914494716";
 	
 	//fixedRate 周期 频率
    	@Scheduled(initialDelay=10000,fixedDelay=1800000)
     public void addFriendTask() throws Exception {
-        LOGGER.info("每隔10分钟执行好友添加操作");
+        LOGGER.info("每隔60分钟执行好友添加操作");
         List<Object> list = new ArrayList<Object>();
         if(!redisUtil.hasKey(group + "_group_list")) {
         	JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_group_member_list?self_id=%s&group_id=%s", "1706860030",group));
@@ -64,7 +64,7 @@ public class ScheduledTask {
 		Map<String,Object> itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex(group + "_group_list", currentAddPosition + 1);
 		while(itemWaitAddMap != null && !((Boolean)itemWaitAddMap.get("isAdd"))) {
 			String addUserId = (String) itemWaitAddMap.get("userId");
-			int random=(int)(Math.random()*15+20);
+			int random=(int)(Math.random()*120+180);
 			LOGGER.info("当前执行第{}条添加qq好友{}操作，并随机等待{}秒执行下一次添加",currentAddPosition,addUserId,random);
 			Global.qlightRobots.get(1706860030l).addFriend(addUserId);
 			itemWaitAddMap.put("isAdd", true);
@@ -80,8 +80,8 @@ public class ScheduledTask {
 		}
     }
 	
-	//fixedRate 周期 频率
-    @Scheduled(initialDelay=10000,fixedDelay=1800000)
+	// fixedRate 周期 频率
+    // @Scheduled(initialDelay=10000,fixedDelay=1800000)
     public void inviteIntoGroupTask() {
         LOGGER.info("每隔30分钟执行邀请好友入群操作");
         try {
@@ -121,7 +121,7 @@ public class ScheduledTask {
 		}
     }
     
-    @Scheduled(initialDelay=10000,fixedDelay=300000)
+    // @Scheduled(initialDelay=10000,fixedDelay=300000)
     public void inviteIntoNExistGroupTask() {
         LOGGER.info("每隔五分钟轮寻不在群里的好友邀请入群操作");
         try {
