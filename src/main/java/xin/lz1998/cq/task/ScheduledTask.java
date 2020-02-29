@@ -66,7 +66,7 @@ public class ScheduledTask {
 			String addUserId = (String) itemWaitAddMap.get("userId");
 			int random=(int)(Math.random()*100+120);
 			LOGGER.info("当前执行第{}条添加qq好友{}操作，并随机等待{}秒执行下一次添加",currentAddPosition,addUserId,random);
-			Global.qlightRobots.get(1706860030l).addFriend(addUserId);
+			Global.qlightRobots.get(779721310l).addFriend(addUserId);
 			itemWaitAddMap.put("isAdd", true);
 			redisUtil.lUpdateIndex(group + "_group_list", currentAddPosition, itemWaitAddMap);
 			redisUtil.incr(group + "_group_list_add_position", 1l);
