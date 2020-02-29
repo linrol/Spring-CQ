@@ -5,6 +5,17 @@
 version: '2'
 
 services:
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: redis-server --requirepass linrol_redis
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+    restart: always
+    ports:
+      - 6379:6379
   coolq-pro:
     image: richardchien/cqhttp
     restart: always
