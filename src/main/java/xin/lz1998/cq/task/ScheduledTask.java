@@ -31,7 +31,7 @@ public class ScheduledTask {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledTask.class);
 	
-	private static String group = "914494716";
+	private static String group = "737215804";
 	
 	//fixedRate 周期 频率
    	@Scheduled(initialDelay=10000,fixedDelay=1800000)
@@ -39,7 +39,7 @@ public class ScheduledTask {
         LOGGER.info("每隔60分钟执行好友添加操作");
         List<Object> list = new ArrayList<Object>();
         if(!redisUtil.hasKey(group + "_group_list")) {
-        	JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_group_member_list?self_id=%s&group_id=%s", "1706860030",group));
+        	JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_group_member_list?self_id=%s&group_id=%s", "2097736476",group));
         	JSONArray jsonArray = jsonResult.getJSONArray("data");
         	for(int i=0;i<jsonArray.size();i++) {
         		Map<String,Object> itemMap = new HashMap<String, Object>();
