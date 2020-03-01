@@ -37,6 +37,7 @@ public class ScheduledTask {
    	@Scheduled(initialDelay=10000,fixedDelay=180000)
     public void addFriendTask() throws Exception {
         LOGGER.info("任务执行结束后180秒后继续执行添加好友操作");
+        // Global.qlightRobots.get(1706860030l).addFriend("3021561689");
         List<Object> list = new ArrayList<Object>();
         if(!redisUtil.hasKey(group + "_group_list")) {
         	JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_group_member_list?self_id=%s&group_id=%s", "2097736476",group));
@@ -66,7 +67,7 @@ public class ScheduledTask {
 			String addUserId = (String) itemWaitAddMap.get("userId");
 			int random=(int)(Math.random()*100+120);
 			LOGGER.info("当前执行第{}条添加qq好友{}操作，并随机等待{}秒执行下一次添加",currentAddPosition,addUserId,random);
-			Global.qlightRobots.get(779721310l).addFriend(addUserId);
+			Global.qlightRobots.get(1706860030l).addFriend(addUserId);
 			itemWaitAddMap.put("isAdd", true);
 			redisUtil.lUpdateIndex(group + "_group_list", currentAddPosition, itemWaitAddMap);
 			redisUtil.incr(group + "_group_list_add_position", 1l);
