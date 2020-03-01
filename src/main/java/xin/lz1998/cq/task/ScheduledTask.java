@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import xin.lz1998.cq.Global;
 import xin.lz1998.cq.plugin.forward.HttpUtil;
 import xin.lz1998.cq.retdata.ApiData;
+import xin.lz1998.cq.robot.qqhd.MiPadShellAdb;
 import xin.lz1998.cq.util.RedisUtil;
 
 @Component
@@ -65,9 +66,10 @@ public class ScheduledTask {
 		Map<String,Object> itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex(group + "_group_list", currentAddPosition + 1);
 		while(itemWaitAddMap != null && !((Boolean)itemWaitAddMap.get("isAdd"))) {
 			String addUserId = (String) itemWaitAddMap.get("userId");
-			int random=(int)(Math.random()*100+120);
+			int random=(int)(Math.random()*30+60);
 			LOGGER.info("当前执行第{}条添加qq好友{}操作，并随机等待{}秒执行下一次添加",currentAddPosition,addUserId,random);
-			Global.qlightRobots.get(1706860030l).addFriend(addUserId);
+			MiPadShellAdb.addFriend(addUserId);
+			// Global.qlightRobots.get(1706860030l).addFriend(addUserId);
 			itemWaitAddMap.put("isAdd", true);
 			redisUtil.lUpdateIndex(group + "_group_list", currentAddPosition, itemWaitAddMap);
 			redisUtil.incr(group + "_group_list_add_position", 1l);
