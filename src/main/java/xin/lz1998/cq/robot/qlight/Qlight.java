@@ -114,7 +114,7 @@ public class Qlight {
 
         JSONObject params = new JSONObject();
         params.put("qq", qq);
-        params.put("message", "同意一下");
+        params.put("message", "嗨，你好，认识一下");
 
         ApiData<JSONObject> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<JSONObject>>() {
         });
