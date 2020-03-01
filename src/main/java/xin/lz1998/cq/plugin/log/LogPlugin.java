@@ -12,6 +12,7 @@ import xin.lz1998.cq.robot.CQPlugin;
 import xin.lz1998.cq.robot.CoolQ;
 
 // 这个插件用于记录日志
+@SuppressWarnings("unused")
 public class LogPlugin extends CQPlugin {
 
     private Logger logger = LoggerFactory.getLogger(LogPlugin.class);
@@ -140,7 +141,7 @@ public class LogPlugin extends CQPlugin {
         return MESSAGE_IGNORE;
     }
 
-    @Override
+	@Override
     public int onGroupRequest(CoolQ cq, CQGroupRequestEvent event) {
         MyLog myLog = MyLog.builder()
                 .selfId(cq.getSelfId())
