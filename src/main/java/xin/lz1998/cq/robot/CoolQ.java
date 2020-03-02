@@ -147,6 +147,22 @@ public class CoolQ {
         });
         return result;
     }
+    
+    public ApiData<MessageData> sendMsg(String message_type,long user_id,long group_id,long discuss_id, String message, boolean auto_escape) {
+        ApiEnum action = ApiEnum.SEND_MSG;
+
+        JSONObject params = new JSONObject();
+        params.put("message_type", message_type);
+        params.put("user_id", user_id);
+        params.put("group_id", group_id);
+        params.put("discuss_id", discuss_id);
+        params.put("message", message);
+        params.put("auto_escape", auto_escape);
+
+        ApiData<MessageData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<MessageData>>() {
+        });
+        return result;
+    }
 
     public ApiRawData deleteMsg(int message_id) {
         ApiEnum action = ApiEnum.DELETE_MSG;

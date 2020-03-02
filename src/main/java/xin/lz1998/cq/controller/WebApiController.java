@@ -36,6 +36,12 @@ public class WebApiController {
         Global.robots.get(self_id).sendDiscussMsg(discuss_id,message,auto_escape);
         return "ok";
     }
+    
+    @RequestMapping("/send_msg")
+    public String sendpMsg(long self_id, String message_type,long user_id,long group_id,long discuss_id, String message, Boolean auto_escape) throws IOException,  InterruptedException {
+        Global.robots.get(self_id).sendMsg(message_type,user_id,group_id,discuss_id,message,auto_escape);
+        return "ok";
+    }
 
     @RequestMapping("/delete_msg")
     public String deleteMsg(long self_id, int message_id) throws IOException,  InterruptedException {
