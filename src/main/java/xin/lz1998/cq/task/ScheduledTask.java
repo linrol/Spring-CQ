@@ -32,16 +32,18 @@ public class ScheduledTask {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledTask.class);
 	
-	private static String group = "737215804";
+	private int startGroupId = 1;
+	
+	private static String group[] = {"737215804","914629129"};
 	
 	//fixedRate 周期 频率
-   	@Scheduled(initialDelay=10000,fixedDelay=180000)
+   	@Scheduled(initialDelay=10000,fixedDelay=300000)
     public void addFriendTask() throws Exception {
         LOGGER.info("任务执行结束后180秒后继续执行添加好友操作");
         // Global.qlightRobots.get(1706860030l).addFriend("3021561689");
         List<Object> list = new ArrayList<Object>();
-        if(!redisUtil.hasKey(group + "_group_list")) {
-        	JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_group_member_list?self_id=%s&group_id=%s", "2097736476",group));
+        if(!redisUtil.hasKey(group[(++startGroupId)%group.length] + "_group_list")) {
+        	JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_group_member_list?self_id=%s&group_id=%s", "2097736476",group[startGroupId%group.length]));
         	JSONArray jsonArray = jsonResult.getJSONArray("data");
         	for(int i=0;i<jsonArray.size();i++) {
         		Map<String,Object> itemMap = new HashMap<String, Object>();
@@ -52,32 +54,34 @@ public class ScheduledTask {
 				LOGGER.info("执行第{}条保存群内的qq用户号{}到本地内存的操作",i,friendQQ);
 			}
         	if(list.size() > 0) {
-        		LOGGER.info("执行本地内存的qq用户列表数量{}上传内存Redis[key={}]的操作",list.size(),group + "_group_list");
-        		redisUtil.lSet(group + "_group_list", list);
+        		LOGGER.info("执行本地内存的qq用户列表数量{}上传内存Redis[key={}]的操作",list.size(),group[startGroupId%group.length] + "_group_list");
+        		redisUtil.lSet(group[startGroupId%group.length] + "_group_list", list);
         	}
         }
-        Integer currentAddPosition = (Integer) redisUtil.get(group + "_group_list_add_position");
+        Integer currentAddPosition = (Integer) redisUtil.get(group[startGroupId%group.length] + "_group_list_add_position");
 		if(currentAddPosition == null) {
-			redisUtil.set(group + "_group_list_add_position", 0);
+			redisUtil.set(group[startGroupId%group.length] + "_group_list_add_position", 0);
 			currentAddPosition = 0; 
 		}
-		int randomBreakCount = (int)(Math.random()*20+80);
+		int randomBreakCount = (int)(Math.random()*20);
 		int position = 0;
-		Map<String,Object> itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex(group + "_group_list", currentAddPosition + 1);
+		Map<String,Object> itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex(group[startGroupId%group.length] + "_group_list", currentAddPosition + 1);
+		MiPadShellAdb.reloadResource(group[startGroupId%group.length]);
 		while(itemWaitAddMap != null && !((Boolean)itemWaitAddMap.get("isAdd"))) {
 			String addUserId = (String) itemWaitAddMap.get("userId");
-			int random=(int)(Math.random()*30+60);
+			int random=(int)(Math.random()*90+30);
 			LOGGER.info("当前执行第{}条添加qq好友{}操作，并随机等待{}秒执行下一次添加",currentAddPosition,addUserId,random);
-			MiPadShellAdb.addFriend(addUserId);
+			MiPadShellAdb.addFriendByGroup(addUserId);
 			// Global.qlightRobots.get(1706860030l).addFriend(addUserId);
 			itemWaitAddMap.put("isAdd", true);
-			redisUtil.lUpdateIndex(group + "_group_list", currentAddPosition, itemWaitAddMap);
-			redisUtil.incr(group + "_group_list_add_position", 1l);
+			redisUtil.lUpdateIndex(group[startGroupId%group.length] + "_group_list", currentAddPosition, itemWaitAddMap);
+			redisUtil.incr(group[startGroupId%group.length] + "_group_list_add_position", 1l);
 			Thread.sleep(random * 1000);
-			currentAddPosition = (Integer) redisUtil.get(group + "_group_list_add_position");
-			itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex(group + "_group_list", currentAddPosition + 1);
+			currentAddPosition = (Integer) redisUtil.get(group[startGroupId%group.length] + "_group_list_add_position");
+			itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex(group[startGroupId%group.length] + "_group_list", currentAddPosition + 1);
 			position++;
 			if(position > randomBreakCount) {
+				LOGGER.info("本轮定时器自动添加好友任务结束，共成功请求添加{}个好友",randomBreakCount);
 				break;
 			}
 		}

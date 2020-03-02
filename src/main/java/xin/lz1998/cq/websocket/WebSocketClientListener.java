@@ -1,7 +1,5 @@
 package xin.lz1998.cq.websocket;
 
-import java.net.URI;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
