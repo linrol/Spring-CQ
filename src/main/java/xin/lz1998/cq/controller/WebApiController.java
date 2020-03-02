@@ -2,6 +2,8 @@ package xin.lz1998.cq.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -95,6 +97,27 @@ public class WebApiController {
     @RequestMapping("/get_analyze_to_generate")
     public Object getAnalyzeToGenerateTkl(String tkl) throws Exception {
     	return ForwardPlugin.analyzeAndCreateNewTkl(tkl);
+    }
+    
+    @RequestMapping("/get_client_ip")
+    public Object getClientIp(HttpServletRequest request) throws Exception {
+    	String ip = request.getHeader("X-forwarded-for");  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("Proxy-Client-IP");  
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("WL-Proxy-Client-IP");  
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("HTTP_CLIENT_IP");  
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");  
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getRemoteAddr();  
+        }  
+        return ip; 
     }
 
 }
