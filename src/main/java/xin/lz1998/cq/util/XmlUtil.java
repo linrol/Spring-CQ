@@ -13,7 +13,9 @@ public class XmlUtil {
       
 	 private static Logger logger = LoggerFactory.getLogger(LogPlugin.class);
 	
-    public static String[] getAttributeValue(String xmlPath,String attributeValue){  
+    public static String[] getAttributeValue(String xmlPath,String attributeValue){
+    	JaveShellUtil.ExecCommand("adb shell uiautomator dump /data/local/tmp/uidump.xml");
+		JaveShellUtil.ExecCommand("adb pull /data/local/tmp/uidump.xml " + xmlPath);
     	File file = new File(xmlPath);
         SAXReader reader = new SAXReader();
         try {
@@ -28,14 +30,14 @@ public class XmlUtil {
             	return location.split(",");
             }
         } catch (Exception ex) {  
-        	ex.printStackTrace();
-            logger.error("解释xml文件出现异常:" + ex.getMessage());
+        	//ex.printStackTrace();
+        	logger.error("解释xml文件出现异常:" + ex.getMessage());
         }  
         return null;
     }   
       
       
-    public static void main(String[] args) {  
-    	System.out.println(XmlUtil.getAttributeValue("/home/linrol/work/sourcecode/Spring-CQ/src/main/resources/dumpxml/uidump.xml","加为好友"));
+    public static void main(String[] args) {
+    	System.out.println(XmlUtil.getAttributeValue("/home/linrol/work/sourcecode/Spring-CQ/src/main/resources/dumpxml/uidump.xml","发送") != null);
     }  
 }

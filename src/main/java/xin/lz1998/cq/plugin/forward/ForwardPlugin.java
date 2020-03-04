@@ -90,16 +90,19 @@ public class ForwardPlugin extends CQPlugin {
     		return MESSAGE_IGNORE;
     	}
     	if(msgStack.containLike(StringUtil.getChineseString(msg), 0.8f)) {
-    		logger.info("消息[{}]大于相似因子0.8，放弃本次转发", StringUtil.getChineseString(msg));
+    		logger.error("消息[{}]大于相似因子0.8，跳过转发插件", StringUtil.getChineseString(msg));
     		return MESSAGE_IGNORE;
     	}
+    	logger.info("机器人QQ:{}收到群:{}消息{}", qlight.getSelfId(), group_id,msg);
     	msgStack.push(StringUtil.getChineseString(msg));
     	String sourceTkl = getSourceTkl(msg);
     	if(StringUtils.isBlank(sourceTkl)) {
+    		logger.error("暂未检测到淘口令或JD链接，跳过转发插件");
     		return MESSAGE_IGNORE;
     	}
     	String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(qlight.getSelfId())));
     	if(sourceTkl.equals(newTkl)) {
+    		logger.error("检测到原始淘口令或JD链接和新口令或链接相同,跳过转发插件");
     		return MESSAGE_IGNORE;
     	}
 		logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));

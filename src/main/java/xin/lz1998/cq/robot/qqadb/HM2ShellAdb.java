@@ -72,10 +72,8 @@ public class HM2ShellAdb {
 		Thread.sleep((random + 2) * 1000);
 		
 		System.out.println("点击加好友");
-		JaveShellUtil.ExecCommand("adb shell uiautomator dump /data/local/tmp/uidump.xml");
-		JaveShellUtil.ExecCommand("adb pull /data/local/tmp/uidump.xml " + tmpDir + "uidump.xml");
-		String[] xy = XmlUtil.getAttributeValue(tmpDir + "uidump.xml","加为好友");
-		JaveShellUtil.ExecCommand("adb shell input tap " + xy[0] + " " + xy[1]);
+		String[] addLocation = XmlUtil.getAttributeValue(tmpDir + "uidump.xml","加为好友");
+		JaveShellUtil.ExecCommand("adb shell input tap " + addLocation[0] + " " + addLocation[1]);
 		Thread.sleep(random * 1000);
 		
 		System.out.println("下一步");
@@ -86,7 +84,7 @@ public class HM2ShellAdb {
 		JaveShellUtil.ExecCommand("adb shell input tap 650 100");
 		Thread.sleep(random * 1000);
 		
-		if(StringUtils.isNotBlank(JaveShellUtil.ExecCommandResult("adb shell dumpsys activity activities | grep 'AddFriendVerifyActivity'"))) {
+		if(StringUtils.isNotBlank(JaveShellUtil.ExecCommandResult("adb shell dumpsys activity activities | grep 'AddFriendVerifyActivity'")) || XmlUtil.getAttributeValue(tmpDir + "uidump.xml","发送") != null) {
 			System.out.println("添加失败返回");
 			JaveShellUtil.ExecCommand("adb shell input tap 100 100");
 			Thread.sleep(random * 1000);
