@@ -7,7 +7,7 @@ import xin.lz1998.cq.util.XmlUtil;
 
 public class HM2ShellAdb {
 	
-	static String tmpDir = "/home/linrol/work/sourcecode/Spring-CQ/src/main/resources/dumpxml/";
+	static String tmpDir = "/home/linrol/tmp/dumpxml/";
 	
 	public static void reloadResource(String groupId) throws InterruptedException {
 		int random=(int)(Math.random()*3+2);
@@ -58,21 +58,23 @@ public class HM2ShellAdb {
 	}
 
 	public static void addNormalFriend(String qq) throws InterruptedException {
-		int random=(int)(Math.random()*3+2);
+		int random=(int)(Math.random()*2+2);
 		System.out.println("点击添加好友");
 		JaveShellUtil.ExecCommand("adb shell input tap 330 330");
-		Thread.sleep(random * 1000);
 		
 		System.out.println("输入qq号码");
 		JaveShellUtil.ExecCommand("adb shell input text " + qq);
-		Thread.sleep(random * 1000);
 		
 		System.out.println("点击查找按钮");
 		JaveShellUtil.ExecCommand("adb shell input tap 650 300");
-		Thread.sleep((random + 2) * 1000);
+		Thread.sleep((random + 4) * 1000);
 		
 		System.out.println("点击加好友");
 		String[] addLocation = XmlUtil.getAttributeValue(tmpDir + "uidump.xml","加为好友");
+		if(addLocation == null) {
+			System.out.println("定位元素失败返回");
+			JaveShellUtil.ExecCommandNumber("adb shell input tap 100 100",2);
+		}
 		JaveShellUtil.ExecCommand("adb shell input tap " + addLocation[0] + " " + addLocation[1]);
 		Thread.sleep(random * 1000);
 		
@@ -85,17 +87,8 @@ public class HM2ShellAdb {
 		Thread.sleep(random * 1000);
 		
 		if(StringUtils.isNotBlank(JaveShellUtil.ExecCommandResult("adb shell dumpsys activity activities | grep 'AddFriendVerifyActivity'")) || XmlUtil.getAttributeValue(tmpDir + "uidump.xml","发送") != null) {
-			System.out.println("添加失败返回");
-			JaveShellUtil.ExecCommand("adb shell input tap 100 100");
-			Thread.sleep(random * 1000);
-			
-			System.out.println("添加失败返回");
-			JaveShellUtil.ExecCommand("adb shell input tap 100 100");
-			Thread.sleep(random * 1000);
-			
-			System.out.println("添加失败返回");
-			JaveShellUtil.ExecCommand("adb shell input tap 100 100");
-			Thread.sleep(random * 1000);
+			System.out.println("添加好友失败返回");
+			JaveShellUtil.ExecCommandNumber("adb shell input tap 100 100",3);
 		}
 	}
 	

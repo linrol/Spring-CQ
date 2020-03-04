@@ -20,16 +20,21 @@ public class JaveShellUtil {
         }
     }
 	
-	public static int ExecCommand(String command) {
-        int retCode = 0;
+	public static void ExecCommandNumber(String command,int num) {
+		for(int i=0;i<num;i++) {
+			ExecCommand(command);
+		}
+	}
+	
+	public static void ExecCommand(String command) {
         try {
+        	Thread.sleep((int)(Math.random()*1500+800));
             Process process = Runtime.getRuntime().exec(new String[] { "/bin/sh", "-c", command }, null, null);
-            retCode = process.waitFor();
+            process.waitFor();
             ExecOutput(process);
         } catch (Exception e) {
-            retCode = -1;
+        	e.printStackTrace();
         }
-        return retCode;
     }
 
     public static String ExecOutput(Process process) throws Exception {

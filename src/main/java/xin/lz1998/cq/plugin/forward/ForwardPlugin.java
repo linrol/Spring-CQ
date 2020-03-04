@@ -30,7 +30,7 @@ import xin.lz1998.cq.robot.qlight.Qlight;
 @SuppressWarnings("unchecked")
 public class ForwardPlugin extends CQPlugin {
 	
-	private Logger logger = LoggerFactory.getLogger(ForwardPlugin.class);
+	private static Logger logger = LoggerFactory.getLogger(ForwardPlugin.class);
 	
 	public static Map<String,String> pidMap = new HashMap<String,String>();
 	
@@ -150,6 +150,7 @@ public class ForwardPlugin extends CQPlugin {
     	try {
     		JSONObject analyzeJsonResult = HttpUtil.sendGet(String.format(analyzeUrl, apKey,sourceTkl));
     		if(analyzeJsonResult.getInteger("code") != 200) {
+    			logger.error(analyzeJsonResult.toJSONString());
     			return sourceTkl;
 	    	}
     		String url = URLEncoder.encode(analyzeJsonResult.getJSONObject("data").getString("url"),"utf-8");
@@ -157,6 +158,7 @@ public class ForwardPlugin extends CQPlugin {
     		String pic = URLEncoder.encode(analyzeJsonResult.getJSONObject("data").getString("pic"),"utf-8");
     		JSONObject createJsonResult = HttpUtil.sendGet(String.format(createUrl, apKey,url,title,pic));
     		if(createJsonResult.getInteger("code") != 200) {
+    			logger.error(analyzeJsonResult.toJSONString());
     			return sourceTkl;
 	    	}
     		return createJsonResult.getString("data");
