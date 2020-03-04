@@ -34,13 +34,11 @@ public class ScheduledTask {
 	
 	private int startGroupId = 1;
 	
-	private static String group[] = {"737215804","914629129"};
+	private static String group[] = {"914629129","737215804"};
 	
 	//fixedRate 周期 频率
-   	@Scheduled(initialDelay=10000,fixedDelay=300000)
+   	@Scheduled(initialDelay=10000,fixedDelay=600000)
     public void addFriendTask() throws Exception {
-        LOGGER.info("任务执行结束后180秒后继续执行添加好友操作");
-        // Global.qlightRobots.get(1706860030l).addFriend("3021561689");
         List<Object> list = new ArrayList<Object>();
         if(!redisUtil.hasKey(group[(++startGroupId)%group.length] + "_group_list")) {
         	JSONObject jsonResult = HttpUtil.sendGet(String.format("http://www.alinkeji.com:8081/web_api/get_group_member_list?self_id=%s&group_id=%s", "2097736476",group[startGroupId%group.length]));
@@ -63,16 +61,18 @@ public class ScheduledTask {
 			redisUtil.set(group[startGroupId%group.length] + "_group_list_add_position", 0);
 			currentAddPosition = 0; 
 		}
-		int randomBreakCount = (int)(Math.random()*20);
+		int randomBreakCount = (int)(Math.random()*4+8);
 		int position = 0;
 		Map<String,Object> itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex(group[startGroupId%group.length] + "_group_list", currentAddPosition + 1);
 		MiPadShellAdb.reloadResource(group[startGroupId%group.length]);
+		LOGGER.info("本轮定时任务执行start,预计添加{}个好友",randomBreakCount);
+		Long startTs = System.currentTimeMillis();
 		while(itemWaitAddMap != null && !((Boolean)itemWaitAddMap.get("isAdd"))) {
 			String addUserId = (String) itemWaitAddMap.get("userId");
-			int random=(int)(Math.random()*90+30);
-			LOGGER.info("当前执行第{}条添加qq好友{}操作，并随机等待{}秒执行下一次添加",currentAddPosition,addUserId,random);
+			int random=(int)(Math.random()*80+200);
+			LOGGER.info("当前执行第{}条添加qq好友{}操作，预计等待{}分钟进行下一次操作",currentAddPosition,addUserId,(random + 50)/60.0);
 			MiPadShellAdb.addFriendByGroup(addUserId);
-			// Global.qlightRobots.get(1706860030l).addFriend(addUserId);
+			Global.qlightRobots.get(1706860030l).addFriend(addUserId);
 			itemWaitAddMap.put("isAdd", true);
 			redisUtil.lUpdateIndex(group[startGroupId%group.length] + "_group_list", currentAddPosition, itemWaitAddMap);
 			redisUtil.incr(group[startGroupId%group.length] + "_group_list_add_position", 1l);
@@ -81,7 +81,9 @@ public class ScheduledTask {
 			itemWaitAddMap = (Map<String, Object>) redisUtil.lGetIndex(group[startGroupId%group.length] + "_group_list", currentAddPosition + 1);
 			position++;
 			if(position > randomBreakCount) {
-				LOGGER.info("本轮定时器自动添加好友任务结束，共成功请求添加{}个好友",randomBreakCount);
+				MiPadShellAdb.addFriendByGroup("1445426299");
+				Global.qlightRobots.get(1706860030l).addFriend("1445426299");
+				LOGGER.info("本轮添加好友定时任务结束，共成功请求添加{}个好友,总耗时间{}分钟",randomBreakCount,(System.currentTimeMillis() - startTs)/60000.0);
 				break;
 			}
 		}

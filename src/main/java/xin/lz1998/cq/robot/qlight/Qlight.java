@@ -32,6 +32,8 @@ public class Qlight {
 
     @Getter
     public Map<String, ApiSender> apiCallbackMap = new HashMap<>();//用于存放api调用，收到响应时put，处理完成remove
+    
+    private String[] addMessage = {"加我一下，换号了","附近朋友","你好，我关注你好久了,通过一下","你好，微信好友","朋友推荐的，认识一下","交个朋友，认识一下"};
 
     public Qlight(long selfId) {
         this.selfId = selfId;
@@ -94,6 +96,17 @@ public class Qlight {
         });
         return result;
     }
+    
+    public ApiData<JSONObject> sendQzoneMsg(String content) {
+        ApiEnum action = ApiEnum.SEND_QZONE;
+
+        JSONObject params = new JSONObject();
+        params.put("content", content);
+
+        ApiData<JSONObject> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<JSONObject>>() {
+        });
+        return result;
+    }
 
     public ApiData<JSONObject> sendGroupMsg(String group_id, String message) {
     	ApiEnum action = ApiEnum.SEND_MSG;
@@ -114,7 +127,7 @@ public class Qlight {
 
         JSONObject params = new JSONObject();
         params.put("qq", qq);
-        params.put("message", "嗨，你好，认识一下");
+        params.put("message", addMessage[(int)(Math.random()*5)]);
 
         ApiData<JSONObject> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<JSONObject>>() {
         });

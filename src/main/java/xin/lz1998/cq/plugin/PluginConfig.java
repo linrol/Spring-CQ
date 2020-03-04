@@ -20,7 +20,7 @@ public class PluginConfig {
         pluginList.add(new LogPlugin()); // 日志插件
         pluginList.add(new CommandPlugin());//指令控制插件
         //pluginList.add(new PrefixPlugin()); // 前缀处理插件
-        //pluginList.add(new ForwardPlugin()); // 转发插件
+        qlightPluginList.add(new ForwardPlugin()); // 转发插件
         
         //qlightPluginList.add(new ForwardPlugin());
     }

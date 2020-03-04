@@ -30,9 +30,8 @@ public class CommandPlugin extends CQPlugin {
 		config.put(CommandEnum.CONTROLLER_QQ_LIST.getCommand(), lcontrollerList);
 		Map<Long,List<Long>> monitorGroupMap = new HashMap<Long,List<Long>>();
 		List<Long> monitorGroupList = new ArrayList<Long>();
-		monitorGroupList.add(737215804l);
-		monitorGroupList.add(425239590l);
-		monitorGroupMap.put(2097736476l, monitorGroupList);
+		monitorGroupList.add(914494716l);
+		monitorGroupMap.put(1706860030l, monitorGroupList);
 		config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), monitorGroupMap);
 		
 		List<Long> forwardGroupList = new ArrayList<Long>();

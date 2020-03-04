@@ -39,6 +39,7 @@ public class ForwardPlugin extends CQPlugin {
 	static {
 		pidMap.put("910092655", "mm_109302870_1080150328_109752250051");
 		pidMap.put("198896490", "mm_109302870_1090250211_109781850271");
+		pidMap.put("1706860030", "mm_109302870_1334100247_110058600353");
     }
 	
     @Override
@@ -76,16 +77,16 @@ public class ForwardPlugin extends CQPlugin {
     public int onGroupMessage(Qlight qlight,JSONObject jsonData) {
     	String group_id = jsonData.getJSONObject("params").getString("group");
     	String message = jsonData.getJSONObject("params").getString("content");
-    	logger.info("QQ:{}收到群:{}消息", qlight.getSelfId(), group_id);
+    	logger.info("机器人QQ:{}收到群:{}消息", qlight.getSelfId(), group_id);
     	Map<Long,List<Long>> monitorMap = (Map<Long, List<Long>>) CommandPlugin.config.get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand());
     	if(monitorMap == null || !monitorMap.containsKey(qlight.getSelfId())) {
-    		logger.error("QQ:{}未设置监听的配置,结束执行", qlight.getSelfId());
+    		logger.error("机器人QQ:{}未设置监听的配置,结束执行", qlight.getSelfId());
     		return MESSAGE_IGNORE;
     	}
     	List<Long> monitorGrouplist = monitorMap.get(qlight.getSelfId());
     	String msg = filterMsg(message);
-    	if(monitorGrouplist == null || !monitorGrouplist.contains(Long.valueOf(group_id))) {
-    		logger.error("QQ:{}设置的监听群列表中不包含群:{}的配置,结束执行", qlight.getSelfId(), group_id);
+    	if(monitorGrouplist == null || !monitorGrouplist.contains(Long.valueOf(group_id)) || msg.contains("[QQ")) {
+    		logger.error("机器人QQ:{}设置的监听群列表中不包含群:{}的配置,结束执行", qlight.getSelfId(), group_id);
     		return MESSAGE_IGNORE;
     	}
     	if(msgStack.containLike(StringUtil.getChineseString(msg), 0.8f)) {
@@ -93,17 +94,13 @@ public class ForwardPlugin extends CQPlugin {
     		return MESSAGE_IGNORE;
     	}
     	msgStack.push(StringUtil.getChineseString(msg));
-    	ImageUtil.downloadImage(message);
-    	List<Long> forwardGrouplist = (List<Long>) CommandPlugin.config.get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
     	String sourceTkl = getSourceTkl(msg);
-    	for(Long groupId:forwardGrouplist) {
-    		if(StringUtils.isNotBlank(sourceTkl)) {
-    			String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(groupId)));
-    			logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
-    			Global.qlightRobots.get(779721310l).sendGroupMsg(String.valueOf(groupId), msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")));
-    		}else {
-    			Global.qlightRobots.get(779721310l).sendGroupMsg(String.valueOf(groupId), msg);
-    		}
+    	if(StringUtils.isNotBlank(sourceTkl)) {
+    		String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(qlight.getSelfId())));
+    		logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
+    		Global.qlightRobots.get(qlight.getSelfId()).sendQzoneMsg(msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")));
+    	}else {
+    		Global.qlightRobots.get(qlight.getSelfId()).sendQzoneMsg(msg);
     	}
         return MESSAGE_IGNORE; // 继续执行下一个插件
     }

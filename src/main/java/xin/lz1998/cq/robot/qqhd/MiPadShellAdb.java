@@ -54,7 +54,49 @@ public class MiPadShellAdb {
 		int random=(int)(Math.random()*3+3);
 		
 		System.out.println("选中qq输入框");
-		JaveShellUtil.ExecCommand("adb shell input tap 500 200");
+		JaveShellUtil.ExecCommand("adb shell input tap 1050 100");
+		Thread.sleep((random + 3) * 1000);
+		
+		//输入qq号码
+		System.out.println("输入qq号码" + qq);
+		JaveShellUtil.ExecCommand("adb shell input text " + qq);
+		Thread.sleep(random * 1000);
+		
+		System.out.println("进入好友资料页");
+		JaveShellUtil.ExecCommand("adb shell input tap 1100 230");
+		Thread.sleep(random * 1000);
+		
+		System.out.println("点击加好友");
+		JaveShellUtil.ExecCommand("adb shell input tap 320 1750");
+		Thread.sleep(random * 1000);
+		
+		System.out.println("点击下一步");
+		JaveShellUtil.ExecCommand("adb shell input tap 1100 100");
+		Thread.sleep(random * 1000);
+		
+		System.out.println("点击发送");
+		JaveShellUtil.ExecCommand("adb shell input tap 1100 100");
+		Thread.sleep(random * 1000);
+		
+		System.out.println("补偿失败");
+		JaveShellUtil.ExecCommand("adb shell input tap 600 590");
+		Thread.sleep(2 * 1000);
+		
+		System.out.println("补偿失败");
+		JaveShellUtil.ExecCommand("adb shell input tap 35 100");
+		Thread.sleep(2 * 1000);
+		
+		//返回
+		System.out.println("返回");
+		JaveShellUtil.ExecCommand("adb shell input keyevent 4");
+		Thread.sleep(random * 1000);
+	}
+	
+	public static void addFriendByIQQ(String qq) throws InterruptedException {
+		int random=(int)(Math.random()*3+3);
+		
+		System.out.println("选中qq输入框");
+		JaveShellUtil.ExecCommand("adb shell input tap 300 300");
 		Thread.sleep(random * 1000);
 		
 		//输入qq号码
@@ -62,23 +104,28 @@ public class MiPadShellAdb {
 		JaveShellUtil.ExecCommand("adb shell input text " + qq);
 		Thread.sleep(random * 1000);
 		
-		//加好友
-		System.out.println("加好友");
-		JaveShellUtil.ExecCommand("adb shell input tap 1100 230");
+		System.out.println("点击查找按钮");
+		JaveShellUtil.ExecCommand("adb shell input tap 1120 300");
 		Thread.sleep(random * 1000);
 		
-		//发送
 		System.out.println("发送");
 		JaveShellUtil.ExecCommand("adb shell input tap 1130 100");
 		Thread.sleep(random * 1000);
 		
-		System.out.println("发送失败时取消");
-		JaveShellUtil.ExecCommand("adb shell input tap 90 100");
+		System.out.println("点击加好友");
+		JaveShellUtil.ExecCommand("adb shell input tap 600 1800");
 		Thread.sleep(random * 1000);
 		
-		//返回
-		System.out.println("取消");
-		JaveShellUtil.ExecCommand("adb shell input tap 1100 119");
+		System.out.println("点击下一步");
+		JaveShellUtil.ExecCommand("adb shell input tap 1150 100");
+		Thread.sleep(random * 1000);
+		
+		System.out.println("点击发送");
+		JaveShellUtil.ExecCommand("adb shell input tap 1150 100");
+		Thread.sleep(random * 1000);
+		
+		System.out.println("清空输入框");
+		JaveShellUtil.ExecCommand("adb shell input tap 1030 320");
 		Thread.sleep(random * 1000);
 	}
 
@@ -122,28 +169,29 @@ public class MiPadShellAdb {
 		Thread.sleep(random * 1000);
 		
 		System.out.println("打开QQ应用");
-		JaveShellUtil.ExecCommand("adb shell am start -n com.tencent.mobileqq/.activity.SplashActivity");
+		JaveShellUtil.ExecCommand("adb shell am start -n com.tencent.qqlite/com.tencent.mobileqq.activity.SplashActivity");
 		Thread.sleep(random * 1000);
 		
-		System.out.println("选中搜索框");
-		JaveShellUtil.ExecCommand("adb shell input tap 500 210");
-		Thread.sleep(random * 1000);
+		System.out.println("选中搜索栏");
+		JaveShellUtil.ExecCommand("adb shell input tap 1050 100");
+		Thread.sleep((random + 3) * 1000);
 		
-		System.out.println("输入群号" + groupId);
+		System.out.println("输入群号码" + groupId);
 		JaveShellUtil.ExecCommand("adb shell input text " + groupId);
 		Thread.sleep(random * 1000);
 		
-		System.out.println("选中群");
-		JaveShellUtil.ExecCommand("adb shell input tap 800 300");
+		System.out.println("进入群界面");
+		JaveShellUtil.ExecCommand("adb shell input tap 800 230");
 		Thread.sleep(random * 1000);
 		
-		System.out.println("群菜单按键");
-		JaveShellUtil.ExecCommand("adb shell input tap 1150 100");
+		System.out.println("点击群菜单");
+		JaveShellUtil.ExecCommand("adb shell input tap 1140 110");
 		Thread.sleep(random * 1000);
 		
-		System.out.println("群成员列表");
-		JaveShellUtil.ExecCommand("adb shell input tap 1100 355");
-		Thread.sleep((random + 10)  * 1000);
+		System.out.println("进入群成员列表");
+		JaveShellUtil.ExecCommand("adb shell input tap 1070 250");
+		Thread.sleep((random + 10) * 1000);
+		
 	}
 	
 }
