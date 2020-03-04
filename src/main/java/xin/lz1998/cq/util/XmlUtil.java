@@ -14,9 +14,10 @@ public class XmlUtil {
       
 	 private static Logger logger = LoggerFactory.getLogger(LogPlugin.class);
 	
-    public static String[] getAttributeValue(String xmlPath,String attributeValue) {
+    public static String[] getAttributeValue(String xmlPath,String attributeValue) throws InterruptedException {
     	JaveShellUtil.ExecCommand("rm -rf " + xmlPath);
     	long time = Calendar.getInstance().getTimeInMillis();
+    	Thread.sleep(4 * 1000);
     	JaveShellUtil.ExecCommand("adb shell uiautomator dump /data/local/tmp/uidump_"+time+".xml");
     	JaveShellUtil.ExecCommand("adb pull /data/local/tmp/uidump"+time +".xml " + xmlPath);
     	File file = new File(xmlPath);

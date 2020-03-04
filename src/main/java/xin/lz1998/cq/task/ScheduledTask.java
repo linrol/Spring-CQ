@@ -36,6 +36,11 @@ public class ScheduledTask {
 	
 	private static String group[] = {"914629129","737215804"};
 	
+	//@Scheduled(initialDelay=10000,fixedDelay=600000)
+    public void test() throws Exception {
+		Global.qlightRobots.get(1706860030l).sendPrivateMsg("1445426299", "收到回复我");
+	}
+	
 	//fixedRate 周期 频率
    	@Scheduled(initialDelay=10000,fixedDelay=600000)
     public void addFriendTask() throws Exception {
