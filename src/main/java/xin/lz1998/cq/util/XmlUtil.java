@@ -19,7 +19,7 @@ public class XmlUtil {
     	long time = Calendar.getInstance().getTimeInMillis();
     	Thread.sleep(4 * 1000);
     	JaveShellUtil.ExecCommand("adb shell uiautomator dump /data/local/tmp/uidump_"+time+".xml");
-    	JaveShellUtil.ExecCommand("adb pull /data/local/tmp/uidump"+time +".xml " + xmlPath);
+    	JaveShellUtil.ExecCommand("adb pull /data/local/tmp/uidump_"+time +".xml " + xmlPath);
     	File file = new File(xmlPath);
         SAXReader reader = new SAXReader();
         try {
