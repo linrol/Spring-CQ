@@ -74,6 +74,7 @@ public class HM2ShellAdb {
 		if(addLocation == null) {
 			System.out.println("定位元素失败返回");
 			JaveShellUtil.ExecCommandNumber("adb shell input tap 100 100",2);
+			return;
 		}
 		JaveShellUtil.ExecCommand("adb shell input tap " + addLocation[0] + " " + addLocation[1]);
 		Thread.sleep(random * 1000);
