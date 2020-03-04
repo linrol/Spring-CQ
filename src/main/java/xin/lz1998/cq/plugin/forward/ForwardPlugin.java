@@ -95,14 +95,16 @@ public class ForwardPlugin extends CQPlugin {
     	}
     	msgStack.push(StringUtil.getChineseString(msg));
     	String sourceTkl = getSourceTkl(msg);
-    	if(StringUtils.isNotBlank(sourceTkl)) {
-    		String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(qlight.getSelfId())));
-    		logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
-    		Global.qlightRobots.get(qlight.getSelfId()).sendQzoneMsg(msg.replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")));
-    	}else {
-    		Global.qlightRobots.get(qlight.getSelfId()).sendQzoneMsg(msg);
+    	if(StringUtils.isBlank(sourceTkl)) {
+    		return MESSAGE_IGNORE;
     	}
-        return MESSAGE_IGNORE; // 继续执行下一个插件
+    	String newTkl = getChangeTklBy21ds(sourceTkl,pidMap.get(String.valueOf(qlight.getSelfId())));
+    	if(sourceTkl.equals(newTkl)) {
+    		return MESSAGE_IGNORE;
+    	}
+		logger.info("sourceTkl:" + sourceTkl.replaceAll("￥", "") + "-----" + newTkl.replaceAll("￥", ""));
+		Global.qlightRobots.get(qlight.getSelfId()).sendQzoneMsg(msg.replaceAll("\r", "").replaceAll("\n", "").replaceAll(sourceTkl.replaceAll("￥", ""), newTkl.replaceAll("￥", "")));
+		return MESSAGE_IGNORE;
     }
     
     public static String getSourceTkl(String msg) {
