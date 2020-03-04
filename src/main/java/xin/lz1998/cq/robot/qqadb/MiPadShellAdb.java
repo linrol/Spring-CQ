@@ -1,4 +1,4 @@
-package xin.lz1998.cq.robot.qqhd;
+package xin.lz1998.cq.robot.qqadb;
 
 import xin.lz1998.cq.util.JaveShellUtil;
 

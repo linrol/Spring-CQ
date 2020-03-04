@@ -6,9 +6,20 @@ import java.io.LineNumberReader;
 public class JaveShellUtil {
 	
 	public static void main(String[] args) {
-		ExecCommand("adb shell input tap 1066 1687");
+		System.out.println(ExecCommandResult("adb shell dumpsys activity activities | grep 'AddFriendVerifyActivity'"));
 	}
+	
 
+	public static String ExecCommandResult(String command) {
+        try {
+            Process process = Runtime.getRuntime().exec(new String[] { "/bin/sh", "-c", command }, null, null);
+            process.waitFor();
+            return ExecOutput(process);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+	
 	public static int ExecCommand(String command) {
         int retCode = 0;
         try {
@@ -21,22 +32,22 @@ public class JaveShellUtil {
         return retCode;
     }
 
-    public static boolean ExecOutput(Process process) throws Exception {
+    public static String ExecOutput(Process process) throws Exception {
         if (process == null) {
-            return false;
-        } else {
-            InputStreamReader ir = new InputStreamReader(process.getInputStream());
-            LineNumberReader input = new LineNumberReader(ir);
-            String line;
-            String output = "";
-            while ((line = input.readLine()) != null) {
-                output += line + "\n";
-            }
-            input.close();
-            ir.close();
-            if (output.length() > 0) {
-            }
+            return null;
         }
-        return true;
+        InputStreamReader ir = new InputStreamReader(process.getInputStream());
+        LineNumberReader input = new LineNumberReader(ir);
+        String line;
+        String output = "";
+        while ((line = input.readLine()) != null) {
+            output += line + "\n";
+        }
+        input.close();
+        ir.close();
+        if (output.length() > 0) {
+        	return output;
+        }
+        return null;
     }
 }
