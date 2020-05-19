@@ -58,6 +58,9 @@ public class ForwardPlugin extends CQPlugin {
     if (StringUtils.isBlank(newMsg)) {
       return MESSAGE_IGNORE;
     }
+    if(!newMsg.contains("http")){
+      newMsg = "￥" + newMsg + "￥";
+    }
     cq.sendPrivateMsg(event.getUserId(), newMsg, false);
     return MESSAGE_IGNORE; // 继续执行下一个插件
   }
