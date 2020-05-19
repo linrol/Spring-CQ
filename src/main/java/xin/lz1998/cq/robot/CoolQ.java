@@ -53,7 +53,7 @@ public class CoolQ {
     }
     
     private JSONObject sendApiMessage(ApiEnum action, JSONObject params) {
-    	int defaultSize = 1024 * 1024;	// 128M
+    	int defaultSize = 1024 * 50;	// 128M
     	return sendApiMessage(action,params,defaultSize);
     }
 
