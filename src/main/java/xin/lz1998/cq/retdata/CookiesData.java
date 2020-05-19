@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class CookiesData {
-    @JSONField(name = "cookies")
-    private String cookies;
+
+  @JSONField(name = "cookies")
+  private String cookies;
 }

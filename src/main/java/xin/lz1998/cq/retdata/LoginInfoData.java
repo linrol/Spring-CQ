@@ -5,8 +5,9 @@ import lombok.Data;
 
 @Data
 public class LoginInfoData {
-    @JSONField(name = "user_id")
-    private long user_id;
-    @JSONField(name = "nickname")
-    private String nickname;
+
+  @JSONField(name = "user_id")
+  private long user_id;
+  @JSONField(name = "nickname")
+  private String nickname;
 }

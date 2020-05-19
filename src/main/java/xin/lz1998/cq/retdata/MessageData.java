@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class MessageData {
-    @JSONField(name = "message_id")
-    private int messageId;
+
+  @JSONField(name = "message_id")
+  private int messageId;
 }

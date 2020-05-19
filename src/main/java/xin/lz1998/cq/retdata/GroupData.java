@@ -5,8 +5,9 @@ import lombok.Data;
 
 @Data
 public class GroupData {
-    @JSONField(name = "group_id")
-    private long groupId;
-    @JSONField(name = "group_name")
-    private String groupName;
+
+  @JSONField(name = "group_id")
+  private long groupId;
+  @JSONField(name = "group_name")
+  private String groupName;
 }

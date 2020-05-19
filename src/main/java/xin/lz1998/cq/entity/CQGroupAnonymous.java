@@ -5,10 +5,11 @@ import lombok.Data;
 
 @Data
 public class CQGroupAnonymous {
-    @JSONField(name = "id")
-    private long id;
-    @JSONField(name = "name")
-    private String name;
-    @JSONField(name = "flag")
-    private String flag;
+
+  @JSONField(name = "id")
+  private long id;
+  @JSONField(name = "name")
+  private String name;
+  @JSONField(name = "flag")
+  private String flag;
 }

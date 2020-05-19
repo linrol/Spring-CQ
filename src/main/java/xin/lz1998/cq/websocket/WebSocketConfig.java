@@ -8,8 +8,10 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
-    @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new WebSocketHandler("api"), "/ws/api/").addHandler(new WebSocketHandler("event"), "/ws/event/").setAllowedOrigins("*");
-    }
+
+  @Override
+  public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+    registry.addHandler(new WebSocketHandler("api"), "/ws/api/")
+        .addHandler(new WebSocketHandler("event"), "/ws/event/").setAllowedOrigins("*");
+  }
 }

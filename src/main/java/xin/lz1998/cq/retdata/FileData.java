@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class FileData {
-    @JSONField(name = "file")
-    private String file;
+
+  @JSONField(name = "file")
+  private String file;
 }

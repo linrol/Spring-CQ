@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class BooleanData {
-    @JSONField(name = "yes")
-    private boolean yes;
+
+  @JSONField(name = "yes")
+  private boolean yes;
 }

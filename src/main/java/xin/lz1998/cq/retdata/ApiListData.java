@@ -7,10 +7,11 @@ import java.util.List;
 
 @Data
 public class ApiListData<T> {
-    @JSONField(name = "status")
-    private String status;
-    @JSONField(name = "retcode")
-    private int retcode;
-    @JSONField(name = "data")
-    private List<T> data;
+
+  @JSONField(name = "status")
+  private String status;
+  @JSONField(name = "retcode")
+  private int retcode;
+  @JSONField(name = "data")
+  private List<T> data;
 }

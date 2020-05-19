@@ -7,12 +7,13 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class CQGroupBanNoticeEvent extends CQNoticeEvent {
-    @JSONField(name = "sub_type")
-    private String subType;
-    @JSONField(name = "group_id")
-    private long groupId;
-    @JSONField(name = "operator_id")
-    private long operatorId;
-    @JSONField(name = "duration")
-    private long duration;
+
+  @JSONField(name = "sub_type")
+  private String subType;
+  @JSONField(name = "group_id")
+  private long groupId;
+  @JSONField(name = "operator_id")
+  private long operatorId;
+  @JSONField(name = "duration")
+  private long duration;
 }

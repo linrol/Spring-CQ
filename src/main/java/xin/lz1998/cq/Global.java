@@ -6,7 +6,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Global {
-    public static Map<Long, CoolQ> robots = new ConcurrentHashMap<>();
+
+  public static Map<Long, CoolQ> robots = new ConcurrentHashMap<>();
 
 
 }

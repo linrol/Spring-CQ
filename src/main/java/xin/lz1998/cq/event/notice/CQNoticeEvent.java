@@ -8,8 +8,9 @@ import xin.lz1998.cq.event.CQEvent;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class CQNoticeEvent extends CQEvent {
-    @JSONField(name = "notice_type")
-    private String noticeType;
-    @JSONField(name = "user_id")
-    private long userId;
+
+  @JSONField(name = "notice_type")
+  private String noticeType;
+  @JSONField(name = "user_id")
+  private long userId;
 }

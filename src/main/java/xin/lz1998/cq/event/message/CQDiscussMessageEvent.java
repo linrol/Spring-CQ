@@ -8,8 +8,9 @@ import xin.lz1998.cq.entity.CQUser;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class CQDiscussMessageEvent extends CQMessageEvent {
-    @JSONField(name = "discuss_id")
-    private long discussId;
-    @JSONField(name = "sender")
-    private CQUser sender;
+
+  @JSONField(name = "discuss_id")
+  private long discussId;
+  @JSONField(name = "sender")
+  private CQUser sender;
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class CsrfTokenData {
-    @JSONField(name = "token")
-    private int token;
+
+  @JSONField(name = "token")
+  private int token;
 }
