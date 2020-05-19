@@ -54,21 +54,7 @@ public class ForwardPlugin extends CQPlugin {
     if (sourceContentList.size() < 1 || cq.getSelfId() != 779721310) {
       return MESSAGE_IGNORE;
     }
-    String newMsg = "";
-    for (String sourceContent : sourceContentList) {
-      if (!sourceContent.contains(".jd.com")) {
-        String newContent = getChangeTklBy21ds("￥" + sourceContent + "￥",
-            pidMap.get(String.valueOf(910092655l)));
-        logger
-            .info("source tkl:" + sourceContent + "-----new tkl:" + newContent.replaceAll("￥", ""));
-        newMsg += newContent + "\n";
-      } else {
-        String newContent = getJdShortUrl(sourceContent);
-        logger
-            .info("source url:" + sourceContent + "-----new url:" + newContent.replaceAll("￥", ""));
-        newMsg += newContent + "\n";
-      }
-    }
+    String newMsg = convertMsg(sourceContentList,String.join("\n",sourceContentList),pidMap.get(String.valueOf(910092655l)));
     if (StringUtils.isBlank(newMsg)) {
       return MESSAGE_IGNORE;
     }
