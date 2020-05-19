@@ -135,17 +135,12 @@ public class ForwardPlugin extends CQPlugin {
 
   private static String convertMsg(List<String> sourceContentList, String msg, String pid) {
     for (String sourceContent : sourceContentList) {
-      if (!sourceContent.contains(".jd.com")) {
-        String newContent = getChangeTklBy21ds("￥" + sourceContent + "￥", pid);
-        logger
-            .info("source tkl:" + sourceContent + "-----new tkl:" + newContent.replaceAll("￥", ""));
-        msg = msg.replace(sourceContent, newContent.replaceAll("￥", ""));
-      } else {
-        String newContent = getJdShortUrl(sourceContent);
-        logger
-            .info("source url:" + sourceContent + "-----new url:" + newContent.replaceAll("￥", ""));
-        msg = msg.replace(sourceContent, newContent.replaceAll("￥", ""));
+      if(sourceContent.contains("http") && !sourceContent.contains(".jd.com")) {
+        continue;
       }
+      String newContent = sourceContent.contains(".jd.com") ? getJdShortUrl(sourceContent):getChangeTklBy21ds("￥" + sourceContent + "￥", pid);
+      logger.info("source:" + sourceContent + "-----new:" + newContent.replaceAll("￥", ""));
+      msg = msg.replace(sourceContent, newContent.replaceAll("￥", ""));
     }
     return msg;
   }
