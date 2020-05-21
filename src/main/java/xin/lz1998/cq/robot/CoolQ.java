@@ -73,7 +73,7 @@ public class CoolQ {
 
   public void onReceiveEventMessage(JSONObject message) {
     logger.debug(selfId + " RECV Event {}", message);
-    new Thread(() -> EventHandler.handle(CoolQ.this, message)).start();
+    new Thread(() -> EventHandler.handle(this, message)).start();
   }
 
 

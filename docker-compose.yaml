@@ -14,8 +14,6 @@ services:
     ports:
       - 6379:6379
     restart: always
-    ports:
-      - 6379:6379
     volumes:
       - /root/web/app/redis/data:/data
   coolq-pro:
@@ -35,6 +33,8 @@ services:
       - CQHTTP_WS_REVERSE_EVENT_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/event/
       - CQHTTP_LOG_LEVEL=debug
       - CQHTTP_SHOW_LOG_CONSOLE=true
+      - CQHTTP_WS_REVERSE_RECONNECT_INTERVAL=2000
+      - CQHTTP_WS_REVERSE_RECONNECT_ON_CODE_1000=true
     ports:
       - 8000:9000
       - 5700:5700
@@ -55,6 +55,8 @@ services:
       - CQHTTP_WS_REVERSE_EVENT_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/event/
       - CQHTTP_LOG_LEVEL=debug
       - CQHTTP_SHOW_LOG_CONSOLE=true
+      - CQHTTP_WS_REVERSE_RECONNECT_INTERVAL=2000
+      - CQHTTP_WS_REVERSE_RECONNECT_ON_CODE_1000=true
     ports:
       - 8001:9000
   coolq-air:
@@ -74,6 +76,8 @@ services:
       - CQHTTP_WS_REVERSE_EVENT_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/event/
       - CQHTTP_LOG_LEVEL=debug
       - CQHTTP_SHOW_LOG_CONSOLE=true
+      - CQHTTP_WS_REVERSE_RECONNECT_INTERVAL=2000
+      - CQHTTP_WS_REVERSE_RECONNECT_ON_CODE_1000=true
     ports:
       - 8002:9000
   coolq-air-slave:
@@ -93,5 +97,7 @@ services:
       - CQHTTP_WS_REVERSE_EVENT_URL=ws://${DEPLOY_HOST}:${WS_PORT}/ws/event/
       - CQHTTP_LOG_LEVEL=debug
       - CQHTTP_SHOW_LOG_CONSOLE=true
+      - CQHTTP_WS_REVERSE_RECONNECT_INTERVAL=2000
+      - CQHTTP_WS_REVERSE_RECONNECT_ON_CODE_1000=true
     ports:
       - 8003:9000
