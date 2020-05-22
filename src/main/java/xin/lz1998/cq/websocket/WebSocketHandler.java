@@ -59,7 +59,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
   public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
     long xSelfId = Long.valueOf(session.getHandshakeHeaders().get("x-self-id").get(0));
     logger.info("{} {} disconnected", xSelfId,this.getSocketType());
-    // Global.robots.remove(xSelfId);
+    CoolQ robot = Global.robots.get(xSelfId);
+    if ("api".equals(this.getSocketType())) {
+      robot.setBotApiSession(null);
+    } else if ("event".equals(this.getSocketType())) {
+      robot.setBotEventSession(null);
+    }
   }
 
   public String getSocketType() {
