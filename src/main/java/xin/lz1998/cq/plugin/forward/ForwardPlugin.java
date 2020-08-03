@@ -49,7 +49,7 @@ public class ForwardPlugin extends CQPlugin {
   public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
     logger.info("QQ:{}收到好友:{}消息", cq.getSelfId(), event.getUserId());
     String msg = filterMsg(event.getMessage());
-    ImageUtil.downloadImage(event.getMessage());
+    // ImageUtil.downloadImage(event.getMessage());
     List<String> sourceContentList = getSourceContent(msg);
     if (sourceContentList.size() < 1 || cq.getSelfId() != 779721310) {
       return MESSAGE_IGNORE;
@@ -81,7 +81,7 @@ public class ForwardPlugin extends CQPlugin {
       return MESSAGE_IGNORE;
     }
     msgStack.push(StringUtil.getChineseString(msg));
-    ImageUtil.downloadImage(event.getMessage());
+    // ImageUtil.downloadImage(event.getMessage());
     List<Long> forwardGrouplist = (List<Long>) CommandPlugin.config
         .get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
     List<String> sourceContentList = getSourceContent(msg);
