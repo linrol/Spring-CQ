@@ -23,10 +23,7 @@ public class CoolQ {
 
   private long selfId;
 
-  private WebSocketSession botApiSession;
-
-  private WebSocketSession botEventSession;
-
+  private WebSocketSession botSession;
 
   private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -54,7 +51,7 @@ public class CoolQ {
   private JSONObject sendApiMessage(ApiEnum action, JSONObject params, int maxSize) {
     JSONObject apiJSON = constructApiJSON(action, params);
     String echo = apiJSON.getString("echo");
-    ApiSender apiSender = new ApiSender(botApiSession, maxSize);
+    ApiSender apiSender = new ApiSender(botSession, maxSize);
     apiCallbackMap.put(echo, apiSender);
     logger.info("{} SEND API   {} {}", selfId, action.getDesc(), params);
     JSONObject retJson;
@@ -550,20 +547,12 @@ public class CoolQ {
     return result;
   }
 
-  public WebSocketSession getBotApiSession() {
-    return botApiSession;
+  public WebSocketSession getBotSession() {
+    return botSession;
   }
 
-  public void setBotApiSession(WebSocketSession botApiSession) {
-    this.botApiSession = botApiSession;
-  }
-
-  public WebSocketSession getBotEventSession() {
-    return botEventSession;
-  }
-
-  public void setBotEventSession(WebSocketSession botEventSession) {
-    this.botEventSession = botEventSession;
+  public void setBotSession(WebSocketSession botSession) {
+    this.botSession = botSession;
   }
 
   public long getSelfId() {
