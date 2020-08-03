@@ -88,7 +88,7 @@ public class ForwardPlugin extends CQPlugin {
     List<Long> forwardGrouplist = monitorForwardGroupMap.get(group_id);
     List<String> sourceContentList = getSourceContent(msg);
     forwardGrouplist.forEach(groupId -> Global.robots.get(779721310l).sendGroupMsg(groupId,
-        convertMsg(sourceContentList, msg, pidMap.get(String.valueOf(groupId))), false));
+        convertMsg(sourceContentList, ImageUtil.convertFileImage(msg), pidMap.get(String.valueOf(groupId))), false));
     return MESSAGE_IGNORE; // 继续执行下一个插件
     // return MESSAGE_BLOCK; // 不执行下一个插件
   }

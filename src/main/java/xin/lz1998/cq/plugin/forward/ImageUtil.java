@@ -34,6 +34,17 @@ public class ImageUtil {
     }
   }
 
+  public static String convertFileImage(String content){
+    List<String> list = extractMessageByRegular(content);
+    for (String cqContent : list) {
+      if (cqContent.startsWith("CQ:image") && cqContent.contains("file=") && cqContent.contains("url=")) {
+        content = content.replaceAll("url=","file=");
+        content = content.replace(cqContent.split(",")[1] + ",","");
+      }
+    }
+    return content;
+  }
+
   /**
    * 使用正则表达式提取中括号中的内容
    *
