@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +31,13 @@ public class WebApiController {
   public String sendGroupMsg(long self_id, long group_id, String message, Boolean auto_escape)
       throws IOException, InterruptedException {
     Global.robots.get(self_id).sendGroupMsg(group_id, message, auto_escape);
+    return "ok";
+  }
+
+  @PostMapping("/send_group_json_msg")
+  public String sendGroupJsonMsg(@RequestBody JSONObject json)
+      throws IOException, InterruptedException {
+    Global.robots.get(json.getString("qq")).sendGroupMsg(json.getLong("group"), json.getString("message"), false);
     return "ok";
   }
 
