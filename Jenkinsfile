@@ -62,7 +62,7 @@ pipeline {
           	}
 		}
 	
-		stage('docker coolq run'){
+		/*stage('docker coolq run'){
 			steps {
             	script {
             		sleep 5
@@ -75,7 +75,7 @@ pipeline {
             		sshCommand remote: server, command: "cd /root/web/app/coolq/ && docker-compose -f ./docker-compose.yaml up -d $DOCKER_SERVICE redis"
               	}
           	}
-		}
+		}*/
 				
 	}
 
