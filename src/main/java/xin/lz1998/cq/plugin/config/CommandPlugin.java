@@ -1,10 +1,12 @@
 package xin.lz1998.cq.plugin.config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,17 +29,17 @@ public class CommandPlugin extends CQPlugin {
     List<Long> lcontrollerList = new ArrayList<Long>();
     lcontrollerList.add(1071893649l);
     config.put(CommandEnum.CONTROLLER_QQ_LIST.getCommand(), lcontrollerList);
-    Map<Long, List<Long>> monitorGroupMap = new HashMap<Long, List<Long>>();
-    List<Long> monitorGroupList = new ArrayList<Long>();
-    monitorGroupList.add(914494716l);
-    monitorGroupList.add(425239590l);
-    monitorGroupMap.put(1706860030l, monitorGroupList);
+    Map<Long, Map<Long,List<Long>>> monitorGroupMap = new HashMap<>();
+    Map<Long,List<Long>> monitorForwardGroupMap = new HashMap<>();
+    monitorForwardGroupMap.put(914494716l,Arrays.asList(910092655l,198896490l));
+    monitorForwardGroupMap.put(425239590l,Arrays.asList(963559879l));
+    monitorGroupMap.put(1706860030l, monitorForwardGroupMap);
     config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), monitorGroupMap);
 
-    List<Long> forwardGroupList = new ArrayList<Long>();
-    forwardGroupList.add(910092655l);
-    forwardGroupList.add(198896490l);
-    config.put(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand(), forwardGroupList);
+    //List<Long> forwardGroupList = new ArrayList<Long>();
+    //forwardGroupList.add(910092655l);
+    //forwardGroupList.add(198896490l);
+    //config.put(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand(), forwardGroupList);
 
     filterMap.put("自助优惠券商城\r\n查券找好物点击~~~\r\n", "");
     filterMap.put("http://kpeyfty.asia", "");
@@ -97,31 +99,7 @@ public class CommandPlugin extends CQPlugin {
       logger.info("监听QQ群号[{}]已移除", msgs[2]);
       // cq.sendPrivateMsg(userId, "监听G[" + msgs[2] + "]已添加", false);
       return MESSAGE_BLOCK;
-    } else if (commandEnum == CommandEnum.FORWARD_GROUP_ID_ADD) {
-      List<Long> forwardGrouplist = (List<Long>) config
-          .get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
-      if (forwardGrouplist.contains(Long.parseLong(msgs[2]))) {
-        logger.error("转发QQ群号[{}]已在列表中，请不要重复添加", msgs[2]);
-        return MESSAGE_BLOCK;
-      }
-      forwardGrouplist.add(Long.parseLong(msgs[2]));
-      config.put(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand(), forwardGrouplist);
-      logger.info("转发QQ群号[{}]已添加", msgs[2]);
-      // cq.sendPrivateMsg(userId, "转发G[" + msgs[2] + "]已添加", false);
-      return MESSAGE_BLOCK;
-    } else if (commandEnum == CommandEnum.FORWARD_GROUP_ID_REMOVE) {
-      List<Long> forwardGrouplist = (List<Long>) config
-          .get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
-      if (!forwardGrouplist.contains(Long.parseLong(msgs[2]))) {
-        logger.error("转发QQ群号[{}]已不在列表中，无需移除", msgs[2]);
-        return MESSAGE_BLOCK;
-      }
-      forwardGrouplist.remove(Long.parseLong(msgs[2]));
-      config.put(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand(), forwardGrouplist);
-      logger.info("转发QQ群号[{}]已移除", msgs[2]);
-      // cq.sendPrivateMsg(userId, "转发G[" + msgs[2] + "]已添加", false);
-      return MESSAGE_BLOCK;
-    } else if (commandEnum == CommandEnum.FORWARD_MSG_FILTER) {
+    }else if (commandEnum == CommandEnum.FORWARD_MSG_FILTER) {
       filterMap.put(msgs[2], msgs[3]);
       logger.info("转发消息中[{}]过滤[{}]成功", msgs[2], msgs[3]);
       // cq.sendPrivateMsg(userId, "转发G[" + msgs[2] + "]已添加", false);

@@ -9,7 +9,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +44,7 @@ public class ForwardPlugin extends CQPlugin {
   static {
     pidMap.put("910092655", "mm_109302870_1080150328_109752250051");
     pidMap.put("198896490", "mm_109302870_1090250211_109781850271");
+    pidMap.put("963559879", "mm_109302870_1090250211_109781850271");
     monitorUserMap.put("1706860030", Arrays.asList("3317628455", "2267793115", "1096471489"));
     monitorUserMap.put("779721310", Arrays.asList("1012230561", "1256647017", "1071893649"));
   }
@@ -68,12 +71,12 @@ public class ForwardPlugin extends CQPlugin {
   @Override
   public int onGroupMessage(CoolQ cq, CQGroupMessageEvent event) {
     logger.info("QQ:{}收到群:{}消息", cq.getSelfId(), event.getGroupId());
-    List<Long> monitorGrouplist = ((Map<Long, List<Long>>) CommandPlugin.config
+    Map<Long,List<Long>> monitorForwardGroupMap = ((Map<Long, Map<Long,List<Long>>>) CommandPlugin.config
         .get(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand())).get(cq.getSelfId());
     long group_id = event.getGroupId();
     String msg = filterMsg(event.getMessage());
     //if(!monitorGrouplist.contains(group_id) || !monitorUserMap.get(String.valueOf(cq.getSelfId())).contains(String.valueOf(event.getUserId()))) {
-    if (monitorGrouplist == null || !monitorGrouplist.contains(group_id)) {
+    if (monitorForwardGroupMap == null || !monitorForwardGroupMap.containsKey(group_id)) {
       return MESSAGE_IGNORE;
     }
     if (msgStack.containLike(StringUtil.getChineseString(msg), 0.8f)) {
@@ -82,8 +85,7 @@ public class ForwardPlugin extends CQPlugin {
     }
     msgStack.push(StringUtil.getChineseString(msg));
     // ImageUtil.downloadImage(event.getMessage());
-    List<Long> forwardGrouplist = (List<Long>) CommandPlugin.config
-        .get(CommandEnum.FORWARD_GROUP_ID_LIST.getCommand());
+    List<Long> forwardGrouplist = monitorForwardGroupMap.get(group_id);
     List<String> sourceContentList = getSourceContent(msg);
     forwardGrouplist.forEach(groupId -> Global.robots.get(779721310l).sendGroupMsg(groupId,
         convertMsg(sourceContentList, msg, pidMap.get(String.valueOf(groupId))), false));
