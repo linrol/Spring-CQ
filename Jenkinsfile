@@ -6,7 +6,7 @@ pipeline {
 		choice(name: 'DEPLOY_HOST', choices: ['www.alinkeji.com', 'aliyun.alinkeji.com'], description: '部署服务器')
 		choice(name: 'DOCKER_SERVICE', choices: ['coolq-pro', 'coolq-pro-slave', 'coolq-air', 'coolq-air-slave'], description: '酷Q容器版本]')
 		choice(name: 'IS_RESTART', choices: ['false', 'true'], description: '是否重启服务]')
-		string(name: 'COOL_QQ', choices: ['779721310', '1706860030'], description: '酷Q帐号')
+		choice(name: 'COOL_QQ', choices: ['779721310', '1706860030'], description: '酷Q帐号')
 		string(name: 'WS_PORT', defaultValue: '8081', description: 'websocket监听地址')
 	}
 	
