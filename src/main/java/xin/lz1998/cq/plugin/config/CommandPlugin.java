@@ -32,7 +32,7 @@ public class CommandPlugin extends CQPlugin {
     Map<Long, Map<Long,List<Long>>> monitorGroupMap = new HashMap<>();
     Map<Long,List<Long>> monitorForwardGroupMap = new HashMap<>();
     monitorForwardGroupMap.put(914494716l,Arrays.asList(910092655l,198896490l));
-    monitorForwardGroupMap.put(425239590l,Arrays.asList(963559879l));
+    monitorForwardGroupMap.put(425239590l,Arrays.asList(963550879l));
     monitorGroupMap.put(1706860030l, monitorForwardGroupMap);
     config.put(CommandEnum.MONITOR_GROUP_ID_LIST.getCommand(), monitorGroupMap);
 
