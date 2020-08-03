@@ -37,7 +37,7 @@ public class WebApiController {
   @RequestMapping("/send_group_json_msg")
   public String sendGroupJsonMsg(@RequestBody JSONObject json)
       throws IOException, InterruptedException {
-    Global.robots.get(json.getString("qq")).sendGroupMsg(json.getLong("group"), json.getString("message"), false);
+    Global.robots.get(json.getLong("qq")).sendGroupMsg(json.getLong("group"), json.getString("message"), false);
     return "ok";
   }
 
